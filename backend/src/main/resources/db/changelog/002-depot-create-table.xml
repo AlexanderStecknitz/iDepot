@@ -5,9 +5,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="20" author="Alex">
-        <createTable tableName="test">
-            <column name="test" type="VARCHAR (50)"></column>
+    <changeSet id="002" author="Alexander Stecknitz">
+        <createTable tableName="depot">
+            <column name="id" type="VARCHAR (50)">
+                <constraints primaryKey="true"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>
