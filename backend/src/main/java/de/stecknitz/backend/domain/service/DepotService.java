@@ -15,7 +15,7 @@ public class DepotService {
 
     private final DepotRepository depotRepository;
 
-    public List<Depot> findAll() {
+    public List<Depot> findAllDepots() {
         List<Depot> foundDepots = depotRepository.findAll();
         foundDepots.forEach(depot -> log.debug(depot.toString()) );
         return foundDepots;
