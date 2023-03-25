@@ -2,11 +2,17 @@
 springBootVersion = "3.0.5"
 springDependencyManagementVersion = "1.1.0"
 lombokVersion = "1.18.26"
+springDataJpaVersion = "3.0.4"
+postgresqlVersion = "42.6.0"
+mapstructVersion = "1.5.3.Final"
 
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
-springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-web-test", version.ref = "springBootVersion" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
+springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springDataJpaVersion" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresqlVersion" }
+mapstruct = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
 
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
