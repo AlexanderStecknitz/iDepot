@@ -24,7 +24,7 @@ public class DepotResource {
 
     @GetMapping("/all")
     public ResponseEntity<List<DepotDTO>> findAll() {
-        List<Depot> foundDepots = depotService.findAll();
+        List<Depot> foundDepots = depotService.findAllDepots();
         if(foundDepots.isEmpty()) {
             ResponseEntity.notFound().build();
         }

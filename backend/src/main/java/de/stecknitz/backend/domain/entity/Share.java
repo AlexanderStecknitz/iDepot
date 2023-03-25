@@ -1,10 +1,9 @@
 package de.stecknitz.backend.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "share")
@@ -24,5 +23,8 @@ public class Share {
     private int amount;
     @Column(name = "price")
     private float price;
+
+    @ManyToMany(mappedBy = "shares")
+    private List<Depot> depots;
 
 }
