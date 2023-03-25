@@ -4,8 +4,8 @@ springDependencyManagementVersion = "1.1.0"
 lombokVersion = "1.18.26"
 
 [libraries]
-springBootStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBootVersion" }
-springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
+springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-web-test", version.ref = "springBootVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 
 [plugins]

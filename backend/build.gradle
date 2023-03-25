@@ -16,7 +16,6 @@ dependencies {
 	implementation libs.springBootStarter
 	implementation libs.lombok
 
-
 	testImplementation libs.springBootStarterTest
 }
 
