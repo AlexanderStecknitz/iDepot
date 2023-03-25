@@ -12,7 +12,8 @@ springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springDataJpaVersion" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresqlVersion" }
-mapstruct = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
+mapstructProcessor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
 
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }

@@ -15,13 +15,13 @@ repositories {
 dependencies {
 	implementation libs.springBootStarter
 	implementation libs.springDataJpa
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	implementation libs.mapstruct
 
 	runtimeOnly libs.postgresql
 
 	compileOnly libs.lombok
 	annotationProcessor libs.lombok
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+	annotationProcessor libs.mapstructProcessor
 
 	testImplementation libs.springBootStarterTest
 }
