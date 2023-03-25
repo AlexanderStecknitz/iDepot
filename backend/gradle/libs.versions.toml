@@ -5,7 +5,6 @@ lombokVersion = "1.18.26"
 springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.3.Final"
-liquibaseCoreVersion = "4.2.2"
 
 
 [libraries]
@@ -16,7 +15,7 @@ springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jp
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresqlVersion" }
 mapstructProcessor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
-liquibaseCore = { module = "org.liquibase:liquibase-core", version.ref = "liquibaseCoreVersion" }
+liquibaseCore = { module = "org.liquibase:liquibase-core" }
 
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
