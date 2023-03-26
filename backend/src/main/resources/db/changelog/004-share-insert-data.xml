@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="004" author="Alexander Stecknitz">
+
+        <insert tableName="share">
+            <column name="isin" value="ISIN1" />
+            <column name="wkn" value="WKN1" />
+            <column name="amount" value="10" />
+            <column name="price" value="1" />
+        </insert>
+
+        <insert tableName="share">
+            <column name="isin" value="ISIN2" />
+            <column name="wkn" value="WKN2" />
+            <column name="amount" value="18" />
+            <column name="price" value="232" />
+        </insert>
+
+        <insert tableName="share">
+            <column name="isin" value="ISIN3" />
+            <column name="wkn" value="WKN3" />
+            <column name="amount" value="1812" />
+            <column name="price" value="22" />
+        </insert>
+
+        <insert tableName="share">
+            <column name="isin" value="ISIN4" />
+            <column name="wkn" value="WKN4" />
+            <column name="amount" value="2" />
+            <column name="price" value="12" />
+        </insert>
+
+        <insert tableName="share">
+            <column name="isin" value="ISIN5" />
+            <column name="wkn" value="WKN5" />
+            <column name="amount" value="86" />
+            <column name="price" value="59" />
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

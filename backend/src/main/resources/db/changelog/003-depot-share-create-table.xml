@@ -7,6 +7,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="003" author="Alexander Stecknitz">
+
         <createTable tableName="depot_share">
             <column name="share_isin" type="VARCHAR (50)">
                 <constraints primaryKey="true"/>
@@ -27,5 +28,7 @@
                 constraintName="fk_id_depot"
                 referencedTableName="depot"
                 referencedColumnNames="id"/>
+
     </changeSet>
+
 </databaseChangeLog>
