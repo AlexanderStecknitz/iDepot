@@ -1,9 +1,9 @@
-package de.stecknitz.backend.domain.service;
+package de.stecknitz.backend.core.service;
 
-import de.stecknitz.backend.domain.entity.Depot;
-import de.stecknitz.backend.domain.entity.Share;
-import de.stecknitz.backend.domain.repository.DepotRepository;
-import de.stecknitz.backend.domain.repository.ShareRepository;
+import de.stecknitz.backend.core.domain.Depot;
+import de.stecknitz.backend.core.domain.Share;
+import de.stecknitz.backend.core.repository.DepotRepository;
+import de.stecknitz.backend.core.repository.ShareRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

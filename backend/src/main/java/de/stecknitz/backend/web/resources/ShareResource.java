@@ -1,7 +1,7 @@
 package de.stecknitz.backend.web.resources;
 
-import de.stecknitz.backend.domain.entity.Share;
-import de.stecknitz.backend.domain.service.ShareService;
+import de.stecknitz.backend.core.domain.Share;
+import de.stecknitz.backend.core.service.ShareService;
 import de.stecknitz.backend.web.resources.dto.ShareDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.ShareMapper;
 import lombok.RequiredArgsConstructor;

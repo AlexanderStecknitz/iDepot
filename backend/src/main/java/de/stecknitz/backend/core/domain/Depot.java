@@ -1,4 +1,4 @@
-package de.stecknitz.backend.domain.entity;
+package de.stecknitz.backend.core.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,4 +23,5 @@ public class Depot {
             joinColumns = @JoinColumn(name = "depot_id"),
             inverseJoinColumns = @JoinColumn(name = "share_isin"))
     private List<Share> shares;
+
 }
