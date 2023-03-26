@@ -6,7 +6,6 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '',
-    // redirect erfordert pathMatch full
     pathMatch: 'full',
     component: OverviewComponent,
   },
