@@ -1,8 +1,8 @@
 package de.stecknitz.backend.web.resources;
 
-import de.stecknitz.backend.domain.entity.Depot;
-import de.stecknitz.backend.domain.entity.Share;
-import de.stecknitz.backend.domain.service.DepotService;
+import de.stecknitz.backend.core.domain.Depot;
+import de.stecknitz.backend.core.domain.Share;
+import de.stecknitz.backend.core.service.DepotService;
 import de.stecknitz.backend.web.resources.dto.DepotDTO;
 import de.stecknitz.backend.web.resources.dto.ShareDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;

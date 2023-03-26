@@ -1,4 +1,4 @@
-package de.stecknitz.backend.domain.entity;
+package de.stecknitz.backend.core.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
