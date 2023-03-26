@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { first, tap } from "rxjs";
-import { Aktie } from "src/app/aktie/shared/aktie";
-import { AktieReadService } from "src/app/aktie/shared/aktieRead.service";
-import { GefundeneInvestmentsComponent } from "./gefundene-investments.component";
+import { Share } from "src/app/share/shared/share";
+import { ShareReadService } from "src/app/share/shared/shareRead.service";
+import { FoundSharesComponent } from "./gefundene-investments.component";
 import { PortfolioOverviewTitelComponent } from "./portfolio-overview-titel.component";
 
 @Component({
@@ -11,30 +11,30 @@ import { PortfolioOverviewTitelComponent } from "./portfolio-overview-titel.comp
     templateUrl: './portfolio-overview.component.html',
     imports: [
         PortfolioOverviewTitelComponent,
-        GefundeneInvestmentsComponent,
+        FoundSharesComponent,
         CommonModule,
     ],
     standalone: true,
 })
 export class PortfolioOverviewComponent implements OnInit {
     constructor(
-        private readonly aktieReadService: AktieReadService,
+        private readonly shareReadService: ShareReadService,
     ) {
         console.log('PortfolioOverviewComponent.constructor()')
     }
 
-    aktien: Aktie[] = []
+    shares: Share[] = []
 
     ngOnInit() {
-        this.suchen();
+        this.search();
     }
 
-    suchen() {
-        console.log('GefundeneInvestmentsComponent.suchen()')
-        this.aktieReadService.find()
+    search() {
+        console.log('FoundSharesComponent.search()')
+        this.shareReadService.find()
             .pipe(
                 first(),
-                tap(result => this.aktien = result)
+                tap(result => this.shares = result)
             )
             .subscribe()
     }

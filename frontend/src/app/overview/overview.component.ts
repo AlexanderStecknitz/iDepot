@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AktieReadService } from "../aktie/shared/aktieRead.service";
+import { ShareReadService } from "../share/shared/shareRead.service";
 import { PortfolioOverviewComponent } from "./portfolio-overview/portfolio-overview.component";
 
 
@@ -13,7 +13,7 @@ import { PortfolioOverviewComponent } from "./portfolio-overview/portfolio-overv
 })
 export class OverviewComponent {
     constructor(
-        private readonly aktieReadService: AktieReadService,
+        private readonly shareReadService: ShareReadService,
     ) {
         console.log("OverviewComponent.constructor()")
     }

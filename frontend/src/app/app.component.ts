@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { first, tap } from 'rxjs';
-import { Aktie } from './aktie/shared/aktie';
-import { AktieReadService } from './aktie/shared/aktieRead.service';
+import { Share } from './share/shared/share';
+import { ShareReadService } from './share/shared/shareRead.service';
 import { OverviewComponent } from './overview/overview.component';
 
 @Component({
@@ -11,21 +11,21 @@ import { OverviewComponent } from './overview/overview.component';
 })
 export class AppComponent {
   constructor(
-    private readonly aktieReadService: AktieReadService,
+    private readonly shareReadService: ShareReadService,
   ) {
     console.debug("AppComponent.constructor()")
   }
 
-  aktien: Aktie[] = []
+  shares: Share[] = []
 
   suchen() {
-    console.log('Suchen')
-    let result: Aktie[] 
-    this.aktieReadService
+    console.log('search')
+    let result: Share[] 
+    this.shareReadService
               .find()
               .pipe(
                 first(),
-                tap(result => this.aktien = result),
+                tap(result => this.shares = result),
               )
               .subscribe();
   }
