@@ -19,6 +19,8 @@ public class Share {
     private String isin;
     @Column(name = "wkn")
     private String wkn;
+    @Column(name = "name")
+    private String name;
     @Column(name = "amount")
     private int amount;
     @Column(name = "price")

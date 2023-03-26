@@ -25,6 +25,7 @@ export class FoundSharesComponent {
     @Input() foundShares: Share[] = []
 
     displayedColumns: string[] = [
+        'name',
         'isin',
         'wkn',
         'price',
