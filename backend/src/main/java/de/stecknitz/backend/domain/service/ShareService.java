@@ -18,9 +18,7 @@ public class ShareService {
 
     @Transactional
     public List<Share> findAll() {
-        List<Share> shares = shareRepository.findAll();
-        shares.forEach(share -> log.debug(share.toString()));
-        return shares;
+        return shareRepository.findAll();
     }
 
 }
