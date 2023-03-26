@@ -3,7 +3,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AktieReadService } from './aktie/shared/aktieRead.service';
+import { ShareReadService } from './share/shared/shareRead.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -26,7 +26,7 @@ import { DrawerComponent } from './layout/drawer/drawer.component';
     OverviewComponent,
     DrawerComponent,
   ],
-  providers: [AktieReadService],
+  providers: [ShareReadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

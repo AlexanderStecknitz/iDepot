@@ -2,8 +2,8 @@ import { Component, Input } from "@angular/core";
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from "@angular/common";
 import { MatTableModule } from '@angular/material/table';
-import { AktieReadService } from "src/app/aktie/shared/aktieRead.service";
-import { Aktie } from "src/app/aktie/shared/aktie";
+import { ShareReadService } from "src/app/share/shared/shareRead.service";
+import { Share } from "src/app/share/shared/share";
 
 @Component({
     selector: 'GefundeneInvesmentsComponent',
@@ -15,21 +15,19 @@ import { Aktie } from "src/app/aktie/shared/aktie";
     ],
     standalone: true,
 })
-export class GefundeneInvestmentsComponent {
+export class FoundSharesComponent {
     constructor(
-        private readonly aktieReadService: AktieReadService,
+        private readonly shareReadService: ShareReadService,
     ) {
-        console.log('GefundeneInvestmentsComponent.constructor()')
+        console.log('FoundSharesComponent.constructor()')
     }
 
-    @Input() gefundeneAktien: Aktie[] = []
+    @Input() foundShares: Share[] = []
 
     displayedColumns: string[] = [
-        'name',
         'isin',
         'wkn',
-        'kaufkurs',
-        'anzahl',
-        'boerse',
+        'price',
+        'amount',
     ];
 }
