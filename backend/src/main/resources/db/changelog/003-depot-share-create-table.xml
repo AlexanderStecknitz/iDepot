@@ -8,7 +8,7 @@
 
     <changeSet id="003" author="Alexander Stecknitz">
         <createTable tableName="depot_share">
-            <column name="isin" type="VARCHAR (50)">
+            <column name="share_isin" type="VARCHAR (50)">
                 <constraints primaryKey="true"/>
             </column>
             <column name="depot_id" type="bigint"/>
@@ -16,7 +16,7 @@
 
         <addForeignKeyConstraint
                 baseTableName="depot_share"
-                baseColumnNames="isin"
+                baseColumnNames="share_isin"
                 constraintName="fk_isin_share"
                 referencedTableName="share"
                 referencedColumnNames="isin"/>
