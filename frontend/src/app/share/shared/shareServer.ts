@@ -2,6 +2,7 @@ import { Share } from './share'
 
 export interface ShareServer {
     isin: String
+    name: String
     wkn: String
     amount: Number
     price: Number
@@ -13,6 +14,7 @@ export const toShare = (shareServer: ShareServer) => {
 
     const {
         isin,
+        name,
         amount,
         price,
         wkn,
@@ -20,6 +22,7 @@ export const toShare = (shareServer: ShareServer) => {
 
     const share: Share = {
         isin,
+        name,
         price,
         amount,
         wkn,

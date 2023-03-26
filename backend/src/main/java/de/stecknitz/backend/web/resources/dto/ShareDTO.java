@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ShareDTO {
     String isin;
+    String name;
     String wkn;
     int amount;
     float price;

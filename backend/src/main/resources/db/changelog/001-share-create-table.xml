@@ -14,8 +14,9 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="wkn" type="VARCHAR (50)"/>
+            <column name="name" type="VARCHAR (50)"/>
             <column name="amount" type="INTEGER"/>
-            <column name="price" type="bigint"/>
+            <column name="price" type="NUMERIC"/>
 
         </createTable>
 
