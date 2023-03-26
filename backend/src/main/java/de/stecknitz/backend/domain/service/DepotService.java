@@ -28,9 +28,7 @@ public class DepotService {
 
     @Transactional
     public List<Share> findAllSharesByDepotId(long depotId) {
-        List<Share> foundShares = shareRepository.findSharesByDepotsId(depotId);
-        log.debug("foundShares={}", foundShares);
-        return foundShares;
+        return shareRepository.findSharesByDepotsId(depotId);
     }
 
 }

@@ -8,7 +8,7 @@
 
     <changeSet id="003" author="Alexander Stecknitz">
 
-        <createTable tableName="depot_shares">
+        <createTable tableName="depot_share">
             <column name="depot_id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
@@ -18,14 +18,14 @@
         </createTable>
 
         <addForeignKeyConstraint
-                baseTableName="depot_shares"
+                baseTableName="depot_share"
                 baseColumnNames="share_isin"
                 constraintName="fk_isin_share"
                 referencedTableName="share"
                 referencedColumnNames="isin"/>
 
         <addForeignKeyConstraint
-                baseTableName="depot_shares"
+                baseTableName="depot_share"
                 baseColumnNames="depot_id"
                 constraintName="fk_id_depot"
                 referencedTableName="depot"
