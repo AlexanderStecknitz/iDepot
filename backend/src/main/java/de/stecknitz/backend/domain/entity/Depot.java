@@ -20,7 +20,7 @@ public class Depot {
     @ManyToMany
     @JoinTable(
             name = "depot_shares",
-            joinColumns = @JoinColumn(name = "share_isin"),
-            inverseJoinColumns = @JoinColumn(name = "depot_id"))
+            joinColumns = @JoinColumn(name = "depot_id"),
+            inverseJoinColumns = @JoinColumn(name = "share_isin"))
     private List<Share> shares;
 }
