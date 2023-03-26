@@ -4,26 +4,28 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="003" author="Alexander Stecknitz">
 
-        <createTable tableName="depot_share">
+        <createTable tableName="depot_shares">
+            <column name="depot_id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
             <column name="share_isin" type="VARCHAR (50)">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="depot_id" type="bigint"/>
         </createTable>
 
         <addForeignKeyConstraint
-                baseTableName="depot_share"
+                baseTableName="depot_shares"
                 baseColumnNames="share_isin"
                 constraintName="fk_isin_share"
                 referencedTableName="share"
                 referencedColumnNames="isin"/>
 
         <addForeignKeyConstraint
-                baseTableName="depot_share"
+                baseTableName="depot_shares"
                 baseColumnNames="depot_id"
                 constraintName="fk_id_depot"
                 referencedTableName="depot"
