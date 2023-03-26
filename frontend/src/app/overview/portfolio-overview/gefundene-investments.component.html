@@ -1,11 +1,7 @@
-<div *ngIf="gefundeneAktien.length">
+<div *ngIf="foundShares.length">
     <mat-card>
         <mat-card-content>
-            <table mat-table [dataSource]="gefundeneAktien">
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>Name</th>
-                    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-                </ng-container>
+            <table mat-table [dataSource]="foundShares">
                 <ng-container matColumnDef="isin">
                     <th mat-header-cell *matHeaderCellDef>ISIN</th>
                     <td mat-cell *matCellDef="let element">{{ element.isin }}</td>
@@ -14,17 +10,13 @@
                     <th mat-header-cell *matHeaderCellDef>WKN</th>
                     <td mat-cell *matCellDef="let element">{{ element.wkn }}</td>
                 </ng-container>
-                <ng-container matColumnDef="kaufkurs">
-                    <th mat-header-cell *matHeaderCellDef>Kaufkurs</th>
-                    <td mat-cell *matCellDef="let element">{{ element.kaufkurs }}</td>
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Price</th>
+                    <td mat-cell *matCellDef="let element">{{ element.price }}</td>
                 </ng-container>
-                <ng-container matColumnDef="anzahl">
-                    <th mat-header-cell *matHeaderCellDef>Anzahl</th>
-                    <td mat-cell *matCellDef="let element">{{ element.anzahl }}</td>
-                </ng-container>
-                <ng-container matColumnDef="boerse">
-                    <th mat-header-cell *matHeaderCellDef>Boerse</th>
-                    <td mat-cell *matCellDef="let element">{{ element.boerse }}</td>
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>Amount</th>
+                    <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
