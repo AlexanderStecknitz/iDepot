@@ -23,7 +23,7 @@ class ShareServiceTest {
 
     @Test
     void findAllTest() {
-        List<Share> givenShares = new ArrayList<>(List.of(
+        final List<Share> givenShares = new ArrayList<>(List.of(
                 Share.builder()
                         .isin("ISIN1")
                         .wkn("WKN1")
@@ -41,7 +41,7 @@ class ShareServiceTest {
         ));
 
         Mockito.when(shareRepository.findAll()).thenReturn(givenShares);
-        List<Share> foundShares = shareService.findAll();
+        final List<Share> foundShares = shareService.findAll();
 
         Assertions.assertThat(givenShares).isEqualTo(foundShares);
     }

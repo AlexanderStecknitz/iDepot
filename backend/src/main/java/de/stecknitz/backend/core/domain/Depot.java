@@ -17,7 +17,7 @@ public class Depot {
     @Column(name = "id")
     private long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "depot_share",
             joinColumns = @JoinColumn(name = "depot_id"),
