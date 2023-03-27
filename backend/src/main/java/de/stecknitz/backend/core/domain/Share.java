@@ -26,7 +26,7 @@ public class Share {
     @Column(name = "price")
     private float price;
 
-    @ManyToMany(mappedBy = "shares")
+    @ManyToMany(mappedBy = "shares", fetch = FetchType.EAGER)
     private List<Depot> depots;
 
 }

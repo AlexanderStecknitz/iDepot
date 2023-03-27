@@ -28,7 +28,7 @@ class DepotServiceTest {
 
     @Test
     void findAllDepotsTest() {
-        List<Depot> givenDepots = new ArrayList<>(List.of(
+        final List<Depot> givenDepots = new ArrayList<>(List.of(
                 Depot.builder()
                         .id(1)
                         .shares(null)
@@ -40,14 +40,14 @@ class DepotServiceTest {
         ));
 
         Mockito.when(depotRepository.findAll()).thenReturn(givenDepots);
-        List<Depot> foundDepots = depotService.findAllDepots();
+        final List<Depot> foundDepots = depotService.findAllDepots();
 
         Assertions.assertThat(foundDepots).isEqualTo(givenDepots);
     }
 
     @Test
     void findAllSharesByDepotId() {
-        List<Share> givenShares = new ArrayList<>(List.of(
+        final List<Share> givenShares = new ArrayList<>(List.of(
                 Share.builder()
                         .isin("ISIN1")
                         .wkn("WKN1")
@@ -67,7 +67,7 @@ class DepotServiceTest {
         long depotId = 1;
 
         Mockito.when(shareRepository.findSharesByDepotsId(depotId)).thenReturn(givenShares);
-        List<Share> foundShares = depotService.findAllSharesByDepotId(depotId);
+        final List<Share> foundShares = depotService.findAllSharesByDepotId(depotId);
 
         Assertions.assertThat(foundShares).isEqualTo(givenShares);
     }
