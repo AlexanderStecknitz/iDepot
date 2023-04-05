@@ -1,9 +1,14 @@
 package de.stecknitz.backend.core.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "depot")
@@ -16,12 +21,5 @@ public class Depot {
     @Id
     @Column(name = "id")
     private long id;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "depot_share",
-            joinColumns = @JoinColumn(name = "depot_id"),
-            inverseJoinColumns = @JoinColumn(name = "share_isin"))
-    private List<Share> shares;
 
 }

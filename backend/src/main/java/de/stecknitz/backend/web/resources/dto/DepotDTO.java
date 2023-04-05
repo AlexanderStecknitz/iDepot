@@ -1,8 +1,16 @@
 package de.stecknitz.backend.web.resources.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+@Builder
+@Getter
+@NoArgsConstructor
+@ToString
+@AllArgsConstructor
 
 public class DepotDTO {
     private long id;
