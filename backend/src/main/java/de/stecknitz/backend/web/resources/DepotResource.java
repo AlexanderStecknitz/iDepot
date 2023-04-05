@@ -1,16 +1,18 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Share;
 import de.stecknitz.backend.core.service.DepotService;
 import de.stecknitz.backend.web.resources.dto.DepotDTO;
-import de.stecknitz.backend.web.resources.dto.ShareDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
-import de.stecknitz.backend.web.resources.dto.mapper.ShareMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,9 +25,8 @@ public class DepotResource {
 
     private final DepotService depotService;
     private final DepotMapper depotMapper;
-    private final ShareMapper shareMapper;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<DepotDTO>> findAll() {
         List<Depot> foundDepots = depotService.findAllDepots();
         if(foundDepots.isEmpty()) {
@@ -35,14 +36,14 @@ public class DepotResource {
         return ResponseEntity.ok(foundDepotsDto);
     }
 
-    @GetMapping("/{depotId}/shares")
-    public ResponseEntity<List<ShareDTO>> findAllSharesByDepotId(@PathVariable long depotId) {
-        List<Share> foundShares = depotService.findAllSharesByDepotId(depotId);
-        if(foundShares.isEmpty()) {
-            ResponseEntity.notFound().build();
+    @PostMapping
+    public ResponseEntity<Void> create(
+            @RequestBody final DepotDTO depotDTO) {
+        Depot depot = depotService.create(depotMapper.toDepo(depotDTO));
+        if(depot == null) {
+            return ResponseEntity.badRequest().build();
         }
-        List<ShareDTO> foundSharesDto = foundShares.stream().map(shareMapper::toShareDto).toList();
-        return ResponseEntity.ok(foundSharesDto);
+        return ResponseEntity.noContent().build();
     }
 
 }

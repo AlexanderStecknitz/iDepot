@@ -10,4 +10,6 @@ public interface ShareMapper {
 
     ShareDTO toShareDto(Share share);
 
+    Share toShare(ShareDTO shareDTO);
+
 }

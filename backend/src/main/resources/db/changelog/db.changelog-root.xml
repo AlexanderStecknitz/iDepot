@@ -8,9 +8,6 @@
 
     <include file="001-share-create-table.xml" relativeToChangelogFile="true"/>
     <include file="002-depot-create-table.xml" relativeToChangelogFile="true"/>
-    <include file="003-depot-share-create-table.xml" relativeToChangelogFile="true"/>
-    <include file="004-share-insert-data.xml" relativeToChangelogFile="true"/>
-    <include file="005-depot-insert-data.xml" relativeToChangelogFile="true"/>
-    <include file="006-depot-share-insert-data.xml" relativeToChangelogFile="true"/>
+    <include file="003-share-position-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

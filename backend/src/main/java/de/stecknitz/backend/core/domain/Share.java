@@ -1,9 +1,14 @@
 package de.stecknitz.backend.core.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "share")
@@ -21,12 +26,7 @@ public class Share {
     private String wkn;
     @Column(name = "name")
     private String name;
-    @Column(name = "amount")
-    private int amount;
-    @Column(name = "price")
-    private float price;
-
-    @ManyToMany(mappedBy = "shares", fetch = FetchType.EAGER)
-    private List<Depot> depots;
+    @Column(name = "actual_price")
+    private float actualPrice;
 
 }
