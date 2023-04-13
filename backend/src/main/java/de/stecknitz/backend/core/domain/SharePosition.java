@@ -1,11 +1,6 @@
 package de.stecknitz.backend.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +17,10 @@ import lombok.ToString;
 public class SharePosition {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "share_position_seq",
+            sequenceName = "share_position_share_position_id_seq")
     private long sharePositionId;
     @ManyToOne
     @JoinColumn(name = "depot_id")

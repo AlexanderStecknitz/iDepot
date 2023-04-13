@@ -28,6 +28,6 @@ public class ShareService {
         if(optionalShare.isPresent()) {
             return null;
         }
-        return shareRepository.save(share);
+        return shareRepository.saveAndFlush(share);
     }
 }

@@ -10,40 +10,50 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ShareServiceTest {
 
     @Mock
-    private ShareRepository shareRepository;
+    ShareRepository shareRepository;
+
     @InjectMocks
-    private ShareService shareService;
+    ShareService shareService;
 
     @Test
     void findAllTest() {
-        final List<Share> givenShares = new ArrayList<>(List.of(
+        List<Share> givenShares = List.of(
                 Share.builder()
-                        .isin("ISIN1")
-                        .wkn("WKN1")
-                        .name("Apple")
-                        .amount(10)
-                        .price(12.02f)
+                        .isin("Test")
+                        .name("Test")
                         .build(),
                 Share.builder()
-                        .isin("ISIN2")
-                        .wkn("WKN2")
-                        .name("Microsoft")
-                        .amount(121)
-                        .price(129.64f)
+                        .isin("Test2")
+                        .name("Test2")
                         .build()
-        ));
+        );
 
         Mockito.when(shareRepository.findAll()).thenReturn(givenShares);
-        final List<Share> foundShares = shareService.findAll();
 
-        Assertions.assertThat(givenShares).isEqualTo(foundShares);
+        List<Share> foundShares = shareService.findAll();
+
+        Assertions.assertThat(foundShares).isEqualTo(givenShares);
+
+    }
+
+    @Test
+    void createTest() {
+        Share givenShare = Share.builder()
+                .isin("Test")
+                .name("Test")
+                .build();
+
+        Mockito.when(shareRepository.saveAndFlush(givenShare)).thenReturn(givenShare);
+
+        Share foundShare = shareService.create(givenShare);
+
+        Assertions.assertThat(foundShare).isEqualTo(givenShare);
     }
 
 }

@@ -30,6 +30,6 @@ public class DepotService {
         if(optionalDepot.isPresent()) {
             return null;
         }
-        return depotRepository.save(depot);
+        return depotRepository.saveAndFlush(depot);
     }
 }
