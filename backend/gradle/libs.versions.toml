@@ -6,9 +6,9 @@ springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.3.Final"
 
-
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
+springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springDataJpaVersion" }

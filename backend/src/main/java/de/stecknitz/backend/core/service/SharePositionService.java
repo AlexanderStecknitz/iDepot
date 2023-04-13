@@ -35,7 +35,7 @@ public class SharePositionService {
 
     @Transactional
     public SharePosition create(final SharePosition sharePosition) {
-        log.debug("SharePositionService");
+        log.debug("SharePositionService={}", sharePosition);
         Optional<Depot> optionalDepot = depotRepository.findById(sharePosition.getDepot().getId());
         if(optionalDepot.isEmpty()) {
             return null;
@@ -45,9 +45,9 @@ public class SharePositionService {
             Share share = Share.builder()
                     .isin(sharePosition.getShare().getIsin())
                     .build();
-            shareRepository.save(share);
+            shareRepository.saveAndFlush(share);
         }
-        return sharePositionRepository.save(sharePosition);
+        return sharePositionRepository.saveAndFlush(sharePosition);
     }
 
 }

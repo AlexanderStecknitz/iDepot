@@ -1,9 +1,7 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Share;
 import de.stecknitz.backend.core.repository.DepotRepository;
-import de.stecknitz.backend.core.repository.ShareRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,56 +17,41 @@ class DepotServiceTest {
 
     @Mock
     DepotRepository depotRepository;
-    @Mock
-    ShareRepository shareRepository;
 
     @InjectMocks
     DepotService depotService;
 
     @Test
     void findAllDepotsTest() {
-        final List<Depot> givenDepots = new ArrayList<>(List.of(
+
+        List<Depot> givenDepots = List.of(
                 Depot.builder()
                         .id(1)
-                        .shares(null)
                         .build(),
                 Depot.builder()
                         .id(2)
-                        .shares(null)
-                        .build()
-        ));
+                        .build());
 
         Mockito.when(depotRepository.findAll()).thenReturn(givenDepots);
-        final List<Depot> foundDepots = depotService.findAllDepots();
+
+        List<Depot> foundDepots = depotService.findAllDepots();
 
         Assertions.assertThat(foundDepots).isEqualTo(givenDepots);
+
     }
 
     @Test
-    void findAllSharesByDepotId() {
-        final List<Share> givenShares = new ArrayList<>(List.of(
-                Share.builder()
-                        .isin("ISIN1")
-                        .wkn("WKN1")
-                        .name("Apple")
-                        .amount(10)
-                        .price(12.02f)
-                        .build(),
-                Share.builder()
-                        .isin("ISIN2")
-                        .wkn("WKN2")
-                        .name("Microsoft")
-                        .amount(121)
-                        .price(129.64f)
-                        .build()
-        ));
+    void createTest() {
 
-        long depotId = 1;
+        Depot givenDepot = Depot.builder()
+                .id(1)
+                .build();
 
-        Mockito.when(shareRepository.findSharesByDepotsId(depotId)).thenReturn(givenShares);
-        final List<Share> foundShares = depotService.findAllSharesByDepotId(depotId);
+        Mockito.when(depotRepository.saveAndFlush(givenDepot)).thenReturn(givenDepot);
 
-        Assertions.assertThat(foundShares).isEqualTo(givenShares);
+        Depot foundDepot = depotService.create(givenDepot);
+
+        Assertions.assertThat(foundDepot).isEqualTo(givenDepot);
     }
 
 }
