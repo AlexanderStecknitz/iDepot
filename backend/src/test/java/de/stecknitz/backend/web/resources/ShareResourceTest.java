@@ -1,6 +1,5 @@
 package de.stecknitz.backend.web.resources;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import de.stecknitz.backend.core.domain.Share;
 import de.stecknitz.backend.core.service.ShareService;
 import de.stecknitz.backend.web.resources.dto.ShareDTO;
@@ -17,7 +16,6 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
