@@ -4,11 +4,13 @@ import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full',
+    path: 'overview',
     component: OverviewComponent,
   },
+  {
+    path: '',
+    component: OverviewComponent
+  }
 ];
 
 @NgModule({

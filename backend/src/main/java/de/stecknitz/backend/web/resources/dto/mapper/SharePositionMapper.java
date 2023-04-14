@@ -10,11 +10,11 @@ import org.mapstruct.ReportingPolicy;
 public interface SharePositionMapper {
 
     @Mapping(source = "depotId", target = "depot.id")
-    @Mapping(source = "shareIsin", target = "share.isin")
+    @Mapping(source = "share.isin", target = "share.isin")
     SharePosition toSharePosition(SharePositionDTO sharePositionDTO);
 
     @Mapping(source = "depot.id", target = "depotId")
-    @Mapping(source = "share.isin", target = "shareIsin")
+    @Mapping(source = "share.isin", target = "share.isin")
     SharePositionDTO toSharePositionDTO(SharePosition sharePosition);
 
 }

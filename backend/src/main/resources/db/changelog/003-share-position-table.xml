@@ -12,7 +12,7 @@
 
         <createTable tableName="share_position">
 
-            <column name="share_position_id" type="bigint" autoIncrement="true" startWith="100"  >
+            <column name="share_position_id" type="bigint" autoIncrement="true" startWith="20"  >
                 <constraints primaryKey="true" />
             </column>
 
