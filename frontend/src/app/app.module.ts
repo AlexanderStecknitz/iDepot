@@ -1,32 +1,30 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ShareReadService } from './share/shared/shareRead.service';
-import { HttpClientModule } from '@angular/common/http';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MainComponent } from './layout/main/main.component';
-import { OverviewComponent } from './overview/overview.component';
-import { DrawerComponent } from './layout/drawer/drawer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    MatSlideToggleModule,
+    AppRoutingModule,
+    MatListModule,
     MatSidenavModule,
-    MainComponent,
-    OverviewComponent,
-    DrawerComponent,
+    MatToolbarModule,
+    MatDividerModule,
+    MatButtonModule,
   ],
-  providers: [ShareReadService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

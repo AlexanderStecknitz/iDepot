@@ -12,6 +12,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class ShareDTO {
+
     String isin;
     String name;
     String wkn;

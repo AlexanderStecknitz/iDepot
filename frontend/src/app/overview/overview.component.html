@@ -1,1 +1,7 @@
-<portfolio-overview />
+<p>overview works!</p>
+
+<div *ngIf="sharePositions.length">
+    <app-share-position-view [sharePositions]="this.sharePositions" />
+</div>
+
+<app-add-transaction/>
