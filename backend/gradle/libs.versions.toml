@@ -7,6 +7,7 @@ postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.3.Final"
 testcontainerVesion = "1.18.0"
 
+
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
 springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
