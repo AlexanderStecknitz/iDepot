@@ -1,27 +1,43 @@
 package de.stecknitz.backend.core.repository;
 
-import de.stecknitz.backend.BackendApplication;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.SharePosition;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 import java.util.Optional;
 
-@ExtendWith({SpringExtension.class})
-@SpringBootTest(classes = BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DataJpaTest
+@AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource( properties = "spring.jpa.hibernate.ddl-auto=create-drop")
+@Testcontainers
 class SharePositionRepositoryTest {
+
+    @Container
+    static PostgreSQLContainer testContainer = new PostgreSQLContainer<>( "postgres:15" );
 
     @Autowired
     SharePositionRepository sharePositionRepository;
 
     @Autowired
     DepotRepository depotRepository;
+
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {
+        dynamicPropertyRegistry.add( "spring.datasource.url", testContainer::getJdbcUrl );
+        dynamicPropertyRegistry.add( "spring.datasource.username", testContainer::getUsername );
+        dynamicPropertyRegistry.add( "spring.datasource.password", testContainer::getPassword );
+    }
 
     @Test
     void findByDepotIdTest() {
