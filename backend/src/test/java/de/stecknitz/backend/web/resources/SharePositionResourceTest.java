@@ -100,7 +100,7 @@ class SharePositionResourceTest {
         given(sharePositionService.findByDepotId(depotId)).willReturn(sharePositions);
         given(sharePositionMapper.toSharePositionDTO(sharePositions.get(0))).willReturn(sharePositionDTO);
 
-        mockMvc.perform(get(ENDPOINT + "/" + String.valueOf(depotId)))
+        mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.*", hasSize(1)));

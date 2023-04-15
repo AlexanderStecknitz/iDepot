@@ -24,7 +24,7 @@ import java.util.Optional;
 class SharePositionRepositoryTest {
 
     @Container
-    static PostgreSQLContainer testContainer = new PostgreSQLContainer<>( "postgres:15" );
+    static PostgreSQLContainer testContainer = new PostgreSQLContainer<>( "postgres:15.2" );
 
     @Autowired
     SharePositionRepository sharePositionRepository;
