@@ -26,6 +26,10 @@ dependencies {
 	annotationProcessor libs.mapstructProcessor
 
 	testImplementation libs.springBootStarterTest
+
+	testImplementation libs.testcontainer
+	testImplementation libs.testcontainerPostgres
+	testImplementation libs.testcontainerJupiter
 }
 
 tasks.named('test') {

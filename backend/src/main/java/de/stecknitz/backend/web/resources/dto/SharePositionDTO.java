@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class SharePositionDTO {
-    private ShareDTO share;
+    private ShareDTO shareDTO;
     private long depotId;
     private float amount;
     private float buyPrice;
