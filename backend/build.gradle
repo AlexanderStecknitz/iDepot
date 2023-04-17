@@ -16,6 +16,10 @@ dependencies {
 	implementation libs.springBootStarter
 	implementation libs.springDataJpa
 	implementation libs.mapstruct
+	implementation libs.springBootStarterSecurity
+	implementation libs.nimbusds
+	implementation libs.oauth2Jose
+	implementation libs.oauth2Server
 
 	implementation libs.liquibaseCore
 
