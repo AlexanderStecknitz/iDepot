@@ -5,6 +5,7 @@ import de.stecknitz.backend.core.service.DepotService;
 import de.stecknitz.backend.web.resources.dto.DepotDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,6 +35,11 @@ class DepotResourceTest {
 
     @MockBean
     private DepotMapper depotMapper;
+
+    @Test
+    void shouldFail() {
+        Assertions.assertThat(false).isTrue();
+    }
 
     @Test
     void findAllTest() throws Exception {
