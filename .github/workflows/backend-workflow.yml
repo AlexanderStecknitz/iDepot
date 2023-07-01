@@ -11,11 +11,11 @@ on:
   push:
     paths: 
       - 'backend/**'
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
     paths: 
       - 'backend/**'
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
