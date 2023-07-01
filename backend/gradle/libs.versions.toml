@@ -1,6 +1,7 @@
 [versions]
 springBootVersion = "3.0.5"
 springDependencyManagementVersion = "1.1.0"
+sonarqubePluginVersion = "4.2.1.3168"
 lombokVersion = "1.18.26"
 springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
@@ -25,3 +26,4 @@ liquibaseCore = { module = "org.liquibase:liquibase-core" }
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
 springDependencyManagementPlugin = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
+sonarqubePlugin = { id = "org.sonarqube", version.ref = "sonarqubePluginVersion" }
