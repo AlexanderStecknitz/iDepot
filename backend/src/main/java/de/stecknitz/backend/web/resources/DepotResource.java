@@ -30,6 +30,7 @@ public class DepotResource {
         if(foundDepots.isEmpty()) {
             ResponseEntity.notFound().build();
         }
+        log.debug("test");
         List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepoDto).toList();
         return ResponseEntity.ok(foundDepotsDto);
     }
