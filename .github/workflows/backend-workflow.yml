@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Backend Workflow
 
 on:
   push:
@@ -50,3 +50,11 @@ jobs:
     - name: Test with Gradle
       working-directory: backend
       run: ./gradlew test
+    - name: Build with Gradle
+      working-directory: backend
+      run: ./gradlew build
+    - name: Sonarqube
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: ./gradlew build sonarqube --info

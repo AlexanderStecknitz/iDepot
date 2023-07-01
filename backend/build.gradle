@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	alias libs.plugins.springBootPlugin
 	alias libs.plugins.springDependencyManagementPlugin
+	alias libs.plugins.sonarqubePlugin
 }
 
 group = 'de.stecknitz'
@@ -30,6 +31,14 @@ dependencies {
 	testImplementation libs.testcontainer
 	testImplementation libs.testcontainerPostgres
 	testImplementation libs.testcontainerJupiter
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "idepottestsonar_idepot"
+		property "sonar.organization", "idepottestsonar"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
 }
 
 tasks.named('test') {
