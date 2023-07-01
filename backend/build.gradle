@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	alias libs.plugins.springBootPlugin
 	alias libs.plugins.springDependencyManagementPlugin
 	alias libs.plugins.sonarqubePlugin
@@ -31,6 +32,12 @@ dependencies {
 	testImplementation libs.testcontainer
 	testImplementation libs.testcontainerPostgres
 	testImplementation libs.testcontainerJupiter
+}
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true)
+	}
 }
 
 sonarqube {
