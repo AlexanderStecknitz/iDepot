@@ -32,6 +32,21 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+    - name: Start PostgreSQL
+      run: |
+        docker run -d \
+          --name my-postgres \
+          -e POSTGRES_USER=admin \
+          -e POSTGRES_PASSWORD=p \
+          -p 5432:5432 \
+          postgres:latest
+    - name: Wait for PostgreSQL
+      run: |
+        until docker exec my-postgres pg_isready; do
+          sleep 1
+        done
     - name: Test with Gradle
       working-directory: backend
       run: ./gradlew test
