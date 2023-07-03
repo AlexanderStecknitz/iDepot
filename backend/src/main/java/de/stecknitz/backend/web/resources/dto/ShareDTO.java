@@ -2,6 +2,7 @@ package de.stecknitz.backend.web.resources.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ShareDTO {
 
     String isin;

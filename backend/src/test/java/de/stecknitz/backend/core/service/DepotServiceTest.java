@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class DepotServiceTest {
@@ -41,13 +42,36 @@ class DepotServiceTest {
     }
 
     @Test
+    void createWithDepotAlreadyExitsTest() {
+
+        Optional<Depot> optionalDepot = Optional.of(
+                Depot.builder()
+                        .id(1)
+                        .build()
+        );
+
+        Depot givenDepot = Depot.builder()
+                .id(1)
+                .build();
+
+        Mockito.when(depotRepository.findById(givenDepot.getId())).thenReturn(optionalDepot);
+
+        Depot foundDepot = depotService.create(givenDepot);
+
+        Assertions.assertThat(foundDepot).isNull();
+    }
+
+    @Test
     void createTest() {
 
         Depot givenDepot = Depot.builder()
                 .id(1)
                 .build();
 
+        Optional<Depot> optionalDepot = Optional.empty();
+
         Mockito.when(depotRepository.saveAndFlush(givenDepot)).thenReturn(givenDepot);
+        Mockito.when(depotRepository.findById(givenDepot.getId())).thenReturn(optionalDepot);
 
         Depot foundDepot = depotService.create(givenDepot);
 
