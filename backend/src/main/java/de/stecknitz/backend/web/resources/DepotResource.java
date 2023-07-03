@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,20 +29,21 @@ public class DepotResource {
     public ResponseEntity<List<DepotDTO>> findAll() {
         List<Depot> foundDepots = depotService.findAllDepots();
         if(foundDepots.isEmpty()) {
-            ResponseEntity.notFound().build();
+           return ResponseEntity.notFound().build();
         }
-        List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepoDto).toList();
+        List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepotDTO).toList();
         return ResponseEntity.ok(foundDepotsDto);
     }
 
     @PostMapping
     public ResponseEntity<Void> create(
             @RequestBody final DepotDTO depotDTO) {
-        Depot depot = depotService.create(depotMapper.toDepo(depotDTO));
-        if(depot == null) {
+        Depot depot = depotMapper.toDepot(depotDTO);
+        Depot resultDepot = depotService.create(depot);
+        if(resultDepot == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.created(URI.create("")).build();
     }
 
 }

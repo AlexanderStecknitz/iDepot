@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class ShareServiceTest {
@@ -49,11 +50,35 @@ class ShareServiceTest {
                 .name("Test")
                 .build();
 
+        Optional<Share> optionalShare = Optional.empty();
+
+        Mockito.when(shareRepository.findById(givenShare.getIsin())).thenReturn(optionalShare);
         Mockito.when(shareRepository.saveAndFlush(givenShare)).thenReturn(givenShare);
 
         Share foundShare = shareService.create(givenShare);
 
         Assertions.assertThat(foundShare).isEqualTo(givenShare);
+    }
+
+    @Test
+    void createWithShareAlreadyExistsTest() {
+        Share givenShare = Share.builder()
+                .isin("Test")
+                .name("Test")
+                .build();
+
+        Optional<Share> optionalShare = Optional.of(
+                Share.builder()
+                        .isin(givenShare.getIsin())
+                        .name(givenShare.getName())
+                        .build()
+        );
+
+        Mockito.when(shareRepository.findById(givenShare.getIsin())).thenReturn(optionalShare);
+
+        Share foundShare = shareService.create(givenShare);
+
+        Assertions.assertThat(foundShare).isNull();
     }
 
 }

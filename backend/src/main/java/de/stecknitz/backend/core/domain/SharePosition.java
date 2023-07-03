@@ -3,6 +3,7 @@ package de.stecknitz.backend.core.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "share_position")
+@EqualsAndHashCode
 public class SharePosition {
 
     @Id

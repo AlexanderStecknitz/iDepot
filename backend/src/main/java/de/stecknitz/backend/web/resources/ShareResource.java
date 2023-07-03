@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class ShareResource {
         if(share == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.created(URI.create("")).build();
     }
 
 }
