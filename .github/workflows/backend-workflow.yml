@@ -66,4 +66,4 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        scanMetadataReportFile: build/sonar/report-task.txt
+        scanMetadataReportFile: ${{ github.workspace }}/build/sonar/report-task.txt
