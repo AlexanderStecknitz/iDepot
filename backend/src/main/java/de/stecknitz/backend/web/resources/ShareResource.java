@@ -32,7 +32,7 @@ public class ShareResource {
         log.debug("findAll");
         List<Share> foundShares = shareService.findAll();
         if(foundShares.isEmpty()) {
-            ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
         List<ShareDTO> foundSharesDto = foundShares.stream().map(shareMapper::toShareDto).toList();
         return ResponseEntity.ok(foundSharesDto);

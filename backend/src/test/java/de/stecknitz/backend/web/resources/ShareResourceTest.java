@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -58,6 +59,19 @@ class ShareResourceTest {
                 .andExpect(jsonPath("$.*", hasSize(1)))
                 .andExpect(jsonPath("$.[0].isin").value("TEST1"))
                 .andReturn();
+
+    }
+
+    @Test
+    void findAllButNoSharesTest() throws Exception {
+
+        List<Share> shares = Collections.emptyList();
+
+        given( shareService.findAll() ).willReturn(shares);
+
+        mockMvc.perform(get(ENDPOINT))
+                .andDo(print())
+                .andExpect(status().isNotFound());
 
     }
 
