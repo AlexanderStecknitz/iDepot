@@ -1,7 +1,9 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	alias libs.plugins.springBootPlugin
 	alias libs.plugins.springDependencyManagementPlugin
+	alias libs.plugins.sonarqubePlugin
 }
 
 group = 'de.stecknitz'
@@ -26,14 +28,39 @@ dependencies {
 	runtimeOnly libs.postgresql
 
 	compileOnly libs.lombok
+
 	annotationProcessor libs.lombok
+
+	implementation libs.mapstruct
 	annotationProcessor libs.mapstructProcessor
 
 	testImplementation libs.springBootStarterTest
 
+	testAnnotationProcessor libs.mapstructProcessor
+
 	testImplementation libs.testcontainer
 	testImplementation libs.testcontainerPostgres
 	testImplementation libs.testcontainerJupiter
+}
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true)
+	}
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "AlexanderStecknitz_iDepot"
+		property "sonar.organization", "alexanderstecknitz"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.scanner.metadataFilePath", "/home/runner/work/iDepot/iDepot/build/sonar/report-task.txt"
+		property "sonar.coverage.exclusions",
+					"**/dto/*.java," +
+					"**/domain/*.java," +
+					"**/mapper/*.java," +
+					"**/backend/BackendApplication.java"
+	}
 }
 
 tasks.named('test') {

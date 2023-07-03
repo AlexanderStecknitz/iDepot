@@ -9,6 +9,7 @@ import de.stecknitz.backend.core.repository.ShareRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -104,6 +105,76 @@ class SharePositionServiceTest {
 
         SharePosition foundSharePosition = sharePositionService.create(givenSharePosition);
 
+        Assertions.assertThat(foundSharePosition).isEqualTo(givenSharePosition);
+
+    }
+
+    @Test
+    void createTestWithNoDepot() {
+
+        long givenDepotId = 1;
+
+        Optional<Depot> givenOptionalDepot = Optional.empty();
+
+        Optional<Depot> givenDepot = Optional.of(Depot.builder()
+                .id(givenDepotId)
+                .build());
+
+        Optional<Share> givenShare = Optional.of(Share.builder()
+                .isin("ISIN1")
+                .build());
+
+        SharePosition givenSharePosition = SharePosition.builder()
+                .sharePositionId(1)
+                .depot(givenDepot.get())
+                .share(givenShare.get())
+                .build();
+
+        Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenOptionalDepot);
+
+        SharePosition foundSharePosition = sharePositionService.create(givenSharePosition);
+
+        Assertions.assertThat(foundSharePosition).isNull();
+
+    }
+
+    @Test
+    void createTestWithNewStock() {
+
+        long givenDepotId = 1;
+
+        Optional<Depot> givenDepot = Optional.of(Depot.builder()
+                .id(givenDepotId)
+                .build());
+
+        Optional<Share> givenShare = Optional.of(Share.builder()
+                .isin("ISIN1")
+                .wkn(null)
+                .name(null)
+                .actualPrice(0.0f)
+                .build());
+
+        Optional<Share> givenOptionalShare = Optional.empty();
+
+        SharePosition givenSharePosition = SharePosition.builder()
+                .sharePositionId(1)
+                .depot(givenDepot.get())
+                .share(givenShare.get())
+                .build();
+
+        ArgumentCaptor<Share> shareArgumentCaptor = ArgumentCaptor.forClass(Share.class);
+
+        Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenDepot);
+        Mockito.when(sharePositionRepository.saveAndFlush(givenSharePosition)).thenReturn(givenSharePosition);
+        Mockito.when(shareRepository.findById(givenSharePosition.getShare().getIsin())).thenReturn(givenOptionalShare);
+
+        SharePosition foundSharePosition = sharePositionService.create(givenSharePosition);
+
+        Mockito.verify(shareRepository, Mockito.times(1)).saveAndFlush(shareArgumentCaptor.capture());
+
+        Share capturedShareArgument = shareArgumentCaptor.getValue();
+
+        Assertions.assertThat(capturedShareArgument).isEqualTo(givenShare.get());
         Assertions.assertThat(foundSharePosition).isEqualTo(givenSharePosition);
 
     }

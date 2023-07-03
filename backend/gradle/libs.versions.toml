@@ -1,10 +1,11 @@
 [versions]
-springBootVersion = "3.0.5"
+springBootVersion = "3.1.1"
 springDependencyManagementVersion = "1.1.0"
+sonarqubePluginVersion = "4.2.1.3168"
 lombokVersion = "1.18.26"
 springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
-mapstructVersion = "1.5.3.Final"
+mapstructVersion = "1.5.5.Final"
 testcontainerVersion = "1.18.0"
 nimbusdsVersion = "7.3"
 springSecurityOauth2Version = "6.0.2"
@@ -30,3 +31,4 @@ oauth2Server = { module = "org.springframework.security:spring-security-oauth2-r
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
 springDependencyManagementPlugin = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
+sonarqubePlugin = { id = "org.sonarqube", version.ref = "sonarqubePluginVersion" }
