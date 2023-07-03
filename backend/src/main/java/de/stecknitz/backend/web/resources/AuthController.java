@@ -12,19 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.NoSuchAlgorithmException;
-
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
 
     private final UserService userService;
 
-    @PostMapping
-    ResponseEntity<Void> register(@RequestBody UserDTO userDTO) throws NoSuchAlgorithmException {
-        log.debug("Auth");
+    @PostMapping(path = "/register")
+    ResponseEntity<Void> register(@RequestBody UserDTO userDTO) {
         User user = User.builder()
                 .id(userDTO.getId())
                 .email(userDTO.getEmail())

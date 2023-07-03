@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -22,8 +21,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void create(User user) throws NoSuchAlgorithmException {
-        log.debug("Yes");
+    public void create(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if(optionalUser.isPresent()) {
             throw new MasterDataException(ErrorConstants.USER_ALREADY_EXISTS);

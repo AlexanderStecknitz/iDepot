@@ -8,7 +8,7 @@ postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.5.Final"
 testcontainerVersion = "1.18.0"
 nimbusdsVersion = "7.3"
-springSecurityOauth2Version = "6.0.2"
+springSecurityOauth2Version = "6.1.1"
 
 
 [libraries]

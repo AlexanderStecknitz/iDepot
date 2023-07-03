@@ -9,7 +9,7 @@
     <changeSet id="004-create-table" author="Alexander Stecknitz">
 
         <createTable tableName="user">
-            <column name="id" type="number">
+            <column name="id" type="serial">
                 <constraints primaryKey="true"/>
             </column>
             <column name="first_name" type="text" />
@@ -22,16 +22,6 @@
             </column>
         </createTable>
 
-    </changeSet>
-
-    <changeSet id="004-insert-data" author="Alexander Stecknitz">
-        <insert tableName="user">
-            <column name="id" value="1" />
-            <column name="first_name" value="admin" />
-            <column name="last_name" value="admin" />
-            <column name="email" value="admin" />
-            <column name="password" value="$2a$10$11fDeJ5uaDqTv35jmk9vGeSVBIZkUer8d8JWaamlfnBZrCaRV8Ld2" />
-        </insert>
     </changeSet>
 
 </databaseChangeLog>

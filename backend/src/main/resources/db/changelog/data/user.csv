@@ -1,0 +1,2 @@
+id,first_name,last_name,email,password,role
+1,admin,admin,admin,$2a$10$11fDeJ5uaDqTv35jmk9vGeSVBIZkUer8d8JWaamlfnBZrCaRV8Ld2,ADMIN

@@ -18,11 +18,13 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests().requestMatchers("/api/register").permitAll();
-        httpSecurity.authorizeHttpRequests().anyRequest().authenticated();
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        httpSecurity.cors(AbstractHttpConfigurer::disable);
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize ->
+                authorize.requestMatchers("/api/register").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+        ;
+
         return httpSecurity.build();
     }
 
