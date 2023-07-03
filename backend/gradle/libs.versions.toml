@@ -1,11 +1,11 @@
 [versions]
-springBootVersion = "3.0.5"
+springBootVersion = "3.1.1"
 springDependencyManagementVersion = "1.1.0"
 sonarqubePluginVersion = "4.2.1.3168"
 lombokVersion = "1.18.26"
 springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
-mapstructVersion = "1.5.3.Final"
+mapstructVersion = "1.5.5.Final"
 testcontainerVesion = "1.18.0"
 
 
