@@ -49,6 +49,7 @@ sonar {
 		property "sonar.projectKey", "AlexanderStecknitz_iDepot"
 		property "sonar.organization", "alexanderstecknitz"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.scanner.metadataFilePath", "/home/runner/work/iDepot/iDepot/build/sonar/report-task.txt"
 		property "sonar.coverage.exclusions",
 					"**/dto/*.java," +
 					"**/domain/*.java," +
