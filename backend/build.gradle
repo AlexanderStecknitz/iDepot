@@ -23,6 +23,8 @@ dependencies {
 	implementation libs.oauth2Jose
 	implementation libs.oauth2Server
 
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+
 	implementation libs.liquibaseCore
 
 	runtimeOnly libs.postgresql
