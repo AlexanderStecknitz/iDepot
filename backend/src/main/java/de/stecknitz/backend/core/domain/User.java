@@ -1,15 +1,9 @@
 package de.stecknitz.backend.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "user", schema = "public")
+@EqualsAndHashCode
 public class User {
 
     @Id
@@ -45,5 +40,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role")
     private Role role;
+
+    @Column(name = "salt")
+    private String salt;
 
 }

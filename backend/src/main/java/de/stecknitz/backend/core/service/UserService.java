@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -26,20 +28,18 @@ public class UserService {
         if(optionalUser.isPresent()) {
             throw new MasterDataException(ErrorConstants.USER_ALREADY_EXISTS);
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String salt = generateSalt();
+        user.setSalt(salt);
+        user.setPassword(passwordEncoder.encode(user.getPassword() + salt));
         userRepository.save(user);
+
     }
 
-    //private String generateSalt() throws NoSuchAlgorithmException {
-    //     Random random = SecureRandom.getInstanceStrong();
-    //     StringBuilder stringBuilder = new StringBuilder();
-    //     int wordLength = random.nextInt(0,19);
-    //     for (int i = 0; i < wordLength; i++) {
-    //         int nextChar = random.nextInt(0,27);
-    //         char c = (char) ('A' + nextChar);
-    //         stringBuilder.append(c);
-    //     }
-    //     return stringBuilder.toString();
-    // }
+    private String generateSalt() {
+        byte[] salt = new byte[16];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+     }
 
 }

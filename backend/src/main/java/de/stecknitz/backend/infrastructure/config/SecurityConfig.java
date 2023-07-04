@@ -3,6 +3,7 @@ package de.stecknitz.backend.infrastructure.config;
 import de.stecknitz.backend.core.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,15 +34,22 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     UserDetailsService userDetailsService(UserRepository userRepository) {
         return email ->
                 userRepository.findByEmail(email)
                         .map(user -> User.withUsername(user.getEmail())
                                 .password(user.getPassword())
-                                .roles("USER")
+                                .roles(user.getRole().toString())
                                 .build())
                         .orElseThrow(() -> new UsernameNotFoundException(email));
+    }
+
+    @Bean
+    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        CustomDaoAuthenticationProvider authenticationProvider = new CustomDaoAuthenticationProvider(passwordEncoder, userRepository);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
     }
 }

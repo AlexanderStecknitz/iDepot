@@ -20,6 +20,7 @@
             <column name="password" type="text">
                 <constraints nullable="false" />
             </column>
+            <column name="salt" type="text" />
         </createTable>
 
     </changeSet>
