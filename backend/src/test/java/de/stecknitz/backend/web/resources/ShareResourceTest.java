@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -37,6 +39,7 @@ class ShareResourceTest {
     @MockBean
     ShareMapper shareMapper;
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllTest() throws Exception {
 
@@ -62,6 +65,7 @@ class ShareResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllButNoSharesTest() throws Exception {
 
@@ -75,6 +79,7 @@ class ShareResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createTest() throws Exception {
         ShareDTO shareDTO = ShareDTO.builder()
@@ -89,7 +94,7 @@ class ShareResourceTest {
         given( shareService.create(share) ).willReturn(share);
 
         mockMvc.perform(
-                post(ENDPOINT)
+                post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonBytes(shareDTO))
@@ -99,6 +104,7 @@ class ShareResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createButShareAlreadyExists() throws Exception {
         ShareDTO shareDTO = ShareDTO.builder()
@@ -113,7 +119,7 @@ class ShareResourceTest {
         given( shareService.create(share) ).willReturn(null);
 
         mockMvc.perform(
-                        post(ENDPOINT)
+                        post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtil.convertObjectToJsonBytes(shareDTO))

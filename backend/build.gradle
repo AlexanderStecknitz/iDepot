@@ -17,6 +17,13 @@ repositories {
 dependencies {
 	implementation libs.springBootStarter
 	implementation libs.springDataJpa
+	implementation libs.mapstruct
+	implementation libs.springBootStarterSecurity
+	implementation libs.nimbusds
+	implementation libs.oauth2Jose
+	implementation libs.oauth2Server
+
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
 
 	implementation libs.liquibaseCore
 
@@ -30,6 +37,7 @@ dependencies {
 	annotationProcessor libs.mapstructProcessor
 
 	testImplementation libs.springBootStarterTest
+	testImplementation libs.springBootStarterSecurityTest
 
 	testAnnotationProcessor libs.mapstructProcessor
 
@@ -54,6 +62,7 @@ sonar {
 					"**/dto/*.java," +
 					"**/domain/*.java," +
 					"**/mapper/*.java," +
+					"**/exception/ErrorConstants.java," +
 					"**/backend/BackendApplication.java"
 	}
 }

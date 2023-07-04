@@ -6,22 +6,29 @@ lombokVersion = "1.18.26"
 springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.5.Final"
-testcontainerVesion = "1.18.0"
+testcontainerVersion = "1.18.0"
+nimbusdsVersion = "7.3"
+springSecurityOauth2Version = "6.1.1"
+springSecurityTestVersion = "6.1.1"
 
 
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
 springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
-testcontainer = { module = "org.testcontainers:testcontainers", version.ref = "testcontainerVesion" }
-testcontainerPostgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainerVesion" }
-testcontainerJupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainerVesion" }
+springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityTestVersion" }
+testcontainer = { module = "org.testcontainers:testcontainers", version.ref = "testcontainerVersion" }
+testcontainerPostgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainerVersion" }
+testcontainerJupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainerVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springDataJpaVersion" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresqlVersion" }
 mapstructProcessor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
 liquibaseCore = { module = "org.liquibase:liquibase-core" }
+nimbusds = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbusdsVersion" }
+oauth2Jose = { module = "org.springframework.security:spring-security-oauth2-jose", version.ref = "springSecurityOauth2Version" }
+oauth2Server = { module = "org.springframework.security:spring-security-oauth2-resource-server" , version.ref = "springSecurityOauth2Version"}
 
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }

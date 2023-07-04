@@ -1,0 +1,20 @@
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "id": 2,
+  "firstName": "Alexander",
+  "lastName": "Stecknitz",
+  "email": "Alex@Alex.de",
+  "password": "Alex"
+}
+
+###
+
+GET {{baseUrl}}/api/share
+
+###
+
+GET {{baseUrl}}/api/share
+Authorization: Basic Alex@Alex.de Alex
+Content-Type: application/json

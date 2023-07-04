@@ -5,12 +5,12 @@ import de.stecknitz.backend.core.service.DepotService;
 import de.stecknitz.backend.web.resources.dto.DepotDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest( DepotResource.class )
-@ExtendWith(MockitoExtension.class)
 class DepotResourceTest {
 
     private static final String ENDPOINT = "/api/depot";
@@ -40,6 +39,7 @@ class DepotResourceTest {
     @MockBean
     private DepotMapper depotMapper;
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllTest() throws Exception {
 
@@ -67,6 +67,7 @@ class DepotResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllWithNoDepotsTest() throws Exception {
 
@@ -79,6 +80,7 @@ class DepotResourceTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createTest() throws Exception {
 
@@ -93,7 +95,7 @@ class DepotResourceTest {
         given(depotMapper.toDepot(depotDTO)).willReturn(depot);
         given(depotService.create(depot)).willReturn(depot);
 
-        mockMvc.perform(post(ENDPOINT)
+        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(depotDTO))
                 .accept(MediaType.APPLICATION_JSON))
@@ -102,6 +104,7 @@ class DepotResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createButDepotAlreadyExistsTest() throws Exception {
 
@@ -116,7 +119,7 @@ class DepotResourceTest {
         given(depotMapper.toDepot(depotDTO)).willReturn(depot);
         given(depotService.create(depot)).willReturn(null);
 
-        mockMvc.perform(post(ENDPOINT)
+        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonBytes(depotDTO))
                         .accept(MediaType.APPLICATION_JSON))
