@@ -22,12 +22,12 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails,
                                                   UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         if (authentication.getCredentials() == null) {
             this.logger.debug("Failed to authenticate since no credentials provided");
             throw new BadCredentialsException(this.messages
                     .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         String presentedPassword = authentication.getCredentials().toString();
         if (!this.passwordEncoder.matches(presentedPassword + Objects.requireNonNull(user).getSalt(), userDetails.getPassword())) {
             this.logger.debug("Failed to authenticate since password does not match stored value");
