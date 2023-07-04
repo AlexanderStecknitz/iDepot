@@ -11,9 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +29,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 @Configuration( proxyBeanMethods = false )
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -41,16 +38,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                                     authorize.anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()));
         return httpSecurity.build();
     }
 
     @Bean
     @Order(1)
-    SecurityFilterChain filterLoginChain(HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain filterLogoutChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/api/login"))
+                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/logout"))
+                .logout(logout -> logout.logoutSuccessUrl("/api/logout"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
@@ -58,12 +56,22 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
+    SecurityFilterChain filterLoginChain(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity
+                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/login"))
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults());
+        return httpSecurity.build();
+    }
+
+    @Bean
+    @Order(3)
     SecurityFilterChain filterRegisterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/api/register"))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .csrf(AbstractHttpConfigurer::disable);
+                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/register"))
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return httpSecurity.build();
     }
 
