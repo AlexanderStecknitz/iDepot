@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest( SharePositionResource.class )
 class SharePositionResourceTest {
 
-    private static final String ENDPOINT = "/api/position/share";
+    private final String ENDPOINT = "/api/position/share";
 
     @Autowired
     MockMvc mockMvc;

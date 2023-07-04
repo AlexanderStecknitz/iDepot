@@ -3,6 +3,7 @@ package de.stecknitz.backend.core.repository;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.SharePosition;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -37,6 +38,11 @@ class SharePositionRepositoryTest {
         dynamicPropertyRegistry.add( "spring.datasource.url", testContainer::getJdbcUrl );
         dynamicPropertyRegistry.add( "spring.datasource.username", testContainer::getUsername );
         dynamicPropertyRegistry.add( "spring.datasource.password", testContainer::getPassword );
+    }
+
+    @AfterAll
+    static void afterAll() {
+        testContainer.close();
     }
 
     @Test

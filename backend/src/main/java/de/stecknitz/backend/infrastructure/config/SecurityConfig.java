@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,10 +29,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+@EnableWebSecurity
 @Configuration( proxyBeanMethods = false )
 public class SecurityConfig {
 
     @Bean
+    @Order(4)
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
@@ -48,7 +51,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/logout"))
-                .logout(logout -> logout.logoutSuccessUrl("/api/logout"))
+                .logout(logout -> logout.logoutSuccessUrl("/auth/logout"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
@@ -71,6 +74,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/register"))
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return httpSecurity.build();
     }
