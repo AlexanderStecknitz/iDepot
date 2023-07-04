@@ -35,6 +35,7 @@ dependencies {
 	annotationProcessor libs.mapstructProcessor
 
 	testImplementation libs.springBootStarterTest
+	testImplementation libs.springBootStarterSecurityTest
 
 	testAnnotationProcessor libs.mapstructProcessor
 

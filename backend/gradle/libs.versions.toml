@@ -9,12 +9,14 @@ mapstructVersion = "1.5.5.Final"
 testcontainerVersion = "1.18.0"
 nimbusdsVersion = "7.3"
 springSecurityOauth2Version = "6.1.1"
+springSecurityTestVersion = "6.1.1"
 
 
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
 springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
+springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityTestVersion" }
 testcontainer = { module = "org.testcontainers:testcontainers", version.ref = "testcontainerVersion" }
 testcontainerPostgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainerVersion" }
 testcontainerJupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainerVersion" }

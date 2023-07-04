@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -40,6 +42,7 @@ class SharePositionResourceTest {
     @MockBean
     SharePositionMapper sharePositionMapper;
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllTest() throws Exception {
         List<SharePosition> sharePositions = List.of(
@@ -73,6 +76,7 @@ class SharePositionResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void findAllButNoSharePositionsTest() throws Exception {
         List<SharePosition> sharePositions = Collections.emptyList();
@@ -84,6 +88,7 @@ class SharePositionResourceTest {
                 .andExpect(status().isNotFound());
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void findSharesInDepotTest() throws Exception {
         final long depotId = 1;
@@ -121,6 +126,7 @@ class SharePositionResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void findButNoSharesInDepotTest() throws Exception {
         final long depotId = 1;
@@ -135,6 +141,7 @@ class SharePositionResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createSharePositionTest() throws Exception {
         SharePosition sharePosition = SharePosition.builder()
@@ -161,7 +168,7 @@ class SharePositionResourceTest {
         given(sharePositionMapper.toSharePosition(sharePositionDTO)).willReturn(sharePosition);
         given(sharePositionService.create(sharePosition)).willReturn(sharePosition);
 
-        mockMvc.perform(post(ENDPOINT)
+        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(sharePositionDTO)))
@@ -170,6 +177,7 @@ class SharePositionResourceTest {
 
     }
 
+    @WithMockUser(username = "mock")
     @Test
     void createButSharePositionAlreadyExistsTest() throws Exception {
         SharePosition sharePosition = SharePosition.builder()
@@ -196,7 +204,7 @@ class SharePositionResourceTest {
         given(sharePositionMapper.toSharePosition(sharePositionDTO)).willReturn(sharePosition);
         given(sharePositionService.create(sharePosition)).willReturn(null);
 
-        mockMvc.perform(post(ENDPOINT)
+        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonBytes(sharePositionDTO)))
