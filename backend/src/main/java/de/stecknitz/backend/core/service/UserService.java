@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.core.domain.Role;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.exception.ErrorConstants;
@@ -31,6 +32,9 @@ public class UserService {
         String salt = generateSalt();
         user.setSalt(salt);
         user.setPassword(passwordEncoder.encode(user.getPassword() + salt));
+        user.setRole(Role.builder()
+                        .name("USER")
+                .build());
         userRepository.save(user);
 
     }

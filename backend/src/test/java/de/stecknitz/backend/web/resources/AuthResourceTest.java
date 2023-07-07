@@ -71,9 +71,8 @@ class AuthResourceTest {
     void registerTest() throws Exception {
         UserDTO userDTO = UserDTO.builder()
                 .email("alex@alex.de")
-                .firstName("alexander")
-                .lastName("stecknitz")
-                .role("ADMIN")
+                .firstname("alexander")
+                .lastname("stecknitz")
                 .password("admin")
                 .build();
 
@@ -86,8 +85,8 @@ class AuthResourceTest {
 
         User user = userRepository.findByEmail(userDTO.getEmail()).orElse(null);
         Assertions.assertThat(user.getEmail()).isEqualTo(userDTO.getEmail());
-        Assertions.assertThat(user.getFirstName()).isEqualTo(userDTO.getFirstName());
-        Assertions.assertThat(user.getLastName()).isEqualTo(userDTO.getLastName());
+        Assertions.assertThat(user.getFirstname()).isEqualTo(userDTO.getFirstname());
+        Assertions.assertThat(user.getLastname()).isEqualTo(userDTO.getLastname());
 
     }
 

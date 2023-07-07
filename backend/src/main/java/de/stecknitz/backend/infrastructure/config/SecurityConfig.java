@@ -29,8 +29,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-@EnableWebSecurity
 @Configuration( proxyBeanMethods = false )
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean

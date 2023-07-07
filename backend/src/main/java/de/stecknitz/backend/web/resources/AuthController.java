@@ -2,6 +2,7 @@ package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.UserService;
+import de.stecknitz.backend.web.resources.dto.TokenDTO;
 import de.stecknitz.backend.web.resources.dto.UserDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.UserMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login")
-    public String token(Authentication authentication) {
+    public ResponseEntity<TokenDTO> token(Authentication authentication) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuedAt(now)
@@ -53,7 +54,11 @@ public class AuthController {
                 .subject(authentication.getName())
                 .build();
 
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        TokenDTO token = TokenDTO.builder()
+                .token(jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue())
+                .build();
+
+        return ResponseEntity.ok(token);
     }
 
     @GetMapping(path = "/logout")
