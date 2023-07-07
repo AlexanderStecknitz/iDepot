@@ -23,6 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final DepotService depotService;
+
     @Transactional
     public void create(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
@@ -36,7 +38,16 @@ public class UserService {
                         .name("USER")
                 .build());
         userRepository.save(user);
+        depotService.createByUser(user);
+    }
 
+    @Transactional(readOnly = true)
+    public User findByEmail(final String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if(optionalUser.isEmpty()) {
+            throw new MasterDataException(ErrorConstants.USER_NOT_FOUND);
+        }
+        return optionalUser.get();
     }
 
     private String generateSalt() {

@@ -13,8 +13,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @EqualsAndHashCode
-public class SharePositionDTO {
-    private ShareDTO shareDTO;
+public class InvestmentDTO {
+    private StockDTO stockDTO;
     private long depotId;
     private float amount;
     private float buyPrice;

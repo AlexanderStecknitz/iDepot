@@ -14,22 +14,20 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "share_position")
+@Table(name = "investment")
 @EqualsAndHashCode
-public class SharePosition {
+public class Investment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(
-            name = "share_position_seq",
-            sequenceName = "share_position_share_position_id_seq")
-    private long sharePositionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "investment_id")
+    private long investmentId;
     @ManyToOne
     @JoinColumn(name = "depot_id")
     private Depot depot;
     @ManyToOne
     @JoinColumn(name = "share_isin")
-    private Share share;
+    private Stock stock;
     @Column(name = "amount")
     private float amount;
     @Column(name = "buy_price")

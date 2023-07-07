@@ -1,12 +1,12 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Share;
-import de.stecknitz.backend.core.domain.SharePosition;
-import de.stecknitz.backend.core.service.SharePositionService;
-import de.stecknitz.backend.web.resources.dto.ShareDTO;
-import de.stecknitz.backend.web.resources.dto.SharePositionDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.SharePositionMapper;
+import de.stecknitz.backend.core.domain.Stock;
+import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.service.InvestmentService;
+import de.stecknitz.backend.web.resources.dto.StockDTO;
+import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( SharePositionResource.class )
-class SharePositionResourceTest {
+@WebMvcTest( InvestmentResource.class )
+class InvestmentResourceTest {
 
     private final String ENDPOINT = "/api/position/share";
 
@@ -37,18 +37,18 @@ class SharePositionResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    SharePositionService sharePositionService;
+    InvestmentService investmentService;
 
     @MockBean
-    SharePositionMapper sharePositionMapper;
+    InvestmentMapper investmentMapper;
 
     @WithMockUser(username = "mock")
     @Test
     void findAllTest() throws Exception {
-        List<SharePosition> sharePositions = List.of(
-                SharePosition.builder()
-                        .sharePositionId(1)
-                        .share(Share.builder()
+        List<Investment> sharePositions = List.of(
+                Investment.builder()
+                        .investmentId(1)
+                        .stock(Stock.builder()
                                 .isin("Test1")
                                 .build())
                         .depot(Depot.builder()
@@ -57,8 +57,8 @@ class SharePositionResourceTest {
                         .build()
         );
 
-        SharePositionDTO sharePositionDTO = SharePositionDTO.builder()
-                .shareDTO(ShareDTO.builder()
+        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+                .stockDTO(StockDTO.builder()
                         .isin("ISIN1")
                         .build())
                 .depotId(1)
@@ -66,8 +66,8 @@ class SharePositionResourceTest {
                 .buyPrice(54.21f)
                 .build();
 
-        given(sharePositionService.findAll()).willReturn(sharePositions);
-        given(sharePositionMapper.toSharePositionDTO(sharePositions.get(0))).willReturn(sharePositionDTO);
+        given(investmentService.findAll()).willReturn(sharePositions);
+        given(investmentMapper.toInvestmentDTO(sharePositions.get(0))).willReturn(investmentDTO);
 
         mockMvc.perform(get(ENDPOINT))
                 .andExpect(status().isOk())
@@ -79,9 +79,9 @@ class SharePositionResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void findAllButNoSharePositionsTest() throws Exception {
-        List<SharePosition> sharePositions = Collections.emptyList();
+        List<Investment> sharePositions = Collections.emptyList();
 
-        given(sharePositionService.findAll()).willReturn(sharePositions);
+        given(investmentService.findAll()).willReturn(sharePositions);
 
         mockMvc.perform(get(ENDPOINT))
                 .andDo(print())
@@ -93,13 +93,13 @@ class SharePositionResourceTest {
     void findSharesInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<SharePosition> sharePositions = List.of(
-                SharePosition.builder()
+        List<Investment> sharePositions = List.of(
+                Investment.builder()
                         .depot(Depot.builder()
                                 .id(1)
                                 .build())
-                        .sharePositionId(1)
-                        .share(Share.builder()
+                        .investmentId(1)
+                        .stock(Stock.builder()
                                 .isin("Test")
                                 .build())
                         .amount(12)
@@ -107,8 +107,8 @@ class SharePositionResourceTest {
                         .build()
         );
 
-        SharePositionDTO sharePositionDTO = SharePositionDTO.builder()
-                .shareDTO(ShareDTO.builder()
+        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+                .stockDTO(StockDTO.builder()
                         .isin("Test")
                         .build())
                 .depotId(1)
@@ -116,8 +116,8 @@ class SharePositionResourceTest {
                 .buyPrice(98.21f)
                 .build();
 
-        given(sharePositionService.findByDepotId(depotId)).willReturn(sharePositions);
-        given(sharePositionMapper.toSharePositionDTO(sharePositions.get(0))).willReturn(sharePositionDTO);
+        given(investmentService.findByDepotId(depotId)).willReturn(sharePositions);
+        given(investmentMapper.toInvestmentDTO(sharePositions.get(0))).willReturn(investmentDTO);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andExpect(status().isOk())
@@ -131,9 +131,9 @@ class SharePositionResourceTest {
     void findButNoSharesInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<SharePosition> sharePositions = Collections.emptyList();
+        List<Investment> sharePositions = Collections.emptyList();
 
-        given(sharePositionService.findByDepotId(depotId)).willReturn(sharePositions);
+        given(investmentService.findByDepotId(depotId)).willReturn(sharePositions);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andDo(print())
@@ -144,20 +144,20 @@ class SharePositionResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createSharePositionTest() throws Exception {
-        SharePosition sharePosition = SharePosition.builder()
+        Investment sharePosition = Investment.builder()
                         .depot(Depot.builder()
                                 .id(1)
                                 .build())
-                        .sharePositionId(1)
-                        .share(Share.builder()
+                        .investmentId(1)
+                        .stock(Stock.builder()
                                 .isin("Test")
                                 .build())
                         .amount(12)
                         .buyPrice(98.21f)
                         .build();
 
-        SharePositionDTO sharePositionDTO = SharePositionDTO.builder()
-                .shareDTO(ShareDTO.builder()
+        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+                .stockDTO(StockDTO.builder()
                         .isin("Test")
                         .build())
                 .depotId(1)
@@ -165,13 +165,13 @@ class SharePositionResourceTest {
                 .buyPrice(98.21f)
                 .build();
 
-        given(sharePositionMapper.toSharePosition(sharePositionDTO)).willReturn(sharePosition);
-        given(sharePositionService.create(sharePosition)).willReturn(sharePosition);
+        given(investmentMapper.toInvestment(investmentDTO)).willReturn(sharePosition);
+        given(investmentService.create(sharePosition)).willReturn(sharePosition);
 
         mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtil.convertObjectToJsonBytes(sharePositionDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(investmentDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -180,20 +180,20 @@ class SharePositionResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createButSharePositionAlreadyExistsTest() throws Exception {
-        SharePosition sharePosition = SharePosition.builder()
+        Investment sharePosition = Investment.builder()
                 .depot(Depot.builder()
                         .id(1)
                         .build())
-                .sharePositionId(1)
-                .share(Share.builder()
+                .investmentId(1)
+                .stock(Stock.builder()
                         .isin("Test")
                         .build())
                 .amount(12)
                 .buyPrice(98.21f)
                 .build();
 
-        SharePositionDTO sharePositionDTO = SharePositionDTO.builder()
-                .shareDTO(ShareDTO.builder()
+        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+                .stockDTO(StockDTO.builder()
                         .isin("Test")
                         .build())
                 .depotId(1)
@@ -201,13 +201,13 @@ class SharePositionResourceTest {
                 .buyPrice(98.21f)
                 .build();
 
-        given(sharePositionMapper.toSharePosition(sharePositionDTO)).willReturn(sharePosition);
-        given(sharePositionService.create(sharePosition)).willReturn(null);
+        given(investmentMapper.toInvestment(investmentDTO)).willReturn(sharePosition);
+        given(investmentService.create(sharePosition)).willReturn(null);
 
         mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(sharePositionDTO)))
+                        .content(TestUtil.convertObjectToJsonBytes(investmentDTO)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 

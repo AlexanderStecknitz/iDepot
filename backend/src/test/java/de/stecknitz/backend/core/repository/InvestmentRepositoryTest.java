@@ -1,7 +1,7 @@
 package de.stecknitz.backend.core.repository;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.SharePosition;
+import de.stecknitz.backend.core.domain.Investment;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -22,13 +22,13 @@ import java.util.Optional;
 @AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource( properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 @Testcontainers
-class SharePositionRepositoryTest {
+class InvestmentRepositoryTest {
 
     @Container
     static PostgreSQLContainer testContainer = new PostgreSQLContainer<>( "postgres:15.2" );
 
     @Autowired
-    SharePositionRepository sharePositionRepository;
+    InvestmentRepository investmentRepository;
 
     @Autowired
     DepotRepository depotRepository;
@@ -47,7 +47,7 @@ class SharePositionRepositoryTest {
 
     @Test
     void findByDepotIdTest() {
-        sharePositionRepository.deleteAllInBatch();
+        investmentRepository.deleteAllInBatch();
         depotRepository.deleteAllInBatch();
 
         long givenDepotId = 1;
@@ -58,18 +58,18 @@ class SharePositionRepositoryTest {
 
         depotRepository.saveAndFlush(depot);
 
-        SharePosition sharePosition = SharePosition.builder()
-                .sharePositionId(1)
+        Investment sharePosition = Investment.builder()
+                .investmentId(1)
                 .depot(depot)
                 .build();
 
-        sharePositionRepository.saveAndFlush(sharePosition);
+        investmentRepository.saveAndFlush(sharePosition);
 
-        Optional<List<SharePosition>> sharePositions = sharePositionRepository.findByDepotId(givenDepotId);
+        Optional<List<Investment>> sharePositions = investmentRepository.findByDepotId(givenDepotId);
 
         Assertions.assertThat(sharePositions).isPresent();
 
-        List<SharePosition> resultSharePosition = sharePositions.get();
+        List<Investment> resultSharePosition = sharePositions.get();
 
         resultSharePosition.forEach(result -> Assertions.assertThat(result.getDepot().getId()).isEqualTo(givenDepotId));
 

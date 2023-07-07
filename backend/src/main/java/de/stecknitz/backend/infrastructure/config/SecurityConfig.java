@@ -34,7 +34,7 @@ import java.util.UUID;
 public class SecurityConfig {
 
     @Bean
-    @Order(4)
+    @Order(5)
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
@@ -74,6 +74,17 @@ public class SecurityConfig {
 
         httpSecurity
                 .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/auth/register"))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+        return httpSecurity.build();
+    }
+
+    @Bean
+    @Order(4)
+    SecurityFilterChain filterOpenApiChain(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity
+                .securityMatchers(requestMatcherConfigurer -> requestMatcherConfigurer.requestMatchers("/v3/api-docs"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return httpSecurity.build();

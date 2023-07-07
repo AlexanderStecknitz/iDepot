@@ -1,9 +1,9 @@
 package de.stecknitz.backend.web.resources;
 
-import de.stecknitz.backend.core.domain.Share;
-import de.stecknitz.backend.core.service.ShareService;
-import de.stecknitz.backend.web.resources.dto.ShareDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.ShareMapper;
+import de.stecknitz.backend.core.domain.Stock;
+import de.stecknitz.backend.core.service.StockService;
+import de.stecknitz.backend.web.resources.dto.StockDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.StockMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,8 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( ShareResource.class )
-class ShareResourceTest {
+@WebMvcTest( StockResource.class )
+class StockResourceTest {
 
     private final static String ENDPOINT = "/api/share";
 
@@ -34,27 +34,27 @@ class ShareResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    ShareService shareService;
+    StockService stockService;
 
     @MockBean
-    ShareMapper shareMapper;
+    StockMapper stockMapper;
 
     @WithMockUser(username = "mock")
     @Test
     void findAllTest() throws Exception {
 
-        List<Share> shares = List.of(
-                Share.builder()
+        List<Stock> stocks = List.of(
+                Stock.builder()
                         .isin("TEST1")
                 .build()
         );
 
-        ShareDTO shareDTO = ShareDTO.builder()
+        StockDTO stockDTO = StockDTO.builder()
                 .isin("TEST1")
                 .build();
 
-        given( shareService.findAll() ).willReturn(shares);
-        given( shareMapper.toShareDto(shares.get(0)) ).willReturn(shareDTO);
+        given( stockService.findAll() ).willReturn(stocks);
+        given( stockMapper.toStockDto(stocks.get(0)) ).willReturn(stockDTO);
 
         mockMvc.perform(get(ENDPOINT))
                 .andExpect(status().isOk())
@@ -69,9 +69,9 @@ class ShareResourceTest {
     @Test
     void findAllButNoSharesTest() throws Exception {
 
-        List<Share> shares = Collections.emptyList();
+        List<Stock> stocks = Collections.emptyList();
 
-        given( shareService.findAll() ).willReturn(shares);
+        given( stockService.findAll() ).willReturn(stocks);
 
         mockMvc.perform(get(ENDPOINT))
                 .andDo(print())
@@ -82,22 +82,22 @@ class ShareResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createTest() throws Exception {
-        ShareDTO shareDTO = ShareDTO.builder()
+        StockDTO stockDTO = StockDTO.builder()
                 .isin("TEST1")
                 .build();
 
-        Share share = Share.builder()
+        Stock stock = Stock.builder()
                 .isin("TEST1")
                 .build();
 
-        given( shareMapper.toShare(shareDTO) ).willReturn(share);
-        given( shareService.create(share) ).willReturn(share);
+        given( stockMapper.toStock(stockDTO) ).willReturn(stock);
+        given( stockService.create(stock) ).willReturn(stock);
 
         mockMvc.perform(
                 post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(shareDTO))
+                        .content(TestUtil.convertObjectToJsonBytes(stockDTO))
         )
                 .andDo(print())
                 .andExpect(status().isCreated());
@@ -107,22 +107,22 @@ class ShareResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createButShareAlreadyExists() throws Exception {
-        ShareDTO shareDTO = ShareDTO.builder()
+        StockDTO stockDTO = StockDTO.builder()
                 .isin("TEST1")
                 .build();
 
-        Share share = Share.builder()
+        Stock stock = Stock.builder()
                 .isin("TEST1")
                 .build();
 
-        given( shareMapper.toShare(shareDTO) ).willReturn(share);
-        given( shareService.create(share) ).willReturn(null);
+        given( stockMapper.toStock(stockDTO) ).willReturn(stock);
+        given( stockService.create(stock) ).willReturn(null);
 
         mockMvc.perform(
                         post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(TestUtil.convertObjectToJsonBytes(shareDTO))
+                                .content(TestUtil.convertObjectToJsonBytes(stockDTO))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest());

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @Builder
 @Getter
@@ -21,18 +23,14 @@ import lombok.ToString;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "first_name")
     private String firstname;
 
     @Column(name = "last_name")
     private String lastname;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "password")
     private String password;
@@ -43,5 +41,8 @@ public class User {
 
     @Column(name = "salt")
     private String salt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Depot> depots;
 
 }

@@ -43,6 +43,7 @@ public class DepotResource {
         if(resultDepot == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).build();    }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 }

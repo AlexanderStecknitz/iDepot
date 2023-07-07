@@ -2,8 +2,9 @@ package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.UserService;
-import de.stecknitz.backend.web.resources.dto.TokenDTO;
+import de.stecknitz.backend.web.resources.dto.LoginResultDTO;
 import de.stecknitz.backend.web.resources.dto.UserDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import de.stecknitz.backend.web.resources.dto.mapper.UserMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,10 +30,13 @@ import java.time.temporal.ChronoUnit;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
+public class AuthResource {
 
     private final UserService userService;
+
     private final UserMapper userMapper;
+
+    private final DepotMapper depotMapper;
 
     private final JwtEncoder jwtEncoder;
 
@@ -46,7 +50,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<TokenDTO> token(Authentication authentication) {
+    public ResponseEntity<LoginResultDTO> token(Authentication authentication) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuedAt(now)
@@ -54,8 +58,11 @@ public class AuthController {
                 .subject(authentication.getName())
                 .build();
 
-        TokenDTO token = TokenDTO.builder()
+        User user = userService.findByEmail(authentication.getName());
+
+        LoginResultDTO token = LoginResultDTO.builder()
                 .token(jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue())
+                .depots(user.getDepots().stream().map(depotMapper::toDepotDTO).toList())
                 .build();
 
         return ResponseEntity.ok(token);

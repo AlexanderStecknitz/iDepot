@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ShareDTO {
+public class StockDTO {
 
     String isin;
     String name;

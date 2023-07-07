@@ -1,7 +1,7 @@
 package de.stecknitz.backend.core.service;
 
-import de.stecknitz.backend.core.domain.Share;
-import de.stecknitz.backend.core.repository.ShareRepository;
+import de.stecknitz.backend.core.domain.Stock;
+import de.stecknitz.backend.core.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,21 +13,21 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ShareService {
+public class StockService {
 
-    private final ShareRepository shareRepository;
+    private final StockRepository stockRepository;
 
     @Transactional(readOnly = true)
-    public List<Share> findAll() {
-        return shareRepository.findAll();
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
     }
 
     @Transactional
-    public Share create(final Share share) {
-        Optional<Share> optionalShare = shareRepository.findById(share.getIsin());
+    public Stock create(final Stock stock) {
+        Optional<Stock> optionalShare = stockRepository.findById(stock.getIsin());
         if(optionalShare.isPresent()) {
             return null;
         }
-        return shareRepository.saveAndFlush(share);
+        return stockRepository.saveAndFlush(stock);
     }
 }

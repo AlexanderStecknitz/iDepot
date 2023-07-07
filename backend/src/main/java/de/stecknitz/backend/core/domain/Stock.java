@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "share")
+@Table(name = "stock")
 @Builder
 @Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Share {
+public class Stock {
 
     @Id
     @Column(name = "isin")

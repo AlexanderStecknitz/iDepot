@@ -10,6 +10,7 @@ testcontainerVersion = "1.18.0"
 nimbusdsVersion = "7.3"
 springSecurityOauth2Version = "6.1.1"
 springSecurityTestVersion = "6.1.1"
+springDocOpenApiStarterWebMvcUiVersion = "2.1.0"
 
 
 [libraries]
@@ -17,6 +18,7 @@ springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web
 springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
 springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityTestVersion" }
+springDocOpenApiStarterWebMvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springDocOpenApiStarterWebMvcUiVersion" }
 testcontainer = { module = "org.testcontainers:testcontainers", version.ref = "testcontainerVersion" }
 testcontainerPostgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainerVersion" }
 testcontainerJupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainerVersion" }

@@ -1,2 +1,2 @@
-id,first_name,last_name,email,password,role,salt
-0,admin,admin,admin,$2a$12$Kcn2s26SU4CbV2O4HsL1Ju.NPeS3k.qb3lWNGkdljHbOZiLr5xoZC,ADMIN,test
+first_name,last_name,email,password,role,salt
+admin,admin,admin,$2a$12$Kcn2s26SU4CbV2O4HsL1Ju.NPeS3k.qb3lWNGkdljHbOZiLr5xoZC,ADMIN,test

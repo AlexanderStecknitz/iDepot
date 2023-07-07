@@ -1,9 +1,9 @@
 package de.stecknitz.backend.web.resources;
 
-import de.stecknitz.backend.core.domain.SharePosition;
-import de.stecknitz.backend.core.service.SharePositionService;
-import de.stecknitz.backend.web.resources.dto.SharePositionDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.SharePositionMapper;
+import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.service.InvestmentService;
+import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,27 +21,27 @@ import java.util.List;
 @RequestMapping("/api/position/share")
 @RequiredArgsConstructor
 @Slf4j
-public class SharePositionResource {
+public class InvestmentResource {
 
-    private final SharePositionService sharePositionService;
-    private final SharePositionMapper sharePositionMapper;
+    private final InvestmentService investmentService;
+    private final InvestmentMapper investmentMapper;
 
     @GetMapping
-    public ResponseEntity<List<SharePositionDTO>> findAll() {
+    public ResponseEntity<List<InvestmentDTO>> findAll() {
         log.debug("findAll");
-        List<SharePosition> sharePositions = sharePositionService.findAll();
+        List<Investment> sharePositions = investmentService.findAll();
         if(sharePositions.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<SharePositionDTO> sharePositionDTOS = sharePositions.stream().map(sharePositionMapper::toSharePositionDTO).toList();
-        return ResponseEntity.ok(sharePositionDTOS);
+        List<InvestmentDTO> investmentDTOS = sharePositions.stream().map(investmentMapper::toInvestmentDTO).toList();
+        return ResponseEntity.ok(investmentDTOS);
     }
 
     @GetMapping(path = "/{depotId}")
-    public ResponseEntity<List<SharePosition>> findSharesInDepot(
+    public ResponseEntity<List<Investment>> findSharesInDepot(
             @PathVariable final long depotId
     ) {
-        List<SharePosition> sharePositions = sharePositionService.findByDepotId(depotId);
+        List<Investment> sharePositions = investmentService.findByDepotId(depotId);
         if(sharePositions.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -50,10 +50,10 @@ public class SharePositionResource {
 
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestBody final SharePositionDTO sharePositionDTO) {
+            @RequestBody final InvestmentDTO investmentDTO) {
 
-        log.debug("create: position={}", sharePositionDTO);
-        SharePosition resultSharePosition = sharePositionService.create(sharePositionMapper.toSharePosition(sharePositionDTO));
+        log.debug("create: position={}", investmentDTO);
+        Investment resultSharePosition = investmentService.create(investmentMapper.toInvestment(investmentDTO));
         if(resultSharePosition == null) {
             return ResponseEntity.badRequest().build();
         }

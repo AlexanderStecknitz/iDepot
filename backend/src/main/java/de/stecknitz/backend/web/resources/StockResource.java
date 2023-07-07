@@ -1,9 +1,9 @@
 package de.stecknitz.backend.web.resources;
 
-import de.stecknitz.backend.core.domain.Share;
-import de.stecknitz.backend.core.service.ShareService;
-import de.stecknitz.backend.web.resources.dto.ShareDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.ShareMapper;
+import de.stecknitz.backend.core.domain.Stock;
+import de.stecknitz.backend.core.service.StockService;
+import de.stecknitz.backend.web.resources.dto.StockDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.StockMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,28 +20,28 @@ import java.util.List;
 @RequestMapping("/api/share")
 @RequiredArgsConstructor
 @Slf4j
-public class ShareResource {
+public class StockResource {
 
-    private final ShareService shareService;
-    private final ShareMapper shareMapper;
+    private final StockService stockService;
+    private final StockMapper stockMapper;
 
     @GetMapping
-    public ResponseEntity<List<ShareDTO>> findAll() {
+    public ResponseEntity<List<StockDTO>> findAll() {
         log.debug("findAll");
-        List<Share> foundShares = shareService.findAll();
-        if(foundShares.isEmpty()) {
+        List<Stock> foundStocks = stockService.findAll();
+        if(foundStocks.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<ShareDTO> foundSharesDto = foundShares.stream().map(shareMapper::toShareDto).toList();
+        List<StockDTO> foundSharesDto = foundStocks.stream().map(stockMapper::toStockDto).toList();
         return ResponseEntity.ok(foundSharesDto);
     }
 
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestBody final ShareDTO shareDTO
+            @RequestBody final StockDTO stockDTO
     ) {
-        Share share = shareService.create(shareMapper.toShare(shareDTO));
-        if(share == null) {
+        Stock stock = stockService.create(stockMapper.toStock(stockDTO));
+        if(stock == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
