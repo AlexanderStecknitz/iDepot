@@ -26,7 +26,7 @@ public class Investment {
     @JoinColumn(name = "depot_id")
     private Depot depot;
     @ManyToOne
-    @JoinColumn(name = "share_isin")
+    @JoinColumn(name = "stock_isin")
     private Stock stock;
     @Column(name = "amount")
     private float amount;
