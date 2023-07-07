@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@dekh/ngx-jwt-auth": "^15.0.0"
-  }
-}
