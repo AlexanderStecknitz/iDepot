@@ -29,35 +29,33 @@ public class InvestmentResource {
     @GetMapping
     public ResponseEntity<List<InvestmentDTO>> findAll() {
         log.debug("findAll");
-        List<Investment> sharePositions = investmentService.findAll();
-        if(sharePositions.isEmpty()) {
+        List<Investment> investments = investmentService.findAll();
+        if(investments.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<InvestmentDTO> investmentDTOS = sharePositions.stream().map(investmentMapper::toInvestmentDTO).toList();
+        List<InvestmentDTO> investmentDTOS = investments.stream().map(investmentMapper::toInvestmentDTO).toList();
         return ResponseEntity.ok(investmentDTOS);
     }
 
     @GetMapping(path = "/{depotId}")
     public ResponseEntity<List<Investment>> findStockInDepot(
-            @PathVariable final long depotId
-    ) {
-        List<Investment> sharePositions = investmentService.findByDepotId(depotId);
-        if(sharePositions.isEmpty()) {
+            @PathVariable final long depotId) {
+        List<Investment> investments = investmentService.findByDepotId(depotId);
+        if(investments.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(sharePositions);
+        return ResponseEntity.ok(investments);
     }
 
     @PostMapping
     public ResponseEntity<Void> create(
             @RequestBody final InvestmentDTO investmentDTO) {
-
         log.debug("create: position={}", investmentDTO);
-        Investment resultSharePosition = investmentService.create(investmentMapper.toInvestment(investmentDTO));
-        if(resultSharePosition == null) {
+        Investment resultInvestment = investmentService.create(investmentMapper.toInvestment(investmentDTO));
+        if(resultInvestment == null) {
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();    }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 }

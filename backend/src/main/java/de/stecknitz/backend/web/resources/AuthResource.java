@@ -3,6 +3,7 @@ package de.stecknitz.backend.web.resources;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.UserService;
 import de.stecknitz.backend.web.resources.dto.LoginResultDTO;
+import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
 import de.stecknitz.backend.web.resources.dto.UserDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import de.stecknitz.backend.web.resources.dto.mapper.UserMapper;
@@ -43,8 +44,8 @@ public class AuthResource {
     private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     @PostMapping(path = "/register")
-    ResponseEntity<Void> register(@RequestBody UserDTO userDTO) {
-        User user = userMapper.toUser(userDTO);
+    ResponseEntity<Void> register(@RequestBody RegisterUserDTO registerUserDTO) {
+        User user = userMapper.toUser(registerUserDTO);
         userService.create(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -66,6 +67,13 @@ public class AuthResource {
                 .build();
 
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping(path = "/user")
+    public ResponseEntity<UserDTO> findUser(Authentication authentication) {
+        User foundUser = userService.findByEmail(authentication.getName());
+        UserDTO userDTO = userMapper.toUserDTO(foundUser);
+        return ResponseEntity.ok(userDTO);
     }
 
     @GetMapping(path = "/logout")

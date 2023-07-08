@@ -50,9 +50,9 @@ class StockServiceTest {
                 .name("Test")
                 .build();
 
-        Optional<Stock> optionalShare = Optional.empty();
+        Optional<Stock> optionalStock = Optional.empty();
 
-        Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalShare);
+        Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalStock);
         Mockito.when(stockRepository.saveAndFlush(givenStock)).thenReturn(givenStock);
 
         Stock foundStock = stockService.create(givenStock);
@@ -67,14 +67,14 @@ class StockServiceTest {
                 .name("Test")
                 .build();
 
-        Optional<Stock> optionalShare = Optional.of(
+        Optional<Stock> optionalStock = Optional.of(
                 Stock.builder()
                         .isin(givenStock.getIsin())
                         .name(givenStock.getName())
                         .build()
         );
 
-        Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalShare);
+        Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalStock);
 
         Stock foundStock = stockService.create(givenStock);
 

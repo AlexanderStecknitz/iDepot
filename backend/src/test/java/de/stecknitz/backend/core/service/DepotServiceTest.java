@@ -1,17 +1,19 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.Depot;
+import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class DepotServiceTest {
@@ -21,6 +23,9 @@ class DepotServiceTest {
 
     @InjectMocks
     DepotService depotService;
+
+    @Captor
+    ArgumentCaptor<Depot> depotCaptor;
 
     @Test
     void findAllDepotsTest() {
@@ -42,40 +47,53 @@ class DepotServiceTest {
     }
 
     @Test
-    void createWithDepotAlreadyExitsTest() {
+    void findAllByEmailTest() {
 
-        Optional<Depot> optionalDepot = Optional.of(
+        String email = "AlexanderStecknitz@Stecknitz.de";
+
+        List<Depot> depots = List.of(
                 Depot.builder()
-                        .id(1)
+                        .user(User.builder()
+                                .email(email)
+                                .build())
                         .build()
         );
 
-        Depot givenDepot = Depot.builder()
-                .id(1)
+        Mockito.when(depotRepository.findAllByUserEmail(email)).thenReturn(depots);
+
+        List<Depot> foundDepots = depotService.findAllByEmail(email);
+
+        Assertions.assertThat(foundDepots.get(0).getUser().getEmail()).isEqualTo(email);
+
+    }
+
+    @Test
+    void createByUserTest() {
+
+        String email = "AlexanderStecknitz@Stecknitz.de";
+
+        User user = User.builder()
+                .email(email)
                 .build();
 
-        Mockito.when(depotRepository.findById(givenDepot.getId())).thenReturn(optionalDepot);
+        depotService.createByUser(user);
 
-        Depot foundDepot = depotService.create(givenDepot);
+        Mockito.verify(depotRepository).saveAndFlush(depotCaptor.capture());
 
-        Assertions.assertThat(foundDepot).isNull();
+        Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
+
     }
 
     @Test
     void createTest() {
 
-        Depot givenDepot = Depot.builder()
-                .id(1)
-                .build();
+        String email = "AlexanderStecknitz@Stecknitz.de";
 
-        Optional<Depot> optionalDepot = Optional.empty();
+        depotService.create(email);
 
-        Mockito.when(depotRepository.saveAndFlush(givenDepot)).thenReturn(givenDepot);
-        Mockito.when(depotRepository.findById(givenDepot.getId())).thenReturn(optionalDepot);
+        Mockito.verify(depotRepository).saveAndFlush(depotCaptor.capture());
 
-        Depot foundDepot = depotService.create(givenDepot);
-
-        Assertions.assertThat(foundDepot).isEqualTo(givenDepot);
+        Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
     }
 
 }

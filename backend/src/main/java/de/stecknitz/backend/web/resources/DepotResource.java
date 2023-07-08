@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,13 +36,22 @@ public class DepotResource {
         return ResponseEntity.ok(foundDepotsDto);
     }
 
+    @GetMapping(path = "/{email}")
+    public ResponseEntity<List<DepotDTO>> findAllByEmail(
+            @PathVariable String email
+    ) {
+        List<Depot> foundDepots = depotService.findAllByEmail(email);
+        if(foundDepots.isEmpty()) {
+            ResponseEntity.notFound().build();
+        }
+        List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepotDTO).toList();
+        return ResponseEntity.ok(foundDepotsDto);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(
             Authentication authentication) {
-        Depot resultDepot = depotService.create(authentication.getName());
-        if(resultDepot == null) {
-            return ResponseEntity.badRequest().build();
-        }
+        depotService.create(authentication.getName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

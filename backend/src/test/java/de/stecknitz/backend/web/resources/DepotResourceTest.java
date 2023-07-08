@@ -1,6 +1,7 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.Depot;
+import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.DepotService;
 import de.stecknitz.backend.web.resources.dto.DepotDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
@@ -82,49 +83,60 @@ class DepotResourceTest {
 
     @WithMockUser(username = "mock")
     @Test
-    void createTest() throws Exception {
+    void findAllByEmailTest() throws Exception {
 
-        final DepotDTO depotDTO = DepotDTO.builder()
-                .id(1)
-                .build();
+        String email = "Test@Test.de";
 
-        Depot depot = Depot.builder()
-                .id(1)
-                .build();
+        List<Depot> depots = List.of(
+                Depot.builder()
+                        .user(User.builder()
+                                .email(email)
+                                .build())
+                        .build()
+        );
 
-        given(depotMapper.toDepot(depotDTO)).willReturn(depot);
-        given(depotService.create(depot)).willReturn(depot);
+        List<DepotDTO> depotDTOS = List.of(
+                DepotDTO.builder()
+                        .id(1)
+                        .build()
+        );
 
-        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtil.convertObjectToJsonBytes(depotDTO))
-                .accept(MediaType.APPLICATION_JSON))
+        given(depotService.findAllByEmail(email)).willReturn(depots);
+        given(depotMapper.toDepotDTO(depots.get(0))).willReturn(depotDTOS.get(0));
+
+        mockMvc.perform(get(ENDPOINT + "/" + email))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.*", hasSize(1)))
+                .andReturn();
 
     }
 
     @WithMockUser(username = "mock")
     @Test
-    void createButDepotAlreadyExistsTest() throws Exception {
+    void findAllByEmailWithNoDepotsTest() throws Exception {
 
-        final DepotDTO depotDTO = DepotDTO.builder()
-                .id(1)
-                .build();
+        String email = "Test@Test.de";
 
-        Depot depot = Depot.builder()
-                .id(1)
-                .build();
+        List<Depot> depots = Collections.emptyList();
 
-        given(depotMapper.toDepot(depotDTO)).willReturn(depot);
-        given(depotService.create(depot)).willReturn(null);
+        given(depotService.findAllByEmail(email)).willReturn(depots);
+
+        mockMvc.perform(get(ENDPOINT))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username = "mock")
+    @Test
+    void createTest() throws Exception {
 
         mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(depotDTO))
-                        .accept(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isCreated());
 
     }
 

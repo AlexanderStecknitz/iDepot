@@ -1,0 +1,6 @@
+<mat-toolbar>
+  <mat-label>Depot Selector</mat-label>
+  <mat-select [(value)]="depotId" (selectionChange)="changeDepot($event)">
+    <mat-option *ngFor="let depot of depots" [value]="depot.id">{{depot.id}}</mat-option>
+  </mat-select>
+</mat-toolbar>

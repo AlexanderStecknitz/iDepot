@@ -32,8 +32,8 @@ public class StockResource {
         if(foundStocks.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<StockDTO> foundSharesDto = foundStocks.stream().map(stockMapper::toStockDto).toList();
-        return ResponseEntity.ok(foundSharesDto);
+        List<StockDTO> foundStockDTOs = foundStocks.stream().map(stockMapper::toStockDto).toList();
+        return ResponseEntity.ok(foundStockDTOs);
     }
 
     @PostMapping

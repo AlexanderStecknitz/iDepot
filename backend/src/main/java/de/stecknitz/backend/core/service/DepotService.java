@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +24,11 @@ public class DepotService {
         return foundDepots;
     }
 
+    @Transactional(readOnly = true)
+    public List<Depot> findAllByEmail(final String email) {
+        return depotRepository.findAllByUserEmail(email);
+    }
+
     @Transactional
     public void createByUser(final User user) {
         Depot depot = Depot.builder()
@@ -34,11 +38,7 @@ public class DepotService {
     }
 
     @Transactional
-    public Depot create(String email) {
-        Optional<Depot> optionalDepot = depotRepository.findByUserEmail(email);
-        if(optionalDepot.isPresent()) {
-            return null;
-        }
+    public void create(String email) {
         User user = User.builder()
                 .email(email)
                 .build();
@@ -47,6 +47,6 @@ public class DepotService {
                 .user(user)
                 .build();
 
-        return depotRepository.saveAndFlush(depot);
+        depotRepository.saveAndFlush(depot);
     }
 }

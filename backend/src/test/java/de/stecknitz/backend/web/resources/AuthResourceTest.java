@@ -3,7 +3,7 @@ package de.stecknitz.backend.web.resources;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.UserService;
-import de.stecknitz.backend.web.resources.dto.UserDTO;
+import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class AuthResourceTest {
 
     @Test
     void registerTest() throws Exception {
-        UserDTO userDTO = UserDTO.builder()
+        RegisterUserDTO registerUserDTO = RegisterUserDTO.builder()
                 .email("alex@alex.de")
                 .firstname("alexander")
                 .lastname("stecknitz")
@@ -79,14 +79,14 @@ class AuthResourceTest {
         mockMvc.perform(post(ENDPOINT + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(registerUserDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        User user = userRepository.findByEmail(userDTO.getEmail()).orElse(null);
-        Assertions.assertThat(user.getEmail()).isEqualTo(userDTO.getEmail());
-        Assertions.assertThat(user.getFirstname()).isEqualTo(userDTO.getFirstname());
-        Assertions.assertThat(user.getLastname()).isEqualTo(userDTO.getLastname());
+        User user = userRepository.findByEmail(registerUserDTO.getEmail()).orElse(null);
+        Assertions.assertThat(user.getEmail()).isEqualTo(registerUserDTO.getEmail());
+        Assertions.assertThat(user.getFirstname()).isEqualTo(registerUserDTO.getFirstname());
+        Assertions.assertThat(user.getLastname()).isEqualTo(registerUserDTO.getLastname());
 
     }
 

@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest( StockResource.class )
 class StockResourceTest {
 
-    private final static String ENDPOINT = "/api/share";
+    private final static String ENDPOINT = "/api/stock";
 
     @Autowired
     MockMvc mockMvc;

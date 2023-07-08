@@ -35,7 +35,7 @@ class InvestmentServiceTest {
 
     @Test
     void findAllTest() {
-        List<Investment> givenSharePositions = List.of(
+        List<Investment> givenInvestments = List.of(
                 Investment.builder()
                         .investmentId(1)
                         .amount(1)
@@ -46,11 +46,11 @@ class InvestmentServiceTest {
                         .build()
         );
 
-        Mockito.when(investmentRepository.findAll()).thenReturn(givenSharePositions);
+        Mockito.when(investmentRepository.findAll()).thenReturn(givenInvestments);
 
-        List<Investment> foundSharePositions = investmentService.findAll();
+        List<Investment> foundInvestments = investmentService.findAll();
 
-        Assertions.assertThat(foundSharePositions).isEqualTo(givenSharePositions);
+        Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }
 
@@ -59,7 +59,7 @@ class InvestmentServiceTest {
 
         long givenDepotId = 1;
 
-        Optional<List<Investment>> givenSharePositions = Optional.of(List.of(
+        Optional<List<Investment>> givenInvestments = Optional.of(List.of(
                 Investment.builder()
                         .depot(Depot.builder()
                                 .id(givenDepotId)
@@ -72,11 +72,11 @@ class InvestmentServiceTest {
                         .build()
         ));
 
-        Mockito.when(investmentRepository.findByDepotId(givenDepotId)).thenReturn(givenSharePositions);
+        Mockito.when(investmentRepository.findByDepotId(givenDepotId)).thenReturn(givenInvestments);
 
-        List<Investment> foundSharePositions = investmentService.findByDepotId(givenDepotId);
+        List<Investment> foundInvestments = investmentService.findByDepotId(givenDepotId);
 
-        Assertions.assertThat(foundSharePositions).isEqualTo(givenSharePositions.get());
+        Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments.get());
 
     }
 
@@ -89,23 +89,23 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build());
 
-        Optional<Stock> givenShare = Optional.of(Stock.builder()
+        Optional<Stock> givenStock = Optional.of(Stock.builder()
                 .isin("ISIN1")
                 .build());
 
-        Investment givenSharePosition = Investment.builder()
+        Investment givenInvestments = Investment.builder()
                 .investmentId(1)
                 .depot(givenDepot.get())
-                .stock(givenShare.get())
+                .stock(givenStock.get())
                 .build();
 
         Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenDepot);
-        Mockito.when(investmentRepository.saveAndFlush(givenSharePosition)).thenReturn(givenSharePosition);
-        Mockito.when(stockRepository.findById(givenSharePosition.getStock().getIsin())).thenReturn(givenShare);
+        Mockito.when(investmentRepository.saveAndFlush(givenInvestments)).thenReturn(givenInvestments);
+        Mockito.when(stockRepository.findById(givenInvestments.getStock().getIsin())).thenReturn(givenStock);
 
-        Investment foundSharePosition = investmentService.create(givenSharePosition);
+        Investment foundInvestments = investmentService.create(givenInvestments);
 
-        Assertions.assertThat(foundSharePosition).isEqualTo(givenSharePosition);
+        Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }
 
@@ -120,21 +120,21 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build());
 
-        Optional<Stock> givenShare = Optional.of(Stock.builder()
+        Optional<Stock> givenOptionalStock = Optional.of(Stock.builder()
                 .isin("ISIN1")
                 .build());
 
-        Investment givenSharePosition = Investment.builder()
+        Investment givenInvestments = Investment.builder()
                 .investmentId(1)
                 .depot(givenDepot.get())
-                .stock(givenShare.get())
+                .stock(givenOptionalStock.get())
                 .build();
 
         Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenOptionalDepot);
 
-        Investment foundSharePosition = investmentService.create(givenSharePosition);
+        Investment foundInvestments = investmentService.create(givenInvestments);
 
-        Assertions.assertThat(foundSharePosition).isNull();
+        Assertions.assertThat(foundInvestments).isNull();
 
     }
 
@@ -147,35 +147,35 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build());
 
-        Optional<Stock> givenShare = Optional.of(Stock.builder()
+        Optional<Stock> givenStock = Optional.of(Stock.builder()
                 .isin("ISIN1")
                 .wkn(null)
                 .name(null)
                 .actualPrice(0.0f)
                 .build());
 
-        Optional<Stock> givenOptionalShare = Optional.empty();
+        Optional<Stock> givenOptionalStock = Optional.empty();
 
-        Investment givenSharePosition = Investment.builder()
+        Investment givenInvestments = Investment.builder()
                 .investmentId(1)
                 .depot(givenDepot.get())
-                .stock(givenShare.get())
+                .stock(givenStock.get())
                 .build();
 
-        ArgumentCaptor<Stock> shareArgumentCaptor = ArgumentCaptor.forClass(Stock.class);
+        ArgumentCaptor<Stock> stockArgumentCaptor = ArgumentCaptor.forClass(Stock.class);
 
         Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenDepot);
-        Mockito.when(investmentRepository.saveAndFlush(givenSharePosition)).thenReturn(givenSharePosition);
-        Mockito.when(stockRepository.findById(givenSharePosition.getStock().getIsin())).thenReturn(givenOptionalShare);
+        Mockito.when(investmentRepository.saveAndFlush(givenInvestments)).thenReturn(givenInvestments);
+        Mockito.when(stockRepository.findById(givenInvestments.getStock().getIsin())).thenReturn(givenOptionalStock);
 
-        Investment foundSharePosition = investmentService.create(givenSharePosition);
+        Investment foundInvestments = investmentService.create(givenInvestments);
 
-        Mockito.verify(stockRepository, Mockito.times(1)).saveAndFlush(shareArgumentCaptor.capture());
+        Mockito.verify(stockRepository, Mockito.times(1)).saveAndFlush(stockArgumentCaptor.capture());
 
-        Stock capturedStockArgument = shareArgumentCaptor.getValue();
+        Stock capturedStockArgument = stockArgumentCaptor.getValue();
 
-        Assertions.assertThat(capturedStockArgument).isEqualTo(givenShare.get());
-        Assertions.assertThat(foundSharePosition).isEqualTo(givenSharePosition);
+        Assertions.assertThat(capturedStockArgument).isEqualTo(givenStock.get());
+        Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }
 

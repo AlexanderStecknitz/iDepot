@@ -58,20 +58,20 @@ class InvestmentRepositoryTest {
 
         depotRepository.saveAndFlush(depot);
 
-        Investment sharePosition = Investment.builder()
+        Investment investment = Investment.builder()
                 .investmentId(1)
                 .depot(depot)
                 .build();
 
-        investmentRepository.saveAndFlush(sharePosition);
+        investmentRepository.saveAndFlush(investment);
 
-        Optional<List<Investment>> sharePositions = investmentRepository.findByDepotId(givenDepotId);
+        Optional<List<Investment>> investments = investmentRepository.findByDepotId(givenDepotId);
 
-        Assertions.assertThat(sharePositions).isPresent();
+        Assertions.assertThat(investments).isPresent();
 
-        List<Investment> resultSharePosition = sharePositions.get();
+        List<Investment> resultInvestment = investments.get();
 
-        resultSharePosition.forEach(result -> Assertions.assertThat(result.getDepot().getId()).isEqualTo(givenDepotId));
+        resultInvestment.forEach(result -> Assertions.assertThat(result.getDepot().getId()).isEqualTo(givenDepotId));
 
     }
 

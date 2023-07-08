@@ -5,18 +5,18 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
-@Builder
 @Getter
-@NoArgsConstructor
-@ToString
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 @EqualsAndHashCode
-public class UserDTO {
-
-    String email;
-    String firstname;
-    String lastname;
-
+public class RegisterUserDTO {
+    private long id;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
 }

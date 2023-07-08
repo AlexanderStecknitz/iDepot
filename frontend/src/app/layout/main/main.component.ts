@@ -5,25 +5,29 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {AuthService} from "../../auth/auth.service";
+import {Subscription} from "rxjs";
+import {HeaderComponent} from "../header/header.component";
 
 @Component({
   selector: 'iDepot-main',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatIconModule, MatListModule, MatSidenavModule, RouterLink],
+  imports: [CommonModule, RouterOutlet, MatIconModule, MatListModule, MatSidenavModule, RouterLink, HeaderComponent],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
 
+  private routeSubscription: Subscription;
+  public depotId: string | undefined;
+
   constructor(
     private authService: AuthService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
   ) {
-    this.depotId = this.actRoute.snapshot.paramMap.get("depotId") ?? "-1";
-    console.log(this.depotId)
+    this.routeSubscription = this.actRoute.paramMap.subscribe(params => {
+      this.depotId = params.get("depotId") ?? '';
+    });
   }
-
-  public depotId: string;
 
   logout() {
     this.authService.logout()
