@@ -34,11 +34,19 @@ public class DepotService {
     }
 
     @Transactional
-    public Depot create(final Depot depot) {
-        Optional<Depot> optionalDepot = depotRepository.findById(depot.getId());
+    public Depot create(String email) {
+        Optional<Depot> optionalDepot = depotRepository.findByUserEmail(email);
         if(optionalDepot.isPresent()) {
             return null;
         }
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        Depot depot = Depot.builder()
+                .user(user)
+                .build();
+
         return depotRepository.saveAndFlush(depot);
     }
 }

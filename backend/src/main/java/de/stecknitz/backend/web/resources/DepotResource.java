@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,9 +37,8 @@ public class DepotResource {
 
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestBody final DepotDTO depotDTO) {
-        Depot depot = depotMapper.toDepot(depotDTO);
-        Depot resultDepot = depotService.create(depot);
+            Authentication authentication) {
+        Depot resultDepot = depotService.create(authentication.getName());
         if(resultDepot == null) {
             return ResponseEntity.badRequest().build();
         }

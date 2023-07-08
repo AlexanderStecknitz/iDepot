@@ -11,13 +11,16 @@ import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./auth/auth-interceptor.service";
-import {AuthService} from "./auth/auth.service";
+import { InvestmentComponent } from './depot/investment/investment.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    InvestmentComponent,
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -33,7 +36,6 @@ import {AuthService} from "./auth/auth.service";
       useClass: AuthInterceptor,
       multi: true
     },
-    AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,29 @@
-<main>
-  <router-outlet></router-outlet>
-</main>
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <mat-list-item [routerLink]="['/main', depotId, 'home']">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <div matListItemTitle>Home</div>
+      </mat-list-item>
+      <mat-list-item [routerLink]="['/main', depotId, 'depot']">
+        <mat-icon matListItemIcon>Depot</mat-icon>
+        <div matListItemTitle>Depot</div>
+      </mat-list-item>
+      <mat-list-item routerLink="/login">
+        <mat-icon matListItemIcon>login</mat-icon>
+        <div matListItemTitle>Login</div>
+      </mat-list-item>
+      <mat-list-item (click)="logout()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <div matListItemTitle>Logout</div>
+      </mat-list-item>
+      <mat-list-item routerLink="/register">
+        <mat-icon matListItemIcon>Register</mat-icon>
+        <div matListItemTitle>Register</div>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

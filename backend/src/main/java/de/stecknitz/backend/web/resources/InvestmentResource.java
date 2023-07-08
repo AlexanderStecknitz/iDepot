@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/position/share")
+@RequestMapping("/api/investment")
 @RequiredArgsConstructor
 @Slf4j
 public class InvestmentResource {
@@ -38,7 +38,7 @@ public class InvestmentResource {
     }
 
     @GetMapping(path = "/{depotId}")
-    public ResponseEntity<List<Investment>> findSharesInDepot(
+    public ResponseEntity<List<Investment>> findStockInDepot(
             @PathVariable final long depotId
     ) {
         List<Investment> sharePositions = investmentService.findByDepotId(depotId);
