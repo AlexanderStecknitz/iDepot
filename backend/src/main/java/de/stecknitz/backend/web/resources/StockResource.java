@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/share")
+@RequestMapping("/api/stock")
 @RequiredArgsConstructor
 @Slf4j
 public class StockResource {
