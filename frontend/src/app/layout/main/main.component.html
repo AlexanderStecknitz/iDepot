@@ -1,11 +1,11 @@
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened class="sidenav">
     <mat-nav-list>
-      <mat-list-item [routerLink]="['/main', depotId, 'home']">
+      <mat-list-item routerLink="/main/home">
         <mat-icon matListItemIcon>home</mat-icon>
         <div matListItemTitle>Home</div>
       </mat-list-item>
-      <mat-list-item [routerLink]="['/main', depotId, 'depot']">
+      <mat-list-item routerLink="/main/depot">
         <mat-icon matListItemIcon>Depot</mat-icon>
         <div matListItemTitle>Depot</div>
       </mat-list-item>
@@ -24,9 +24,6 @@
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
-    <header>
-      <iDepot-header />
-    </header>
     <main>
      <router-outlet></router-outlet>
     </main>

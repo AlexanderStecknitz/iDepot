@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResultDTO {
     private String token;
-    private List<DepotDTO> depots;
+    private String email;
 }

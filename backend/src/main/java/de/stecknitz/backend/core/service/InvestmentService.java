@@ -1,8 +1,8 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.core.repository.StockRepository;
@@ -25,29 +25,34 @@ public class InvestmentService {
     private final StockRepository stockRepository;
 
     @Transactional(readOnly = true)
-    public List<Investment> findAll() { return investmentRepository.findAll(); }
+    public List<Investment> findAll() {
+        List<Investment> investments = investmentRepository.findAll();
+        return investments;
+    }
 
     @Transactional(readOnly = true)
     public List<Investment> findByDepotId(final long depotId) {
-        Optional<List<Investment>> optionalDepot = investmentRepository.findByDepotId(depotId);
-        return optionalDepot.orElse(Collections.emptyList());
+        Optional<List<Investment>> optionalInvestments = investmentRepository.findByDepotId(depotId);
+        return optionalInvestments.orElse(Collections.emptyList());
     }
 
     @Transactional
-    public Investment create(final Investment sharePosition) {
-        log.debug("SharePositionService={}", sharePosition);
-        Optional<Depot> optionalDepot = depotRepository.findById(sharePosition.getDepot().getId());
+    public Investment create(final Investment investment) {
+        log.debug("InvestmentService={}", investment);
+        Optional<Depot> optionalDepot = depotRepository.findById(investment.getDepot().getId());
         if(optionalDepot.isEmpty()) {
             return null;
         }
-        Optional<Stock> optionalShare = stockRepository.findById(sharePosition.getStock().getIsin());
-        if(optionalShare.isEmpty()) {
+        investment.setDepot(optionalDepot.get());
+        Optional<Stock> optionalStock = stockRepository.findById(investment.getStock().getIsin());
+        if(optionalStock.isEmpty()) {
             Stock stock = Stock.builder()
-                    .isin(sharePosition.getStock().getIsin())
+                    .isin(investment.getStock().getIsin())
                     .build();
             stockRepository.saveAndFlush(stock);
         }
-        return investmentRepository.saveAndFlush(sharePosition);
+        investment.setStock(optionalStock.get());
+        return investmentRepository.saveAndFlush(investment);
     }
 
 }

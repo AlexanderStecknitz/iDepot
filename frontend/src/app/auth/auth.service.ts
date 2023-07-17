@@ -30,7 +30,9 @@ export class AuthService {
       })
       .subscribe((res: LoginResult) => {
         localStorage.setItem('access_token', res.token);
-        this.router.navigate(["main/" + res.depots.at(0)!.id])
+        localStorage.setItem('email', res.email);
+        localStorage.setItem('depot', '0')
+        this.router.navigate(['main'], { queryParams: { email: res.email } });
       })
   }
 

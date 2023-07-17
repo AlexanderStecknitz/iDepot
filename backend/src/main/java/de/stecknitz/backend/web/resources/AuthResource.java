@@ -59,11 +59,9 @@ public class AuthResource {
                 .subject(authentication.getName())
                 .build();
 
-        User user = userService.findByEmail(authentication.getName());
-
         LoginResultDTO token = LoginResultDTO.builder()
                 .token(jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue())
-                .depots(user.getDepots().stream().map(depotMapper::toDepotDTO).toList())
+                .email(authentication.getName())
                 .build();
 
         return ResponseEntity.ok(token);

@@ -1,21 +1,20 @@
 package de.stecknitz.backend.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 @Entity
 @Builder
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "investment")
-@EqualsAndHashCode
 public class Investment {
 
     @Id
@@ -23,6 +22,7 @@ public class Investment {
     @Column(name = "investment_id")
     private long investmentId;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "depot_id")
     private Depot depot;
     @ManyToOne

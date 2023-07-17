@@ -1,10 +1,9 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.service.InvestmentService;
-import de.stecknitz.backend.web.resources.dto.StockDTO;
 import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import org.junit.jupiter.api.Test;
@@ -58,9 +57,7 @@ class InvestmentResourceTest {
         );
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .stockDTO(StockDTO.builder()
-                        .isin("ISIN1")
-                        .build())
+                .isin("ISIN1")
                 .depotId(1)
                 .amount(12)
                 .buyPrice(54.21f)
@@ -108,9 +105,7 @@ class InvestmentResourceTest {
         );
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .stockDTO(StockDTO.builder()
-                        .isin("Test")
-                        .build())
+                .isin("Test")
                 .depotId(1)
                 .amount(12)
                 .buyPrice(98.21f)
@@ -157,9 +152,7 @@ class InvestmentResourceTest {
                         .build();
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .stockDTO(StockDTO.builder()
-                        .isin("Test")
-                        .build())
+                .isin("Test")
                 .depotId(1)
                 .amount(12)
                 .buyPrice(98.21f)
@@ -193,9 +186,7 @@ class InvestmentResourceTest {
                 .build();
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .stockDTO(StockDTO.builder()
-                        .isin("Test")
-                        .build())
+                .isin("Test")
                 .depotId(1)
                 .amount(12)
                 .buyPrice(98.21f)

@@ -10,7 +10,7 @@ import {MainComponent} from "./layout/main/main.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
-  { path: 'main/:depotId', component: MainComponent, canActivate: [AuthGuard], children: [
+  { path: 'main', component: MainComponent, canActivate: [AuthGuard], children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'depot', component: DepotComponent, canActivate: [AuthGuard] },

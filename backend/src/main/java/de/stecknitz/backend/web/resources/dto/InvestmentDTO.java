@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class InvestmentDTO {
-    private StockDTO stockDTO;
+    private String isin;
     private long depotId;
     private float amount;
     private float buyPrice;

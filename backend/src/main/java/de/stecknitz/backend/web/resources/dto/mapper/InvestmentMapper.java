@@ -10,11 +10,11 @@ import org.mapstruct.ReportingPolicy;
 public interface InvestmentMapper {
 
     @Mapping(source = "depotId", target = "depot.id")
-    @Mapping(source = "stockDTO.isin", target = "stock.isin")
+    @Mapping(source = "isin", target = "stock.isin")
     Investment toInvestment(InvestmentDTO investmentDTO);
 
     @Mapping(source = "depot.id", target = "depotId")
-    @Mapping(source = "stock.isin", target = "stockDTO.isin")
-    InvestmentDTO toInvestmentDTO(Investment sharePosition);
+    @Mapping(source = "stock.isin", target = "isin")
+    InvestmentDTO toInvestmentDTO(Investment investment);
 
 }
