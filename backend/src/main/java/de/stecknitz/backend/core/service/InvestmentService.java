@@ -26,8 +26,7 @@ public class InvestmentService {
 
     @Transactional(readOnly = true)
     public List<Investment> findAll() {
-        List<Investment> investments = investmentRepository.findAll();
-        return investments;
+        return investmentRepository.findAll();
     }
 
     @Transactional(readOnly = true)
