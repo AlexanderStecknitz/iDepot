@@ -174,7 +174,10 @@ class InvestmentServiceTest {
 
         Stock capturedStockArgument = stockArgumentCaptor.getValue();
 
-        Assertions.assertThat(capturedStockArgument).isEqualTo(givenStock.get());
+        Assertions.assertThat(capturedStockArgument.getIsin()).isEqualTo(givenStock.get().getIsin());
+        Assertions.assertThat(capturedStockArgument.getName()).isEqualTo(givenStock.get().getName());
+        Assertions.assertThat(capturedStockArgument.getWkn()).isEqualTo(givenStock.get().getWkn());
+        Assertions.assertThat(capturedStockArgument.getActualPrice()).isEqualTo(givenStock.get().getActualPrice());
         Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }

@@ -50,8 +50,10 @@ public class InvestmentService {
                     .isin(investment.getStock().getIsin())
                     .build();
             stockRepository.saveAndFlush(stock);
+            investment.setStock(stock);
+        } else {
+            investment.setStock(optionalStock.get());
         }
-        investment.setStock(optionalStock.get());
         return investmentRepository.saveAndFlush(investment);
     }
 
