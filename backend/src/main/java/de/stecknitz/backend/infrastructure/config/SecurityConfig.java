@@ -39,9 +39,9 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests(authorize ->
-                                    authorize.anyRequest().permitAll()
-                );
-                //.oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()));
+                                    authorize.anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()));
         return httpSecurity.build();
     }
 
