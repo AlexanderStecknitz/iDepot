@@ -5,7 +5,6 @@ import de.stecknitz.backend.core.service.UserService;
 import de.stecknitz.backend.web.resources.dto.LoginResultDTO;
 import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
 import de.stecknitz.backend.web.resources.dto.UserDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import de.stecknitz.backend.web.resources.dto.mapper.UserMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +36,6 @@ public class AuthResource {
     private final UserService userService;
 
     private final UserMapper userMapper;
-
-    private final DepotMapper depotMapper;
 
     private final JwtEncoder jwtEncoder;
 
@@ -67,9 +65,9 @@ public class AuthResource {
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping(path = "/user")
-    public ResponseEntity<UserDTO> findUser(Authentication authentication) {
-        User foundUser = userService.findByEmail(authentication.getName());
+    @GetMapping(path = "/user/{email}")
+    public ResponseEntity<UserDTO> findUser(@PathVariable final String email) {
+        User foundUser = userService.findByEmail(email);
         UserDTO userDTO = userMapper.toUserDTO(foundUser);
         return ResponseEntity.ok(userDTO);
     }

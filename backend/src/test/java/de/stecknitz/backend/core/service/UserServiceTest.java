@@ -3,6 +3,7 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.exception.MasterDataException;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,32 @@ class UserServiceTest {
 
     @InjectMocks
     UserService userService;
+
+    @Test
+    void findByEmailTest() {
+        final String email = "admin";
+
+        User user = User.builder()
+                .email(email)
+                .build();
+
+        given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
+
+        User foundUser = userService.findByEmail(email);
+
+        Assertions.assertThat(foundUser.getEmail()).isEqualTo(email);
+
+    }
+
+    @Test
+    void findByEmailNotFoundTest() {
+        final String email = "admin@NotFound.de";
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        Assert.assertThrows(MasterDataException.class, () -> userService.findByEmail(email));
+
+    }
 
     @Test
     void createWithUserAlreadyExistsTest() {

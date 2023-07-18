@@ -123,7 +123,7 @@ class DepotResourceTest {
 
         given(depotService.findAllByEmail(email)).willReturn(depots);
 
-        mockMvc.perform(get(ENDPOINT))
+        mockMvc.perform(get(ENDPOINT + "/" + email))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

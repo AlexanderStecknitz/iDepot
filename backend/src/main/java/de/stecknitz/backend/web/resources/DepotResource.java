@@ -42,7 +42,7 @@ public class DepotResource {
     ) {
         List<Depot> foundDepots = depotService.findAllByEmail(email);
         if(foundDepots.isEmpty()) {
-            ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
         List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepotDTO).toList();
         return ResponseEntity.ok(foundDepotsDto);
