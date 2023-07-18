@@ -10,35 +10,11 @@
 
         <createTable tableName="depot">
 
-            <column name="id" type="numeric">
+            <column name="id" type="serial">
                 <constraints primaryKey="true"/>
             </column>
 
         </createTable>
-
-    </changeSet>
-
-    <changeSet id="002-insert-data" author="Alexander Stecknitz">
-
-        <insert tableName="depot">
-            <column name="id" value="1" />
-        </insert>
-
-        <insert tableName="depot">
-            <column name="id" value="2" />
-        </insert>
-
-        <insert tableName="depot">
-            <column name="id" value="3" />
-        </insert>
-
-        <insert tableName="depot">
-            <column name="id" value="4" />
-        </insert>
-
-        <insert tableName="depot">
-            <column name="id" value="5" />
-        </insert>
 
     </changeSet>
 

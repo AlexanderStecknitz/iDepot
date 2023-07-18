@@ -1,13 +1,19 @@
 package de.stecknitz.backend.core.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -15,24 +21,18 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "user", schema = "public")
-@EqualsAndHashCode
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "first_name")
     private String firstname;
 
     @Column(name = "last_name")
     private String lastname;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "password")
     private String password;
@@ -43,5 +43,8 @@ public class User {
 
     @Column(name = "salt")
     private String salt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Depot> depots;
 
 }

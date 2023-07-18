@@ -2,14 +2,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
 import {Register} from "../register/register.model";
+import {LoginResult} from "./auth.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  currentUser = {};
-
   constructor(private httpClient: HttpClient, public router: Router) {
   }
 
@@ -26,13 +25,14 @@ export class AuthService {
     const base64 = window.btoa(`${email}:${password}`);
     const basicAuth = `Basic ${base64}`;
     return this.httpClient
-      .post<any>("/auth/login","", {
+      .post<LoginResult>("/auth/login","", {
         headers: {"Authorization": `${basicAuth}`}
       })
-      .subscribe((res: any) => {
-        console.log("succeed")
+      .subscribe((res: LoginResult) => {
         localStorage.setItem('access_token', res.token);
-        this.router.navigate(["home"])
+        localStorage.setItem('email', res.email);
+        localStorage.setItem('depot', '0')
+        this.router.navigate(['main'], { queryParams: { email: res.email } });
       })
   }
 
@@ -50,10 +50,6 @@ export class AuthService {
   get isLoggedIn(): boolean {
     let authToken = localStorage.getItem('access_token');
     return authToken !== null;
-  }
-
-  doLogout() {
-    localStorage.removeItem('access_token');
   }
 
 }

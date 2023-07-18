@@ -9,13 +9,4 @@ import {AuthService} from "./auth/auth.service";
 export class AppComponent {
   title = 'frontend';
 
-  constructor(
-    private authService: AuthService
-  ) {}
-
-  logout() {
-    this.authService.logout()
-  }
-
-
 }

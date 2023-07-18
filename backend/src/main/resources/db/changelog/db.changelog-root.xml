@@ -6,12 +6,13 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="001-share-create-table.xml" relativeToChangelogFile="true"/>
+    <include file="001-stock-create-table.xml" relativeToChangelogFile="true"/>
     <include file="002-depot-create-table.xml" relativeToChangelogFile="true"/>
-    <include file="003-share-position-table.xml" relativeToChangelogFile="true"/>
+    <include file="003-investment-table.xml" relativeToChangelogFile="true"/>
     <include file="004-user-table.xml" relativeToChangelogFile="true"/>
     <include file="005-roles-table.xml" relativeToChangelogFile="true" />
     <include file="006-add-user-role-fk.xml" relativeToChangelogFile="true" />
     <include file="007-user-insert-data.xml" relativeToChangelogFile="true" />
+    <include file="008-depot-insert-user-column.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

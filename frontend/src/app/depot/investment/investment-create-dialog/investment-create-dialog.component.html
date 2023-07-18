@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Create investment</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>ISIN</mat-label>
+    <input matInput [(ngModel)]="investment.isin">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input matInput [(ngModel)]="investment.amount">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Buyprice</mat-label>
+    <input matInput [(ngModel)]="investment.buyPrice">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="investment" cdkFocusInitial>Ok</button>
+</div>

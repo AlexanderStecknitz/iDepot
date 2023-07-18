@@ -14,11 +14,6 @@ export class HomeComponent implements OnInit {
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    this.test();
-  }
-
-  test() {
-    this.httpClient.get("/api/share").subscribe(res => console.log(res))
   }
 
 }

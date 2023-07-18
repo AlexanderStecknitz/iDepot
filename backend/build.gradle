@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'jacoco'
+	id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
 	alias libs.plugins.springBootPlugin
 	alias libs.plugins.springDependencyManagementPlugin
 	alias libs.plugins.sonarqubePlugin
@@ -22,6 +23,8 @@ dependencies {
 	implementation libs.nimbusds
 	implementation libs.oauth2Jose
 	implementation libs.oauth2Server
+
+	implementation libs.springDocOpenApiStarterWebMvcUi
 
 	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
 

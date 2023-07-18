@@ -2,19 +2,21 @@ package de.stecknitz.backend.web.resources.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
-@Getter
 @Builder
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-@Setter
+@ToString
+@AllArgsConstructor
+@EqualsAndHashCode
 public class UserDTO {
-    private long id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
+
+    String email;
+    String firstname;
+    String lastname;
+
 }

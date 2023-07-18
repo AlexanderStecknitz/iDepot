@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface DepotMapper {
 
-    Depot toDepot(DepotDTO depotDTO);
-
     DepotDTO toDepotDTO(Depot depot);
 
 }
