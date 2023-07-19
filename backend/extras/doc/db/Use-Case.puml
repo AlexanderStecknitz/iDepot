@@ -1,0 +1,34 @@
+@startuml
+
+'Actors'
+:User: as User
+
+'Use-Cases'
+rectangle iDepot {
+    usecase "Open Depot" as openDepot
+    usecase "Close Depot" as closeDepot
+    usecase "Add Transaction" as addTransaction
+    usecase "Login" as login
+    usecase "Logout" as logout
+    usecase "Lookup Stock Data" as lookupStockData
+    usecase "Lookup Dividend" as lookupDividend
+    usecase "Browse new Stocks" as browseStocks
+    usecase "Open Deposit Account" as openDepositAccount
+    usecase "Deposit Money" as depositMoney
+}
+
+left to right direction
+User --> openDepot
+User --> closeDepot
+User --> addTransaction
+User --> login
+User --> logout
+User --> lookupStockData
+User --> lookupDividend
+User --> browseStocks
+User --> depositMoney
+
+lookupDividend .> addTransaction : <<include>>
+openDepot ..> openDepositAccount : <<include>>
+
+@enduml
