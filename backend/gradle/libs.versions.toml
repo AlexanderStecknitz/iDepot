@@ -16,6 +16,7 @@ springDocOpenApiStarterWebMvcUiVersion = "2.1.0"
 [libraries]
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
 springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
+springBootStarterWebflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springBootVersion" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
 springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityTestVersion" }
 springDocOpenApiStarterWebMvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springDocOpenApiStarterWebMvcUiVersion" }
