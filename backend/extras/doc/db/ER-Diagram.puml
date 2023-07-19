@@ -1,0 +1,48 @@
+@startuml
+skinparam linetype ortho
+
+entity "Stock" as stock {
+  *isin : text
+  --
+  name : text
+  wkn : text
+  actual_price: text
+}
+
+entity "Depot" as depot {
+  *id : number <<generiert>>
+  --
+  *user_email : text <<FS>>
+}
+
+entity "Investment" as investment {
+  *investment_id : nummer <<generiert>>
+  --
+  *depot_id : number <<FS>>
+  *stock_isin : text <<FS>>
+  amount : number
+  buyprice : number
+}
+
+entity "User" as user {
+    *email : text
+    --
+    *role : text <<FS>>
+    first_name : text
+    last_name : text
+    password : text
+    salt : text
+}
+
+entity "Role" as role {
+    *name : text
+    --
+    description: text
+}
+
+stock o.left.{ investment
+depot o.right.{ investment
+user ..{ depot
+role .left.{ user
+
+@enduml
