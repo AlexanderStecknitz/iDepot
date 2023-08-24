@@ -11,6 +11,6 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class ApplicationProperties {
 
     @NestedConfigurationProperty
-    private final AlphaVantageProperties alphaVantage = new AlphaVantageProperties();
+    private final TwelveDataProperties twelveData = new TwelveDataProperties();
 
 }

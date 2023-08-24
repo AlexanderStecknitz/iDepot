@@ -1,32 +1,31 @@
-package de.stecknitz.backend.core.service.client.alphavantage;
+package de.stecknitz.backend.core.service.client.twelvedata;
 
+import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTO;
 import de.stecknitz.backend.infrastructure.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
-public class AlphaVantageClient {
+public class TwelveDataClient {
 
     private final WebClient webClient;
 
     private final ApplicationProperties applicationProperties;
 
-    public Mono<String> getDailyAdjusted(String symbol) {
+    public EndOfDayDTO getEndOfDay(String symbol) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .queryParam("function", "TIME_SERIES_DAILY")
+                        .path("/eod")
                         .queryParam("symbol", symbol)
-                        .queryParam("apikey", applicationProperties.getAlphaVantage().getApiKey())
+                        .queryParam("interval", "1day")
+                        .queryParam("apikey", applicationProperties.getTwelveData().getApiKey())
                         .build()
                 )
-                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(String.class)
-                .doOnNext(response -> log.debug("Received response: {}", response));
+                .bodyToMono(EndOfDayDTO.class)
+                .block();
     }
 
 }

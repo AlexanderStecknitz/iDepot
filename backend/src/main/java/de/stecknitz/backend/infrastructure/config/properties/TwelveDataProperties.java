@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 @Getter
 @Setter
 @Validated
-public class AlphaVantageProperties {
+public class TwelveDataProperties {
 
    @NotNull
    private String baseUrl;
