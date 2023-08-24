@@ -6,19 +6,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="001-create-table" author="Alexander Stecknitz">
-
-        <createTable tableName="stock">
-
-            <column name="isin" type="text">
-                <constraints primaryKey="true"/>
+    <changeSet id="009-add-symbol-column-stock" author="Alexander Stecknitz">
+        <addColumn tableName="stock">
+            <column name="symbol" type="text">
+                <constraints nullable="false"/>
             </column>
-            <column name="wkn" type="text"/>
-            <column name="name" type="text"/>
-            <column name="actual_price" type="numeric"/>
-
-        </createTable>
-
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

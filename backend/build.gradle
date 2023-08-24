@@ -24,9 +24,14 @@ dependencies {
 	implementation libs.oauth2Jose
 	implementation libs.oauth2Server
 
+	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+
+	implementation libs.springBootStarterWebflux
+
 	implementation libs.springDocOpenApiStarterWebMvcUi
 
 	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+	runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64")
 
 	implementation libs.liquibaseCore
 

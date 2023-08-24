@@ -16,6 +16,7 @@ import lombok.ToString;
 public class StockDTO {
 
     String isin;
+    String symbol;
     String name;
     String wkn;
     float actualPrice;

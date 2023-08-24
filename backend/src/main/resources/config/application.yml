@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: "dev"
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/postgres"
+    username: "admin"
+    password: "p"
+  liquibase:
+    change-log: "classpath:db/changelog/db.changelog-root.xml"
+    drop-first: true
+    contexts: ${spring.profiles.active}
+  jpa:
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.PostgreSQLDialect"
+springdoc:
+  swagger-ui:
+    url: "/swagger.html"
+application:
+  twelve-data:
+    base-url: "https://api.twelvedata.com"
+    api-key: "259d62dbd59a4b3c97a08981b66616c8"
+logging:
+  level:
+    de:
+      stecknitz:
+        backend: debug

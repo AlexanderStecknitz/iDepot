@@ -38,9 +38,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .authorizeHttpRequests(authorize ->
-                                    authorize.anyRequest().authenticated()
-                )
+                //.authorizeHttpRequests(authorize ->
+                //                    authorize.anyRequest().authenticated()
+                //)
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()));
         return httpSecurity.build();
     }
