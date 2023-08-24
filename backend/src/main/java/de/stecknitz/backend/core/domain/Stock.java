@@ -20,6 +20,8 @@ public class Stock {
     @Id
     @Column(name = "isin")
     private String isin;
+    @Column(name = "symbol")
+    private String symbol;
     @Column(name = "wkn")
     private String wkn;
     @Column(name = "name")
