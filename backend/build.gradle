@@ -69,7 +69,7 @@ sonar {
 		property "sonar.coverage.exclusions",
 					"**/dto/*.java," +
 					"**/service/client/**" +
-					"**/web/resources/TestResource.java" +
+					"**/TestResource.java" +
 					"**/properties/*.java" +
 					"**/domain/*.java," +
 					"**/mapper/*.java," +
