@@ -1,11 +1,13 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.core.repository.StockRepository;
+import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
+import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +25,9 @@ class InvestmentServiceTest {
 
     @Mock
     InvestmentRepository investmentRepository;
+
+    @Mock
+    InvestmentMapper investmentMapper;
 
     @Mock
     DepotRepository depotRepository;
@@ -59,24 +64,53 @@ class InvestmentServiceTest {
 
         long givenDepotId = 1;
 
+        Stock stock = Stock.builder()
+                .isin("US0378331005")
+                .wkn("865985")
+                .name("Apple Inc.")
+                .symbol("AAPL")
+                .currentPrice(110f)
+                .build();
+
         Optional<List<Investment>> givenInvestments = Optional.of(List.of(
                 Investment.builder()
                         .depot(Depot.builder()
                                 .id(givenDepotId)
                                 .build())
-                        .build(),
-                Investment.builder()
-                        .depot(Depot.builder()
-                                .id(givenDepotId)
-                                .build())
+                        .buyPrice(100f)
+                        .amount(10f)
+                        .stock(stock)
                         .build()
         ));
 
+        List<InvestmentDTO> investmentDTOS = List.of(
+                InvestmentDTO.builder()
+                        .depotId(givenDepotId)
+                        .buyPrice(100f)
+                        .yield(0.1f)
+                        .amount(10f)
+                        .isin("US0378331005")
+                        .build()
+        );
+
         Mockito.when(investmentRepository.findByDepotId(givenDepotId)).thenReturn(givenInvestments);
+        Mockito.when(stockRepository.findByIsin(investmentDTOS.get(0).getIsin())).thenReturn(stock);
+        Mockito.when(investmentMapper.toInvestmentDTO(givenInvestments.get().get(0))).thenReturn(investmentDTOS.get(0));
 
-        List<Investment> foundInvestments = investmentService.findByDepotId(givenDepotId);
+        List<InvestmentDTO> foundInvestments = investmentService.findByDepotId(givenDepotId);
 
-        Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments.get());
+        Assertions.assertThat(foundInvestments).isEqualTo(investmentDTOS);
+
+    }
+
+    @Test
+    void findByDepotIdWithNoInvestmentTest() {
+
+        Mockito.when(investmentRepository.findByDepotId(0)).thenReturn(Optional.empty());
+
+        List<InvestmentDTO> result = investmentService.findByDepotId(0);
+
+        Assertions.assertThat(result).isEmpty();
 
     }
 
@@ -151,7 +185,7 @@ class InvestmentServiceTest {
                 .isin("ISIN1")
                 .wkn(null)
                 .name(null)
-                .actualPrice(0.0f)
+                .currentPrice(0.0f)
                 .build());
 
         Optional<Stock> givenOptionalStock = Optional.empty();
@@ -177,7 +211,7 @@ class InvestmentServiceTest {
         Assertions.assertThat(capturedStockArgument.getIsin()).isEqualTo(givenStock.get().getIsin());
         Assertions.assertThat(capturedStockArgument.getName()).isEqualTo(givenStock.get().getName());
         Assertions.assertThat(capturedStockArgument.getWkn()).isEqualTo(givenStock.get().getWkn());
-        Assertions.assertThat(capturedStockArgument.getActualPrice()).isEqualTo(givenStock.get().getActualPrice());
+        Assertions.assertThat(capturedStockArgument.getCurrentPrice()).isEqualTo(givenStock.get().getCurrentPrice());
         Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }

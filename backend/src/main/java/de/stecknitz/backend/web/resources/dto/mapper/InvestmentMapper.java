@@ -15,6 +15,8 @@ public interface InvestmentMapper {
 
     @Mapping(source = "depot.id", target = "depotId")
     @Mapping(source = "stock.isin", target = "isin")
+    @Mapping(source = "stock.currentPrice", target = "currentPrice")
+    @Mapping(source = "stock.name", target = "name")
     InvestmentDTO toInvestmentDTO(Investment investment);
 
 }

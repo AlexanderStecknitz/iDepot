@@ -53,7 +53,7 @@ class TwelveDataServiceTest {
         Mockito.verify(stockRepository, Mockito.times(1)).save(stockCaptor.capture());
         Stock stock = stockCaptor.getValue();
 
-        Assertions.assertEquals(stock.getActualPrice(), stocks.get(0).getActualPrice());
+        Assertions.assertEquals(stock.getCurrentPrice(), stocks.get(0).getCurrentPrice());
         Assertions.assertEquals(result, endOfDayDTO);
 
     }

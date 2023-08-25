@@ -87,32 +87,19 @@ class InvestmentResourceTest {
 
     @WithMockUser(username = "mock")
     @Test
-    void findSharesInDepotTest() throws Exception {
+    void findStocksInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<Investment> investments = List.of(
-                Investment.builder()
-                        .depot(Depot.builder()
-                                .id(1)
-                                .build())
-                        .investmentId(1)
-                        .stock(Stock.builder()
-                                .isin("Test")
-                                .build())
-                        .amount(12)
-                        .buyPrice(98.21f)
-                        .build()
-        );
-
-        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+        List<InvestmentDTO> investmentDTO = List.of(
+                InvestmentDTO.builder()
                 .isin("Test")
                 .depotId(1)
                 .amount(12)
                 .buyPrice(98.21f)
-                .build();
+                .build()
+        );
 
-        given(investmentService.findByDepotId(depotId)).willReturn(investments);
-        given(investmentMapper.toInvestmentDTO(investments.get(0))).willReturn(investmentDTO);
+        given(investmentService.findByDepotId(depotId)).willReturn(investmentDTO);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andExpect(status().isOk())
@@ -123,12 +110,12 @@ class InvestmentResourceTest {
 
     @WithMockUser(username = "mock")
     @Test
-    void findButNoSharesInDepotTest() throws Exception {
+    void findButNoStockInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<Investment> investments = Collections.emptyList();
+        List<InvestmentDTO> investmentDTOS = Collections.emptyList();
 
-        given(investmentService.findByDepotId(depotId)).willReturn(investments);
+        given(investmentService.findByDepotId(depotId)).willReturn(investmentDTOS);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andDo(print())
@@ -138,7 +125,7 @@ class InvestmentResourceTest {
 
     @WithMockUser(username = "mock")
     @Test
-    void createSharePositionTest() throws Exception {
+    void createStockPositionTest() throws Exception {
         Investment investment = Investment.builder()
                         .depot(Depot.builder()
                                 .id(1)
@@ -172,7 +159,7 @@ class InvestmentResourceTest {
 
     @WithMockUser(username = "mock")
     @Test
-    void createButSharePositionAlreadyExistsTest() throws Exception {
+    void createButStockPositionAlreadyExistsTest() throws Exception {
         Investment investment = Investment.builder()
                 .depot(Depot.builder()
                         .id(1)

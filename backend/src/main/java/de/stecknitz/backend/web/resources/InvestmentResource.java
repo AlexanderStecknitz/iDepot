@@ -38,13 +38,13 @@ public class InvestmentResource {
     }
 
     @GetMapping(path = "/{depotId}")
-    public ResponseEntity<List<InvestmentDTO>> findStockInDepot(
+    public ResponseEntity<List<InvestmentDTO>> findStocksInDepot(
             @PathVariable final long depotId) {
-        List<Investment> investments = investmentService.findByDepotId(depotId);
-        if(investments.isEmpty()) {
+        List<InvestmentDTO> investmentDTOS = investmentService.findByDepotId(depotId);
+        if(investmentDTOS.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(investments.stream().map(investmentMapper::toInvestmentDTO).toList());
+        return ResponseEntity.ok(investmentDTOS);
     }
 
     @PostMapping

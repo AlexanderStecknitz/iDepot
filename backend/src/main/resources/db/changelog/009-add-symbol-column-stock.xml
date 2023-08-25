@@ -8,9 +8,7 @@
 
     <changeSet id="009-add-symbol-column-stock" author="Alexander Stecknitz">
         <addColumn tableName="stock">
-            <column name="symbol" type="text">
-                <constraints nullable="false"/>
-            </column>
+            <column name="symbol" type="text" />
         </addColumn>
     </changeSet>
 

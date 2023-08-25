@@ -11,7 +11,7 @@
             <column name="isin" type="text"/>
             <column name="wkn" type="text"/>
             <column name="name" type="text"/>
-            <column name="actual_price" type="numeric"/>
+            <column name="current_price" type="numeric"/>
             <column name="symbol" type="text"/>
         </loadData>
     </changeSet>
