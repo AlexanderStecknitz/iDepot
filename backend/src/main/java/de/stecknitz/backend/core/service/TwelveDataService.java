@@ -16,7 +16,7 @@ public class TwelveDataService {
     private final TwelveDataClient twelveDataClient;
     private final StockRepository stockRepository;
 
-    public EndOfDayDTO get() {
+    public EndOfDayDTO getEndOfDayData() {
         List<Stock> stocks = stockRepository.findAll();
         EndOfDayDTO endOfDayDTO = twelveDataClient
                 .getEndOfDay(stocks.get(0).getSymbol());
