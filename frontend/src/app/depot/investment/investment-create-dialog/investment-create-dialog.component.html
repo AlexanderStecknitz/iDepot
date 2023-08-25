@@ -12,6 +12,10 @@
     <mat-label>Buyprice</mat-label>
     <input matInput [(ngModel)]="investment.buyPrice">
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="investment.name">
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="investment" cdkFocusInitial>Ok</button>
