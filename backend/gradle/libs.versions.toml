@@ -1,39 +1,36 @@
 [versions]
-springBootVersion = "3.1.1"
-springDependencyManagementVersion = "1.1.0"
+springBootVersion = "3.1.3"
 sonarqubePluginVersion = "4.2.1.3168"
 lombokVersion = "1.18.26"
-springDataJpaVersion = "3.0.4"
 postgresqlVersion = "42.6.0"
 mapstructVersion = "1.5.5.Final"
 testcontainerVersion = "1.18.0"
-nimbusdsVersion = "7.3"
-springSecurityOauth2Version = "6.1.1"
-springSecurityTestVersion = "6.1.1"
-springDocOpenApiStarterWebMvcUiVersion = "2.1.0"
+nimbusdsVersion = "9.31"
+nettyResolverDnsNativeMacosVersion = "4.1.76.Final"
 
 
 [libraries]
-springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
-springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" , version.ref = "springBootVersion" }
-springBootStarterWebflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springBootVersion" }
-springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
-springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityTestVersion" }
-springDocOpenApiStarterWebMvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springDocOpenApiStarterWebMvcUiVersion" }
+springBootStarter = { module = "org.springframework.boot:spring-boot-starter-web" }
+springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+springBootStarterReactorNetty = { module = "org.springframework.boot:spring-boot-starter-reactor-netty" }
+springBootStarterSecurity = { module = "org.springframework.boot:spring-boot-starter-security" }
+springBootStarterWebflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
+springBootStarterSecurityTest = { module = "org.springframework.security:spring-security-test" }
+springBootStarterValidation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 testcontainer = { module = "org.testcontainers:testcontainers", version.ref = "testcontainerVersion" }
 testcontainerPostgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainerVersion" }
 testcontainerJupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainerVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
-springDataJpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "springDataJpaVersion" }
+liquibaseCore = { module = "org.liquibase:liquibase-core" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresqlVersion" }
 mapstructProcessor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
-liquibaseCore = { module = "org.liquibase:liquibase-core" }
 nimbusds = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbusdsVersion" }
-oauth2Jose = { module = "org.springframework.security:spring-security-oauth2-jose", version.ref = "springSecurityOauth2Version" }
-oauth2Server = { module = "org.springframework.security:spring-security-oauth2-resource-server" , version.ref = "springSecurityOauth2Version"}
+nettyResolverDnsNativeMacos = { module = "io.netty:netty-resolver-dns-native-macos", version.ref = "nettyResolverDnsNativeMacosVersion" }
+oauth2Jose = { module = "org.springframework.security:spring-security-oauth2-jose" }
+oauth2Server = { module = "org.springframework.security:spring-security-oauth2-resource-server" }
 
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
-springDependencyManagementPlugin = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementVersion" }
 sonarqubePlugin = { id = "org.sonarqube", version.ref = "sonarqubePluginVersion" }
