@@ -1,8 +1,8 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.core.repository.StockRepository;
@@ -100,6 +100,17 @@ class InvestmentServiceTest {
         List<InvestmentDTO> foundInvestments = investmentService.findByDepotId(givenDepotId);
 
         Assertions.assertThat(foundInvestments).isEqualTo(investmentDTOS);
+
+    }
+
+    @Test
+    void findByDepotIdWithNoInvestmentTest() {
+
+        Mockito.when(investmentRepository.findByDepotId(0)).thenReturn(Optional.empty());
+
+        List<InvestmentDTO> result = investmentService.findByDepotId(0);
+
+        Assertions.assertThat(result).isEmpty();
 
     }
 
