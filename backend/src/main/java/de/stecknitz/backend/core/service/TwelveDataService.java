@@ -20,7 +20,7 @@ public class TwelveDataService {
         List<Stock> stocks = stockRepository.findAll();
         EndOfDayDTO endOfDayDTO = twelveDataClient
                 .getEndOfDay(stocks.get(0).getSymbol());
-        stocks.get(0).setActualPrice(Float.parseFloat(endOfDayDTO.getClose()));
+        stocks.get(0).setCurrentPrice(Float.parseFloat(endOfDayDTO.getClose()));
         stockRepository.save(stocks.get(0));
         return endOfDayDTO;
     }

@@ -28,7 +28,7 @@ public class Stock {
     private String wkn;
     @Column(name = "name")
     private String name;
-    @Column(name = "actual_price")
-    private float actualPrice;
+    @Column(name = "current_price")
+    private float currentPrice;
 
 }

@@ -19,5 +19,5 @@ public class StockDTO {
     String symbol;
     String name;
     String wkn;
-    float actualPrice;
+    float currentPrice;
 }

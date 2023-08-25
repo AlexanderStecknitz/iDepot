@@ -17,5 +17,6 @@
     <include file="009-add-symbol-column-stock.xml" relativeToChangelogFile="true" />
     
     <include file="dev/001-dev-load-stock-data.xml" relativeToChangelogFile="true" />
+    <include file="dev/002-dev-load-investment-data.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>
