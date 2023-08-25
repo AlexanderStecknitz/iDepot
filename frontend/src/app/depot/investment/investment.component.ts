@@ -1,9 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {InvestmentService} from "./investment.service";
-import {ActivatedRoute} from "@angular/router";
 import {Investment} from "./investment.model";
-import {Observable, Subscription} from "rxjs";
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -24,9 +22,12 @@ export class InvestmentComponent {
   public investments: Investment[] = []
 
   displayedColumns = [
-    'isin',
-    'amount',
-    'buyPrice',
+      'name',
+      'isin',
+      'amount',
+      'buyPrice',
+      'currentPrice',
+      'yield',
   ];
 
   constructor(
