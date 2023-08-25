@@ -20,7 +20,7 @@ public class TestResource {
     @GetMapping
     public ResponseEntity<EndOfDayDTO> get() {
         log.debug("get");
-        return ResponseEntity.ok(twelveDataService.get());
+        return ResponseEntity.ok(twelveDataService.getEndOfDayData());
     }
 
 }
