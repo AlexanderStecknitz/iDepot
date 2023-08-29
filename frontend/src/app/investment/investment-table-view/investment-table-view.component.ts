@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatTableModule} from "@angular/material/table";
 import {Investment} from "../investment.model";
-import {MatDialog} from "@angular/material/dialog";
 import {InvestmentTableViewService} from "./investment-table-view.service";
 
 @Component({

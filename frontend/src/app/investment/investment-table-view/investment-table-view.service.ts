@@ -17,7 +17,7 @@ export class InvestmentTableViewService {
   }
 
   findAll(depotId: string): Observable<Investment[]> {
-    return this.httpClient.get<Investment[]>("/api/investment" + "/" + depotId);
+    return this.httpClient.get<Investment[]>("/api/investment/"  + depotId);
   }
 
 }

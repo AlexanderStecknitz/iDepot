@@ -1,5 +1,3 @@
-import {Stock} from "../share/model/stock.model";
-
 export interface Investment {
   isin: string;
   name: string;

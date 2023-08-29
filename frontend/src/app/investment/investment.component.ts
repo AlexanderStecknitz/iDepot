@@ -6,11 +6,14 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {InvestmentCreateDialogComponent} from "./investment-create-dialog/investment-create-dialog.component";
 import {InvestmentTableViewComponent} from "./investment-table-view/investment-table-view.component";
 import {InvestmentService} from "./investment.service";
+import {
+  InvestmentCompositionPieChartComponent
+} from "./investment-composition-pie-chart/investment-composition-pie-chart.component";
 
 @Component({
   selector: 'iDepot-investment',
   standalone: true,
-    imports: [CommonModule, MatTableModule, MatButtonModule, MatDialogModule, InvestmentTableViewComponent],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatDialogModule, InvestmentTableViewComponent, InvestmentCompositionPieChartComponent],
   templateUrl: './investment.component.html',
   styleUrls: ['./investment.component.scss']
 })

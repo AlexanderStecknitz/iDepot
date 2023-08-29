@@ -1,2 +1,3 @@
 investment_id,stock_isin,depot_id,amount,buy_price
 0,US0378331005,0,20,100
+1,US5949181045,0,10,100

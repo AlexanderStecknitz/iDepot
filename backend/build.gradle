@@ -20,15 +20,16 @@ dependencies {
 	implementation libs.springBootStarter
 	implementation libs.springDataJpa
 	implementation libs.springBootStarterValidation
-	implementation libs.mapstruct
+	implementation libs.springBootStarterReactorNetty
+	implementation libs.springBootStarterWebflux
 	implementation libs.springBootStarterSecurity
+	implementation libs.springDocOpenApiStarterWebmvcUi
+	implementation libs.mapstruct
+	implementation libs.mapstruct
 	implementation libs.nimbusds
 	implementation libs.oauth2Jose
 	implementation libs.oauth2Server
 	implementation libs.liquibaseCore
-	implementation libs.mapstruct
-	implementation libs.springBootStarterReactorNetty
-	implementation libs.springBootStarterWebflux
 
 	runtimeOnly(variantOf(libs.nettyResolverDnsNativeMacos, {
 		classifier("osx-aarch_64")
