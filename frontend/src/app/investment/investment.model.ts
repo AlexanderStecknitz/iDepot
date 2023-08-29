@@ -1,4 +1,4 @@
-import {Stock} from "../../share/model/stock.model";
+import {Stock} from "../share/model/stock.model";
 
 export interface Investment {
   isin: string;
