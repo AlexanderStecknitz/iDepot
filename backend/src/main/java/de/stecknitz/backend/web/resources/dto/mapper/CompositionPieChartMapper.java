@@ -9,8 +9,8 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CompositionPieChartMapper {
 
-    @Mapping(source = "stock.name", target = "name")
-    @Mapping(source = "amount", target = "value")
-    CompositionPieChartDTO toCompositionPieChartDTO(Investment investment);
+    @Mapping(source = "investment.stock.name", target = "investmentName")
+    @Mapping(source = "investmentValue", target = "investmentValue")
+    CompositionPieChartDTO toCompositionPieChartDTO(Investment investment, double investmentValue);
 
 }

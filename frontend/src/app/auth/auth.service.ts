@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {Register} from "../register/register.model";
+import {Register} from "./register/register.model";
 import {LoginResult} from "./auth.model";
 
 @Injectable({

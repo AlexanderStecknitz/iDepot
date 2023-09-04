@@ -6,8 +6,6 @@ import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.core.repository.StockRepository;
-import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
-import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ public class InvestmentService {
     private final InvestmentRepository investmentRepository;
     private final DepotRepository depotRepository;
     private final StockRepository stockRepository;
-    private final InvestmentMapper investmentMapper;
 
     @Transactional(readOnly = true)
     public List<Investment> findAll() {
@@ -33,19 +30,9 @@ public class InvestmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<InvestmentDTO> findByDepotId(final long depotId) {
+    public List<Investment> findByDepotId(final long depotId) {
         Optional<List<Investment>> optionalInvestments = investmentRepository.findByDepotId(depotId);
-        if(optionalInvestments.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<Investment> investments = optionalInvestments.get();
-        return investments.stream()
-                .map(investmentMapper::toInvestmentDTO)
-                .peek(investmentDTO -> {
-                    Stock investmentStock = stockRepository.findByIsin(investmentDTO.getIsin());
-                    investmentDTO.setYield(calculateYield(investmentDTO.getBuyPrice(),investmentStock.getCurrentPrice()));
-                })
-                .toList();
+        return optionalInvestments.orElse(Collections.emptyList());
     }
 
     @Transactional
@@ -69,8 +56,15 @@ public class InvestmentService {
         return investmentRepository.saveAndFlush(investment);
     }
 
-    private float calculateYield(float investmentBuyPrice, float investmentCurrentPrice) {
-        return ((investmentCurrentPrice-investmentBuyPrice)/investmentBuyPrice)*100;
+    @Transactional(readOnly = true)
+    public double accumulateInvestmentValue(final long depotId) {
+
+        List<Investment> investments = findByDepotId(depotId);
+        return investments.stream()
+                .map(Investment::getInvestmentValue)
+                .mapToDouble(Float::doubleValue)
+                .sum();
+
     }
 
 }

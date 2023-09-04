@@ -19,6 +19,10 @@ export class InvestmentCompositionPieChartComponent {
     this.getPieChartData();
   }
 
+  pieChartLabelText(pointInfo: any) {
+    return  pointInfo.argument + " " + pointInfo.value + '%';
+  }
+
   getPieChartData() {
     this.investmentPieChartService.getCompositionPieChartData("0").subscribe(result => {
       this.investments = result;

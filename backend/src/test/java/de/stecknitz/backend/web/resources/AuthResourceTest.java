@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.UserService;

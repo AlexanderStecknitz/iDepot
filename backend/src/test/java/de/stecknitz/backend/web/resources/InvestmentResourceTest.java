@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.domain.Stock;
@@ -90,16 +91,28 @@ class InvestmentResourceTest {
     void findStocksInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<InvestmentDTO> investmentDTO = List.of(
-                InvestmentDTO.builder()
-                .isin("Test")
-                .depotId(1)
-                .amount(12)
-                .buyPrice(98.21f)
+        List<Investment> investments = List.of(
+                Investment.builder()
+                .investmentId(TestUtil.INVESTMENT_ID)
+                        .stock(TestUtil.STOCK_APPLE)
+                        .depot(Depot.builder()
+                                .id(depotId)
+                                .build())
+                        .amount(TestUtil.AMOUNT)
+                        .buyPrice(TestUtil.BUY_PRICE)
                 .build()
         );
 
-        given(investmentService.findByDepotId(depotId)).willReturn(investmentDTO);
+        InvestmentDTO investmentDTO = InvestmentDTO.builder()
+                        .depotId(depotId)
+                        .isin(TestUtil.STOCK_APPLE.getIsin())
+                        .amount(TestUtil.AMOUNT)
+                        .buyPrice(TestUtil.BUY_PRICE)
+                        .yield(investments.get(0).calculateYield())
+                        .build();
+
+        given(investmentService.findByDepotId(depotId)).willReturn(investments);
+        given(investmentMapper.toInvestmentDTO(investments.get(0))).willReturn(investmentDTO);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andExpect(status().isOk())
@@ -113,9 +126,9 @@ class InvestmentResourceTest {
     void findButNoStockInDepotTest() throws Exception {
         final long depotId = 1;
 
-        List<InvestmentDTO> investmentDTOS = Collections.emptyList();
+        List<Investment> investments = Collections.emptyList();
 
-        given(investmentService.findByDepotId(depotId)).willReturn(investmentDTOS);
+        given(investmentService.findByDepotId(depotId)).willReturn(investments);
 
         mockMvc.perform(get(ENDPOINT + "/" + depotId))
                 .andDo(print())

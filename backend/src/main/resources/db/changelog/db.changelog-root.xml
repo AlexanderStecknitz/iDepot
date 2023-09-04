@@ -15,6 +15,7 @@
     <include file="007-user-insert-data.xml" relativeToChangelogFile="true" />
     <include file="008-depot-insert-user-column.xml" relativeToChangelogFile="true" />
     <include file="009-add-symbol-column-stock.xml" relativeToChangelogFile="true" />
+    <include file="010-add-created-column-investment.xml" relativeToChangelogFile="true" />
     
     <include file="dev/001-dev-load-stock-data.xml" relativeToChangelogFile="true" />
     <include file="dev/002-dev-load-investment-data.xml" relativeToChangelogFile="true" />

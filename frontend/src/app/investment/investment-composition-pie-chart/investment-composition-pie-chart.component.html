@@ -1,3 +1,8 @@
-<dx-pie-chart [dataSource]="investments">
-    <dxi-series argumentField="name" valueField="value"/>
+<dx-pie-chart [dataSource]="investments" title="Investments">
+    <dxi-series argumentField="investmentName" valueField="investmentValue">
+        <dxo-label
+                [visible]="true"
+                position="inside"
+                [customizeText]="pieChartLabelText"/>
+    </dxi-series>
 </dx-pie-chart>

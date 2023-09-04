@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.service.StockService;
 import de.stecknitz.backend.web.resources.dto.StockDTO;

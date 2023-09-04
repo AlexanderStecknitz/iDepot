@@ -15,14 +15,28 @@ import java.util.Optional;
 public class ChartService {
 
     private final InvestmentRepository investmentRepository;
-    private  final CompositionPieChartMapper compositionPieChartMapper;
+    private final CompositionPieChartMapper compositionPieChartMapper;
+    private final InvestmentService investmentService;
 
     public List<CompositionPieChartDTO> getCompositionPieChart(long depotId) {
         Optional<List<Investment>>  optionalInvestments = investmentRepository.findByDepotId(depotId);
         List<Investment> investments = optionalInvestments.get();
+
+        double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);
+
         List<CompositionPieChartDTO> compositionPieChartDTOS = investments.stream()
-                .map(compositionPieChartMapper::toCompositionPieChartDTO)
+                .map(investment -> {
+
+                    CompositionPieChartDTO compositionPieChartDTO = compositionPieChartMapper
+                            .toCompositionPieChartDTO(
+                                    investment,
+                                    investment.calculateInvestmentValue(accumulatedInvestmentValue));
+
+                    return compositionPieChartDTO;
+
+                })
                 .toList();
+
         return compositionPieChartDTOS;
     }
 

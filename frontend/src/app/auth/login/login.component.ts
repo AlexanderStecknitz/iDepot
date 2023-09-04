@@ -5,7 +5,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
-import {AuthService} from "../auth/auth.service";
+import {AuthService} from "../auth.service";
 import {MatCardModule} from "@angular/material/card";
 import {RouterLink} from "@angular/router";
 

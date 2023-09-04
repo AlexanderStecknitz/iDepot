@@ -16,8 +16,4 @@ export class InvestmentService {
     return this.httpClient.post("/api/investment", investment);
   }
 
-  findAll(depotId: string): Observable<Investment[]> {
-    return this.httpClient.get<Investment[]>("/api/investment" + "/" + depotId);
-  }
-
 }

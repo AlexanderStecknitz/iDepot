@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="010-add-created-column-investment" author="Alexander Stecknitz">
+        <addColumn tableName="investment">
+            <column name="created" type="timestamp" defaultValue="now" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

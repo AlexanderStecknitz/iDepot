@@ -3,7 +3,9 @@ package de.stecknitz.backend.web.resources;
 import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.service.InvestmentService;
 import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
+import de.stecknitz.backend.web.resources.dto.TransactionDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
+import de.stecknitz.backend.web.resources.dto.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ public class InvestmentResource {
 
     private final InvestmentService investmentService;
     private final InvestmentMapper investmentMapper;
+    private final TransactionMapper transactionMapper;
 
     @GetMapping
     public ResponseEntity<List<InvestmentDTO>> findAll() {
@@ -40,11 +43,35 @@ public class InvestmentResource {
     @GetMapping(path = "/{depotId}")
     public ResponseEntity<List<InvestmentDTO>> findStocksInDepot(
             @PathVariable final long depotId) {
-        List<InvestmentDTO> investmentDTOS = investmentService.findByDepotId(depotId);
-        if(investmentDTOS.isEmpty()) {
+        List<Investment> investments = investmentService.findByDepotId(depotId);
+        if(investments.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(investmentDTOS);
+        return ResponseEntity.ok(investments.stream()
+                .map(investment -> {
+                    InvestmentDTO investmentDTO = investmentMapper.toInvestmentDTO(investment);
+                    investmentDTO.setYield(investment.calculateYield());
+                    return investmentDTO;
+                })
+                .toList()
+        );
+    }
+
+    @GetMapping(path = "/transaction-history/{depotId}")
+    public ResponseEntity<List<TransactionDTO>> findTransactionsInDepot(
+            @PathVariable final long depotId
+    ) {
+        List<Investment> investments = investmentService.findByDepotId(depotId);
+
+        if(investments.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<TransactionDTO> transactions = investments.stream()
+                .map(investment -> transactionMapper.toTransactionDTO(investment, investment.getInvestmentValue()))
+                .toList();
+
+        return ResponseEntity.ok(transactions);
     }
 
     @PostMapping

@@ -5,17 +5,20 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
+import java.time.Instant;
+
 @Builder
-@Setter
 @Getter
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CompositionPieChartDTO {
-    String investmentName;
-    double investmentValue;
+public class TransactionDTO {
+    private Instant created;
+    private String stockName;
+    private float buyPrice;
+    private int amount;
+    private double investmentValue;
 }
