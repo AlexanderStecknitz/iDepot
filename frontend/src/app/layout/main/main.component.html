@@ -1,5 +1,8 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened class="sidenav">
+<mat-toolbar>
+  <span>iDepot</span>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened class="sidenav">
     <mat-nav-list>
       <mat-list-item routerLink="/main/home">
         <mat-icon matListItemIcon>home</mat-icon>
@@ -26,10 +29,10 @@
         <div matListItemTitle>Register</div>
       </mat-list-item>
     </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content>
+  </mat-sidenav>
+  <mat-sidenav-content>
     <main>
      <router-outlet></router-outlet>
     </main>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

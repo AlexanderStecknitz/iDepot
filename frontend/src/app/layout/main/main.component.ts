@@ -5,11 +5,13 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {AuthService} from "../../auth/auth.service";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'iDepot-main',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatIconModule, MatListModule, MatSidenavModule, RouterLink],
+  imports: [CommonModule, RouterOutlet, MatIconModule, MatListModule, MatSidenavModule, RouterLink, MatToolbarModule, MatButtonModule],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
