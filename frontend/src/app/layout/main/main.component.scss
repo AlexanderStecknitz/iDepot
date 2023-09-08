@@ -1,11 +1,26 @@
-.example-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.app-sidenav-container {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  min-width: 100%;
 }
 
-.sidenav {
+.app-sidenav-content {
+  padding: 8px;
+}
+
+.app-sidenav {
   width: fit-content;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.app-nav-list {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-list-item div {
+  font-weight: bold;
 }

@@ -1,19 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { Component, type OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 @Component({
-  selector: 'iDepot-home',
+  selector: "iDepot-home",
   standalone: true,
   imports: [CommonModule, HttpClientModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {
+  }
 
   ngOnInit(): void {
   }
-
 }

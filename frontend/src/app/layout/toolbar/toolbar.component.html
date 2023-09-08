@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="app-toolbar-container">
+  <div>
+    <button mat-button (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>iDepot</span>
+  </div>
+  <div *ngIf="isAuthenticated">
+    <button mat-icon-button class="app-auth-button">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-icon-button class="app-auth-button" (click)="logout()">
+      <mat-icon>person</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

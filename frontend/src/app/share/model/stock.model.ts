@@ -10,6 +10,4 @@ export class Stock {
     this.wkn = wkn;
     this.actualPrice = actualPrice;
   }
-
-
 }

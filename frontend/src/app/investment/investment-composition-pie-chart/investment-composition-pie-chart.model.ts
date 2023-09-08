@@ -1,4 +1,4 @@
 export interface InvestmentCompositionPieChartModel {
-    investmentName: string,
-    investmentValue: number,
+  investmentName: string;
+  investmentValue: number;
 }

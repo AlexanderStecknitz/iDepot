@@ -1,8 +1,24 @@
-<mat-form-field>
-  <input matInput placeholder="alex@alex.de" [formControl]="email" required>
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="password" type="password" [formControl]="password" required>
-</mat-form-field>
-<button mat-raised-button (click)="login()">Login</button>
-<p>No Account? => <a href="register">Register</a></p>
+<div class="container">
+  <form>
+    <mat-form-field>
+      <input
+        [formControl]="email"
+        matInput
+        placeholder="alex@alex.de"
+        required
+        type=""
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        [formControl]="password"
+        matInput
+        placeholder="password"
+        required
+        type="password"
+      />
+    </mat-form-field>
+    <button (click)="login()" mat-raised-button>Login</button>
+  </form>
+  <p>No Account? => <a href="register">Register</a></p>
+</div>
