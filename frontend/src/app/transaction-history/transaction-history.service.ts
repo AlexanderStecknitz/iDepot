@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Transaction} from "./transaction-history.model";
-import {Observable} from "rxjs";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Transaction } from "./transaction-history.model";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TransactionHistoryService {
-
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) {}
 
   findAll(depotId: number): Observable<Transaction[]> {
-    return this.httpClient.get<Transaction[]>("/api/investment/transaction-history/" + depotId)
+    return this.httpClient.get<Transaction[]>(
+      "/api/investment/transaction-history/" + depotId,
+    );
   }
-
 }

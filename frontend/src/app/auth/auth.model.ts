@@ -1,4 +1,4 @@
 export interface LoginResult {
-  token: string,
-  email: string,
+  token: string;
+  email: string;
 }

@@ -1,3 +1,15 @@
-<iDepot-investment-composition-pie-chart />
-<iDepot-investment-table-view />
-<button mat-button (click)="create()">Add investment</button>
+<div class="app-investment-container">
+  <div class="app-item">
+    <iDepot-investment-composition-pie-chart />
+  </div>
+  <mat-divider />
+  <div class="app-item investment-add-button">
+    <button mat-flat-button color="accent" (click)="create()">
+      <mat-icon>add</mat-icon>
+      <span>Investment</span>
+    </button>
+  </div>
+  <div class="app-item">
+    <iDepot-investment-table-view />
+  </div>
+</div>

@@ -1,8 +1,38 @@
-<mat-form-field>
-  <input matInput placeholder="alex@alex.de" [formControl]="email" required>
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="password" type="password" [formControl]="password" required>
-</mat-form-field>
-<button mat-raised-button (click)="login()">Login</button>
-<p>No Account? => <a href="register">Register</a></p>
+<div class="container">
+  <mat-card class="mat-elevation-z24">
+    <mat-card-content>
+      <h1>iDepot</h1>
+      <h3>Login</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          #emailField="ngModel"
+          [(ngModel)]="loginForm.email"
+          matInput
+          name="email"
+          required />
+        <mat-icon matIconSuffix>mail</mat-icon>
+        <mat-error *ngIf="emailField.invalid">{{
+          getErrorMessage(emailField)
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          #passwordField="ngModel"
+          [(ngModel)]="loginForm.password"
+          matInput
+          name="password"
+          required
+          type="password" />
+        <mat-icon matIconSuffix>key</mat-icon>
+        <mat-error *ngIf="passwordField.invalid">{{
+          getErrorMessage(passwordField)
+        }}</mat-error>
+      </mat-form-field>
+      <button (click)="login()" color="accent" mat-raised-button>Login</button>
+      <br />
+      <p>No Account? => <a href="register">Register</a></p>
+    </mat-card-content>
+  </mat-card>
+</div>

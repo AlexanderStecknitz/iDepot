@@ -1,5 +1,4 @@
 export class User {
-
   private _email: String;
   private _firstname: String;
   private _lastname: String;
@@ -21,5 +20,4 @@ export class User {
   get lastname(): String {
     return this._lastname;
   }
-
 }

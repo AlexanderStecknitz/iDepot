@@ -1,6 +1,13 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened class="sidenav">
-    <mat-nav-list>
+<iDepot-toolbar (toggleSidenav)="sidenav.toggle()" />
+
+<mat-sidenav-container class="app-sidenav-container">
+  <mat-sidenav
+    mode="side"
+    #sidenav
+    [opened]="true"
+    class="app-sidenav mat-elevation-z24"
+  >
+    <mat-nav-list class="app-nav-list">
       <mat-list-item routerLink="/main/home">
         <mat-icon matListItemIcon>home</mat-icon>
         <div matListItemTitle>Home</div>
@@ -13,23 +20,12 @@
         <mat-icon matListItemIcon>history</mat-icon>
         <div matListItemTitle>Transaction History</div>
       </mat-list-item>
-      <mat-list-item routerLink="/login">
-        <mat-icon matListItemIcon>login</mat-icon>
-        <div matListItemTitle>Login</div>
-      </mat-list-item>
-      <mat-list-item (click)="logout()">
-        <mat-icon matListItemIcon>logout</mat-icon>
-        <div matListItemTitle>Logout</div>
-      </mat-list-item>
-      <mat-list-item routerLink="/register">
-        <mat-icon matListItemIcon>Register</mat-icon>
-        <div matListItemTitle>Register</div>
-      </mat-list-item>
     </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="app-sidenav-content">
     <main>
-     <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </main>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>
