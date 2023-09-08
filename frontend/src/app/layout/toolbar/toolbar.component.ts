@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'iDepot-toolbar',
@@ -17,6 +18,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     RouterLink,
     MatMenuModule,
+    MatTooltipModule,
   ],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],

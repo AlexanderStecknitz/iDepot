@@ -9,10 +9,11 @@
     <button
       [matMenuTriggerFor]="settingsMenu"
       class="app-auth-button"
-      mat-icon-button>
+      mat-icon-button
+      matTooltip="Settings">
       <mat-icon>settings</mat-icon>
     </button>
-    <mat-menu #settingsMenu="matMenu">
+    <mat-menu #settingsMenu="matMenu" xPosition="before">
       <ng-template matMenuContent>
         <button (click)="logout()" mat-menu-item>
           <mat-icon>logout</mat-icon>
@@ -20,7 +21,7 @@
         </button>
       </ng-template>
     </mat-menu>
-    <button class="app-auth-button" mat-icon-button>
+    <button class="app-auth-button" mat-icon-button matTooltip="Profile">
       <mat-icon>person</mat-icon>
     </button>
   </div>
