@@ -1,15 +1,26 @@
-<mat-toolbar color="primary" class="app-toolbar-container">
+<mat-toolbar class="app-toolbar-container" color="primary">
   <div>
-    <button mat-button (click)="toggleSidenav.emit()">
+    <button (click)="toggleSidenav.emit()" mat-button>
       <mat-icon>menu</mat-icon>
     </button>
     <span>iDepot</span>
   </div>
   <div *ngIf="isAuthenticated">
-    <button mat-icon-button class="app-auth-button">
+    <button
+      [matMenuTriggerFor]="settingsMenu"
+      class="app-auth-button"
+      mat-icon-button>
       <mat-icon>settings</mat-icon>
     </button>
-    <button mat-icon-button class="app-auth-button" (click)="logout()">
+    <mat-menu #settingsMenu="matMenu">
+      <ng-template matMenuContent>
+        <button (click)="logout()" mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+    <button class="app-auth-button" mat-icon-button>
       <mat-icon>person</mat-icon>
     </button>
   </div>

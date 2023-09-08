@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Output } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
-import { AuthService } from "../../auth/auth.service";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  selector: "iDepot-toolbar",
+  selector: 'iDepot-toolbar',
   standalone: true,
   imports: [
     CommonModule,
@@ -15,9 +16,10 @@ import { AuthService } from "../../auth/auth.service";
     MatButtonModule,
     MatIconModule,
     RouterLink,
+    MatMenuModule,
   ],
-  templateUrl: "./toolbar.component.html",
-  styleUrls: ["./toolbar.component.scss"],
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
   @Output() toggleSidenav = new EventEmitter<boolean>();
