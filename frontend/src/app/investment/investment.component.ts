@@ -6,7 +6,9 @@ import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { InvestmentCreateDialogComponent } from "./investment-create-dialog/investment-create-dialog.component";
 import { InvestmentTableViewComponent } from "./investment-table-view/investment-table-view.component";
 import { InvestmentService } from "./investment.service";
-import { InvestmentCompositionPieChartComponent } from "./investment-composition-pie-chart/investment-composition-pie-chart.component";
+import {
+  InvestmentCompositionPieChartComponent
+} from "./investment-composition-pie-chart/investment-composition-pie-chart.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
@@ -23,10 +25,10 @@ import { MatIconModule } from "@angular/material/icon";
     InvestmentCompositionPieChartComponent,
     MatCardModule,
     MatDividerModule,
-    MatIconModule,
+    MatIconModule
   ],
   templateUrl: "./investment.component.html",
-  styleUrls: ["./investment.component.scss"],
+  styleUrls: ["./investment.component.scss"]
 })
 export class InvestmentComponent {
   @Input()
@@ -34,8 +36,9 @@ export class InvestmentComponent {
 
   constructor(
     private readonly investmentService: InvestmentService,
-    public readonly dialog: MatDialog,
-  ) {}
+    public readonly dialog: MatDialog
+  ) {
+  }
 
   create() {
     const dialogRef = this.dialog.open(InvestmentCreateDialogComponent, {
@@ -43,8 +46,8 @@ export class InvestmentComponent {
         isin: "Test",
         depotId: 0,
         amount: 0,
-        buyPrice: 0,
-      },
+        buyPrice: 0
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
