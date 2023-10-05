@@ -7,6 +7,7 @@ import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.service.InvestmentService;
 import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
+import de.stecknitz.backend.web.resources.dto.mapper.TransactionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,6 +42,9 @@ class InvestmentResourceTest {
 
     @MockBean
     InvestmentMapper investmentMapper;
+
+    @MockBean
+    TransactionMapper transactionMapper;
 
     @WithMockUser(username = "mock")
     @Test
