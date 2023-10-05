@@ -49,7 +49,9 @@ export class InvestmentComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      this.investmentService.create(result).subscribe();
+      if (result !== undefined) {
+        this.investmentService.create(result).subscribe();
+      }
     });
   }
 }

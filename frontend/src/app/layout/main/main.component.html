@@ -2,11 +2,10 @@
 
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav
-    mode="side"
     #sidenav
     [opened]="true"
     class="app-sidenav mat-elevation-z24"
-  >
+    mode="side">
     <mat-nav-list class="app-nav-list">
       <mat-list-item routerLink="/main/home">
         <mat-icon matListItemIcon>home</mat-icon>
@@ -19,6 +18,10 @@
       <mat-list-item routerLink="/main/transaction-history">
         <mat-icon matListItemIcon>history</mat-icon>
         <div matListItemTitle>Transaction History</div>
+      </mat-list-item>
+      <mat-list-item routerLink="/main/dividends">
+        <mat-icon matListItemIcon>calendar_month</mat-icon>
+        <div matListItemTitle>Dividends</div>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>

@@ -1,36 +1,42 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { HomeComponent } from "./home/home.component";
-import { LoginComponent } from "./auth/login/login.component";
-import { AuthGuard } from "./auth/auth.guard";
-import { RegisterComponent } from "./auth/register/register.component";
-import { MainComponent } from "./layout/main/main.component";
-import { InvestmentComponent } from "./investment/investment.component";
-import { TransactionHistoryComponent } from "./transaction-history/transaction-history.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './auth/auth.guard';
+import { RegisterComponent } from './auth/register/register.component';
+import { MainComponent } from './layout/main/main.component';
+import { InvestmentComponent } from './investment/investment.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+import { DividendsComponent } from './dividends/dividends.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "main", pathMatch: "full" },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   {
-    path: "main",
+    path: 'main',
     component: MainComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: "", redirectTo: "home", pathMatch: "full" },
-      { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       {
-        path: "investments",
+        path: 'investments',
         component: InvestmentComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: "transaction-history",
+        path: 'transaction-history',
         component: TransactionHistoryComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'dividends',
+        component: DividendsComponent,
         canActivate: [AuthGuard],
       },
     ],
   },
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({
