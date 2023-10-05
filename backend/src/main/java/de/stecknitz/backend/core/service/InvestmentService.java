@@ -59,10 +59,10 @@ public class InvestmentService {
     @Transactional(readOnly = true)
     public double accumulateInvestmentValue(final long depotId) {
 
-        List<Investment> investments = findByDepotId(depotId);
+        List<Investment> investments = this.findByDepotId(depotId);
         return investments.stream()
                 .map(Investment::getInvestmentValue)
-                .mapToDouble(Float::doubleValue)
+                .mapToDouble(Double::floatValue)
                 .sum();
 
     }

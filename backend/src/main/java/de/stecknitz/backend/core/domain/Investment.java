@@ -48,11 +48,15 @@ public class Investment {
     @Column(name = "created")
     private Instant created;
 
-    public float getInvestmentValue() {
+    public double getInvestmentValue() {
         return buyPrice * amount;
     }
-    public double calculateInvestmentValue(double accumulatedInvestmentValue) { return (getInvestmentValue()/accumulatedInvestmentValue) * 100; }
+
+    public double calculateInvestmentValue(double accumulatedInvestmentValue) {
+        return (getInvestmentValue() / accumulatedInvestmentValue) * 100;
+    }
+
     public float calculateYield() {
-        return ((stock.getCurrentPrice()-buyPrice)/buyPrice)*100;
+        return ((stock.getCurrentPrice() - buyPrice) / buyPrice) * 100;
     }
 }
