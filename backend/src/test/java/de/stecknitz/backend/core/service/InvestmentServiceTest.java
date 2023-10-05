@@ -198,4 +198,26 @@ class InvestmentServiceTest {
 
     }
 
+    @Test
+    void accumulateInvestmentValueTest() {
+        final long depotId = TestUtil.DEPOT_ID;
+        List<Investment> investments = List.of(
+                Investment.builder()
+                        .amount(TestUtil.AMOUNT)
+                        .buyPrice(TestUtil.BUY_PRICE)
+                        .build()
+        );
+
+        Optional<List<Investment>> optionalInvestments = Optional.of(
+                investments
+        );
+
+       Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(optionalInvestments);
+
+        double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);
+
+        Assertions.assertThat(accumulatedInvestmentValue).isEqualTo(investments.get(0).getInvestmentValue());
+
+    }
+
 }

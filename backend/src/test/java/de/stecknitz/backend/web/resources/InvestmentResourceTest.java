@@ -6,6 +6,7 @@ import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.service.InvestmentService;
 import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
+import de.stecknitz.backend.web.resources.dto.TransactionDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import de.stecknitz.backend.web.resources.dto.mapper.TransactionMapper;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -138,6 +140,51 @@ class InvestmentResourceTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
+    }
+
+    @WithMockUser(username = "mock")
+    @Test
+    void findTransactionsInDepotTest() throws Exception {
+        final long depotId = TestUtil.DEPOT_ID;
+        Depot depot = TestUtil.DEPOT;
+        Stock stock = TestUtil.STOCK_APPLE;
+        TransactionDTO transactionDTO = TransactionDTO.builder()
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
+                .stockName(TestUtil.APPLE_NAME)
+                .build();
+        List<Investment> investments = List.of(
+                Investment.builder()
+                        .depot(depot)
+                        .investmentId(TestUtil.INVESTMENT_ID)
+                        .stock(stock)
+                        .buyPrice(TestUtil.BUY_PRICE)
+                        .amount(TestUtil.AMOUNT)
+                        .build()
+        );
+
+        when(investmentService.findByDepotId(depotId)).thenReturn(investments);
+        when(transactionMapper.toTransactionDTO(investments.get(0), investments.get(0).getInvestmentValue())).thenReturn(transactionDTO);
+
+        mockMvc.perform(get(ENDPOINT + "/transaction-history/" + depotId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.*", hasSize(1)));
+    }
+
+    @WithMockUser(username = "mock")
+    @Test
+    void findTransactionsInDepotNotFoundTest() throws Exception {
+        final long depotId = TestUtil.DEPOT_ID;
+        Depot depot = TestUtil.DEPOT;
+        Stock stock = TestUtil.STOCK_APPLE;
+
+        when(investmentService.findByDepotId(depotId)).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get(ENDPOINT + "/transaction-history/" + depotId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @WithMockUser(username = "mock")

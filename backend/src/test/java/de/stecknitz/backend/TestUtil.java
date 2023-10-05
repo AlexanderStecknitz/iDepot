@@ -3,6 +3,7 @@ package de.stecknitz.backend;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Stock;
 
 public class TestUtil {
@@ -14,6 +15,12 @@ public class TestUtil {
     public static final int AMOUNT = 10;
 
     public static final float BUY_PRICE = 110f;
+
+    public static final String APPLE_NAME = "Apple Inc.";
+
+    public static final Depot DEPOT = Depot.builder()
+            .id(0L)
+            .build();
 
     public static final Stock STOCK_APPLE = Stock.builder()
             .isin("US0378331005")
