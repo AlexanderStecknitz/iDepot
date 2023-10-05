@@ -36,3 +36,5 @@ oauth2Server = { module = "org.springframework.security:spring-security-oauth2-r
 [plugins]
 springBootPlugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
 sonarqubePlugin = { id = "org.sonarqube", version.ref = "sonarqubePluginVersion" }
+
+springframeworkBootPlugin = { id = "org.springframework.boot", version.ref = "3.1.4" }
