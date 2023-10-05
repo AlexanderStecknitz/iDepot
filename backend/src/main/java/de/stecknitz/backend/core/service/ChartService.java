@@ -7,6 +7,7 @@ import de.stecknitz.backend.web.resources.dto.mapper.CompositionPieChartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,10 @@ public class ChartService {
     private final InvestmentService investmentService;
 
     public List<CompositionPieChartDTO> getCompositionPieChart(long depotId) {
-        Optional<List<Investment>>  optionalInvestments = investmentRepository.findByDepotId(depotId);
+        Optional<List<Investment>> optionalInvestments = investmentRepository.findByDepotId(depotId);
+        if (optionalInvestments.isEmpty()) {
+            return Collections.emptyList();
+        }
         List<Investment> investments = optionalInvestments.get();
 
         double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);

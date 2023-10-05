@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,18 @@ public class ChartServiceTest {
         List<CompositionPieChartDTO> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
 
         Assertions.assertThat(compositionPieChartDTOS.get(0)).isEqualTo(compositionPieChartDTO);
+
+    }
+
+    @Test
+    void getCompositionPieChartNotFoundTest() {
+        final long depotId = TestUtil.DEPOT_ID;
+
+        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(Optional.of(Collections.emptyList()));
+
+        List<CompositionPieChartDTO> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
+
+        Assertions.assertThat(compositionPieChartDTOS).isEmpty();
 
     }
 
