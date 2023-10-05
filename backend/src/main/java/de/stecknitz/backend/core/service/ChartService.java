@@ -28,20 +28,12 @@ public class ChartService {
 
         double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);
 
-        List<CompositionPieChartDTO> compositionPieChartDTOS = investments.stream()
-                .map(investment -> {
-
-                    CompositionPieChartDTO compositionPieChartDTO = compositionPieChartMapper
-                            .toCompositionPieChartDTO(
-                                    investment,
-                                    investment.calculateInvestmentValue(accumulatedInvestmentValue));
-
-                    return compositionPieChartDTO;
-
-                })
+        return investments.stream()
+                .map(investment -> compositionPieChartMapper
+                        .toCompositionPieChartDTO(
+                                investment,
+                                investment.calculateInvestmentValue(accumulatedInvestmentValue)))
                 .toList();
-
-        return compositionPieChartDTOS;
     }
 
 }
