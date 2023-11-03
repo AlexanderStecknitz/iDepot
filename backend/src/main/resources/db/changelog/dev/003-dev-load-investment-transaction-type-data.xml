@@ -6,14 +6,16 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="002-dev-load-investment-data" author="Alexander Stecknitz" context="dev">
-        <loadData tableName="investment" file="db/changelog/dev/data/investments.csv">
+    <changeSet id="003-dev-load-investment-transaction-type-data" author="Alexander Stecknitz" context="dev">
+        <loadUpdateData tableName="investment" file="db/changelog/dev/data/investment-transaction-type.csv"
+                        primaryKey="investment_id">
             <column name="investment_id" type="serial"/>
             <column name="stock_isin" type="text"/>
             <column name="depot_id" type="serial"/>
             <column name="amount" type="numeric"/>
             <column name="buy_price" type="numeric"/>
-        </loadData>
+            <column name="transaction_type" type="text"/>
+        </loadUpdateData>
     </changeSet>
 
 </databaseChangeLog>

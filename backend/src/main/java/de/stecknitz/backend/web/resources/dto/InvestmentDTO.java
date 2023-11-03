@@ -23,4 +23,5 @@ public class InvestmentDTO {
     private float currentPrice;
     private float buyPrice;
     private float yield;
+    private String transactionType;
 }

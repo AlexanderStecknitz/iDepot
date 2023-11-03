@@ -22,6 +22,7 @@ entity "Investment" as investment {
   *stock_isin : text <<FS>>
   amount : number
   buyprice : number
+  transaction_type: text
 }
 
 entity "User" as user {

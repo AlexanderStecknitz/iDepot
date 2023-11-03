@@ -4,4 +4,5 @@ export interface Transaction {
   buyPrice: number;
   amount: number;
   investmentValue: number;
+  type: string;
 }
