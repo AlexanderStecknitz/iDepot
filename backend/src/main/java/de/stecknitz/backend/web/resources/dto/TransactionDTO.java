@@ -21,4 +21,5 @@ public class TransactionDTO {
     private float buyPrice;
     private int amount;
     private double investmentValue;
+    private String type;
 }

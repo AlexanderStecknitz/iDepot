@@ -25,7 +25,7 @@ public class StockService {
     @Transactional
     public Stock create(final Stock stock) {
         Optional<Stock> optionalShare = stockRepository.findById(stock.getIsin());
-        if(optionalShare.isPresent()) {
+        if (optionalShare.isPresent()) {
             return null;
         }
         return stockRepository.saveAndFlush(stock);

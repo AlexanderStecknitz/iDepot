@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
@@ -10,14 +10,16 @@
     <include file="002-depot-create-table.xml" relativeToChangelogFile="true"/>
     <include file="003-investment-table.xml" relativeToChangelogFile="true"/>
     <include file="004-user-table.xml" relativeToChangelogFile="true"/>
-    <include file="005-roles-table.xml" relativeToChangelogFile="true" />
-    <include file="006-add-user-role-fk.xml" relativeToChangelogFile="true" />
-    <include file="007-user-insert-data.xml" relativeToChangelogFile="true" />
-    <include file="008-depot-insert-user-column.xml" relativeToChangelogFile="true" />
-    <include file="009-add-symbol-column-stock.xml" relativeToChangelogFile="true" />
-    <include file="010-add-created-column-investment.xml" relativeToChangelogFile="true" />
-    
-    <include file="dev/001-dev-load-stock-data.xml" relativeToChangelogFile="true" />
-    <include file="dev/002-dev-load-investment-data.xml" relativeToChangelogFile="true" />
+    <include file="005-roles-table.xml" relativeToChangelogFile="true"/>
+    <include file="006-add-user-role-fk.xml" relativeToChangelogFile="true"/>
+    <include file="007-user-insert-data.xml" relativeToChangelogFile="true"/>
+    <include file="008-depot-insert-user-column.xml" relativeToChangelogFile="true"/>
+    <include file="009-add-symbol-column-stock.xml" relativeToChangelogFile="true"/>
+    <include file="010-add-created-column-investment.xml" relativeToChangelogFile="true"/>
+    <include file="011-add-transaction-type-column-investment.xml" relativeToChangelogFile="true"/>
+
+    <include file="dev/001-dev-load-stock-data.xml" relativeToChangelogFile="true"/>
+    <include file="dev/002-dev-load-investment-data.xml" relativeToChangelogFile="true"/>
+    <include file="dev/003-dev-load-investment-transaction-type-data.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -3,6 +3,8 @@ package de.stecknitz.backend.core.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,6 +46,9 @@ public class Investment {
     @NotNull
     @Column(name = "buy_price")
     private float buyPrice;
+    @Column(name = "transaction_type")
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
     @CreatedDate
     @Column(name = "created")
     private Instant created;

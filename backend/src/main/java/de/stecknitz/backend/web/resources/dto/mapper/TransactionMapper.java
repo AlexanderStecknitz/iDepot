@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 public interface TransactionMapper {
 
     @Mapping(source = "investment.stock.name", target = "stockName")
+    @Mapping(source = "investment.transactionType", target = "type")
     TransactionDTO toTransactionDTO(Investment investment, double investmentValue);
 
 }
