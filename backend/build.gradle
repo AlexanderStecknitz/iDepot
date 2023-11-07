@@ -1,78 +1,78 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-	id 'java'
-	id 'jacoco'
-	alias libs.plugins.springBootPlugin
-	alias libs.plugins.sonarqubePlugin
+    id 'java'
+    id 'jacoco'
+    alias libs.plugins.springBootPlugin
+    alias libs.plugins.sonarqubePlugin
 }
 
 group = 'de.stecknitz'
 version = '0.0.1'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
 
-	implementation libs.springBootStarter
-	implementation libs.springDataJpa
-	implementation libs.springBootStarterValidation
-	implementation libs.springBootStarterReactorNetty
-	implementation libs.springBootStarterWebflux
-	implementation libs.springBootStarterSecurity
-	implementation libs.springDocOpenApiStarterWebmvcUi
-	implementation libs.mapstruct
-	implementation libs.mapstruct
-	implementation libs.nimbusds
-	implementation libs.oauth2Jose
-	implementation libs.oauth2Server
-	implementation libs.liquibaseCore
+    implementation libs.springBootStarter
+    implementation libs.springDataJpa
+    implementation libs.springBootStarterValidation
+    implementation libs.springBootStarterReactorNetty
+    implementation libs.springBootStarterWebflux
+    implementation libs.springBootStarterSecurity
+    implementation libs.springDocOpenApiStarterWebmvcUi
+    implementation libs.mapstruct
+    implementation libs.mapstruct
+    implementation libs.nimbusds
+    implementation libs.oauth2Jose
+    implementation libs.oauth2Server
+    implementation libs.liquibaseCore
 
-	runtimeOnly(variantOf(libs.nettyResolverDnsNativeMacos, {
-		classifier("osx-aarch_64")
-	}))
-	runtimeOnly libs.postgresql
+    runtimeOnly(variantOf(libs.nettyResolverDnsNativeMacos, {
+        classifier("osx-aarch_64")
+    }))
+    runtimeOnly libs.postgresql
 
-	compileOnly libs.lombok
+    compileOnly libs.lombok
 
-	annotationProcessor libs.lombok
-	annotationProcessor libs.mapstructProcessor
+    annotationProcessor libs.lombok
+    annotationProcessor libs.mapstructProcessor
 
-	testImplementation libs.springBootStarterTest
-	testImplementation libs.springBootStarterSecurityTest
-	testAnnotationProcessor libs.mapstructProcessor
-	testImplementation libs.testcontainer
-	testImplementation libs.testcontainerPostgres
-	testImplementation libs.testcontainerJupiter
+    testImplementation libs.springBootStarterTest
+    testImplementation libs.springBootStarterSecurityTest
+    testAnnotationProcessor libs.mapstructProcessor
+    testImplementation libs.testcontainer
+    testImplementation libs.testcontainerPostgres
+    testImplementation libs.testcontainerJupiter
 }
 
 jacocoTestReport {
-	reports {
-		xml.required.set(true)
-	}
+    reports {
+        xml.required.set(true)
+    }
 }
 
 sonar {
-	properties {
-		property "sonar.projectKey", "AlexanderStecknitz_iDepot"
-		property "sonar.organization", "alexanderstecknitz"
-		property "sonar.host.url", "https://sonarcloud.io"
-		property "sonar.scanner.metadataFilePath", "/home/runner/work/iDepot/iDepot/build/sonar/report-task.txt"
-		property "sonar.coverage.exclusions",
-					"**/dto/*.java," +
-					"**/service/client/**," +
-					"**/TestResource.java," +
-					"**/properties/*.java," +
-					"**/domain/*.java," +
-					"**/mapper/*.java," +
-					"**/exception/ErrorConstants.java," +
-					"**/backend/BackendApplication.java"
-	}
+    properties {
+        property "sonar.projectKey", "AlexanderStecknitz_iDepot"
+        property "sonar.organization", "alexanderstecknitz"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.scanner.metadataFilePath", "/home/runner/work/iDepot/iDepot/build/sonar/report-task.txt"
+        property "sonar.coverage.exclusions",
+                "**/dto/*.java," +
+                        "**/service/client/**," +
+                        "**/TestResource.java," +
+                        "**/properties/*.java," +
+                        "**/domain/*.java," +
+                        "**/mapper/*.java," +
+                        "**/exception/**.java," +
+                        "**/backend/BackendApplication.java"
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
