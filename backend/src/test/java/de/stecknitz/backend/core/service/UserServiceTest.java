@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.exception.MasterDataException;
@@ -26,7 +27,7 @@ class UserServiceTest {
 
     @Test
     void findByEmailTest() {
-        final String email = "admin";
+        final String email = TestUtil.USER_EMAIL;
 
         User user = User.builder()
                 .email(email)
@@ -42,7 +43,7 @@ class UserServiceTest {
 
     @Test
     void findByEmailNotFoundTest() {
-        final String email = "admin@NotFound.de";
+        final String email = TestUtil.USER_EMAIL;
 
         given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
@@ -53,7 +54,7 @@ class UserServiceTest {
     @Test
     void createWithUserAlreadyExistsTest() {
         User user = User.builder()
-                .email("admin")
+                .email(TestUtil.USER_EMAIL)
                 .build();
 
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));

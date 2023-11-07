@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.DepotService;
@@ -46,13 +47,13 @@ class DepotResourceTest {
 
         List<Depot> depots = List.of(
                 Depot.builder()
-                        .id(1)
+                        .id(TestUtil.DEPOT_ID_0)
                         .build()
         );
 
         List<DepotDTO> depotDTOS = List.of(
                 DepotDTO.builder()
-                        .id(1)
+                        .id(TestUtil.DEPOT_ID_0)
                         .build()
         );
 
@@ -85,7 +86,7 @@ class DepotResourceTest {
     @Test
     void findAllByEmailTest() throws Exception {
 
-        String email = "Test@Test.de";
+        String email = TestUtil.USER_EMAIL;
 
         List<Depot> depots = List.of(
                 Depot.builder()
@@ -97,7 +98,7 @@ class DepotResourceTest {
 
         List<DepotDTO> depotDTOS = List.of(
                 DepotDTO.builder()
-                        .id(1)
+                        .id(TestUtil.DEPOT_ID_0)
                         .build()
         );
 
@@ -117,7 +118,7 @@ class DepotResourceTest {
     @Test
     void findAllByEmailWithNoDepotsTest() throws Exception {
 
-        String email = "Test@Test.de";
+        String email = TestUtil.USER_EMAIL;
 
         List<Depot> depots = Collections.emptyList();
 
@@ -132,7 +133,7 @@ class DepotResourceTest {
     @Test
     void createTest() throws Exception {
 
-        String email = "admin";
+        String email = TestUtil.USER_EMAIL;
 
         mockMvc.perform(post(ENDPOINT + "/" + email).with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType(MediaType.APPLICATION_JSON)

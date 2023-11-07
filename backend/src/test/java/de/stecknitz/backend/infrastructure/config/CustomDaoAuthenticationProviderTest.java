@@ -1,5 +1,6 @@
 package de.stecknitz.backend.infrastructure.config;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import org.junit.Assert;
@@ -33,40 +34,40 @@ class CustomDaoAuthenticationProviderTest {
     void additionalAuthenticationChecksWithNullCredentialsTest() {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(null, null);
 
-        Assert.assertThrows(BadCredentialsException.class,() -> customDaoAuthenticationProvider.additionalAuthenticationChecks(null, authentication));
+        Assert.assertThrows(BadCredentialsException.class, () -> customDaoAuthenticationProvider.additionalAuthenticationChecks(null, authentication));
     }
 
     @Test
     void additionalAuthenticationChecksWithNullUserTest() {
         UserDetails user = org.springframework.security.core.userdetails.User.builder()
-                        .username("admin")
-                                .password("admin")
-                                        .build();
+                .username(TestUtil.USER_EMAIL)
+                .password(TestUtil.USER_PASSWORD)
+                .build();
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(null, "password");
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(null, TestUtil.USER_PASSWORD);
 
 
         when(userRepository.findByEmail(user.getUsername())).thenReturn(null);
-        Assert.assertThrows(NullPointerException.class,() -> customDaoAuthenticationProvider.additionalAuthenticationChecks(user, authentication));
+        Assert.assertThrows(NullPointerException.class, () -> customDaoAuthenticationProvider.additionalAuthenticationChecks(user, authentication));
     }
 
     @Test
     void additionalAuthenticationChecksWithWrongPasswordTest() {
 
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-                .username("admin")
-                .password("admin")
+                .username(TestUtil.USER_EMAIL)
+                .password(TestUtil.USER_PASSWORD)
                 .build();
 
         User user = User.builder()
-                .email("admin")
-                .password("admin")
-                .salt("test")
+                .email(TestUtil.USER_EMAIL)
+                .password(TestUtil.USER_PASSWORD)
+                .salt(TestUtil.USER_SALT)
                 .build();
 
         when(userRepository.findByEmail(userDetails.getUsername())).thenReturn(Optional.ofNullable(user));
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(null, "admin");
-        Assert.assertThrows(BadCredentialsException.class,() -> customDaoAuthenticationProvider.additionalAuthenticationChecks(userDetails, authentication));
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(null, TestUtil.USER_EMAIL);
+        Assert.assertThrows(BadCredentialsException.class, () -> customDaoAuthenticationProvider.additionalAuthenticationChecks(userDetails, authentication));
     }
 }

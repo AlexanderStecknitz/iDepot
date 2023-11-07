@@ -2,6 +2,7 @@ package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Investment;
+import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.web.resources.dto.CompositionPieChartDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.CompositionPieChartMapper;
@@ -33,11 +34,17 @@ public class ChartServiceTest {
 
     @Test
     void getCompositionPieChartTest() {
-        final long depotId = TestUtil.DEPOT_ID;
+        final long depotId = TestUtil.DEPOT_ID_0;
         Optional<List<Investment>> optionalInvestments = Optional.of(
                 List.of(
                         Investment.builder()
-                                .stock(TestUtil.STOCK_APPLE)
+                                .stock(Stock.builder()
+                                        .isin(TestUtil.APPLE_ISIN)
+                                        .wkn(TestUtil.APPLE_WKN)
+                                        .name(TestUtil.APPLE_NAME)
+                                        .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
+                                        .symbol(TestUtil.APPLE_SYMBOL)
+                                        .build())
                                 .buyPrice(TestUtil.BUY_PRICE)
                                 .amount(TestUtil.AMOUNT)
                                 .build()
@@ -63,7 +70,7 @@ public class ChartServiceTest {
 
     @Test
     void getCompositionPieChartNotFoundTest() {
-        final long depotId = TestUtil.DEPOT_ID;
+        final long depotId = TestUtil.DEPOT_ID_0;
 
         Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(Optional.empty());
 
