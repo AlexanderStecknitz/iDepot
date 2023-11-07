@@ -7,6 +7,7 @@ import de.stecknitz.backend.core.service.UserService;
 import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,25 +29,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
 class AuthResourceTest {
 
-    @Container
-    static PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:latest")
-            .withUsername("postgres")
-            .withPassword("postgres");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+
     private final String ENDPOINT = "/auth";
+
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     UserService userService;
+    
     MockMvc mockMvc;
+
     @Autowired
     private WebApplicationContext context;
 
     @AfterAll
     public static void afterAll() {
         postgres.close();
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
     }
 
     @DynamicPropertySource
