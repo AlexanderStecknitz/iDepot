@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( DepotResource.class )
+@WebMvcTest(DepotResource.class)
 class DepotResourceTest {
 
     private static final String ENDPOINT = "/api/depot";
@@ -56,8 +56,8 @@ class DepotResourceTest {
                         .build()
         );
 
-        given( depotService.findAllDepots() ).willReturn(depots);
-        given( depotMapper.toDepotDTO(depots.get(0)) ).willReturn(depotDTOS.get(0));
+        given(depotService.findAllDepots()).willReturn(depots);
+        given(depotMapper.toDepotDTO(depots.get(0))).willReturn(depotDTOS.get(0));
 
         mockMvc.perform(get(ENDPOINT))
                 .andDo(print())
@@ -74,7 +74,7 @@ class DepotResourceTest {
 
         List<Depot> depots = Collections.emptyList();
 
-        given( depotService.findAllDepots() ).willReturn(depots);
+        given(depotService.findAllDepots()).willReturn(depots);
 
         mockMvc.perform(get(ENDPOINT))
                 .andDo(print())
@@ -132,9 +132,11 @@ class DepotResourceTest {
     @Test
     void createTest() throws Exception {
 
-        mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+        String email = "admin";
+
+        mockMvc.perform(post(ENDPOINT + "/" + email).with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
 

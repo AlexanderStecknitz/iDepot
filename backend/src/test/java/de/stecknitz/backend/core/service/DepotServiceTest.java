@@ -1,19 +1,26 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
+import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
+import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.service.exception.MasterDataException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.BDDMockito;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class DepotServiceTest {
@@ -21,11 +28,20 @@ class DepotServiceTest {
     @Mock
     DepotRepository depotRepository;
 
+    @Mock
+    UserRepository userRepository;
+
+    @Mock
+    DepositAccountRepository depositAccountRepository;
+
     @InjectMocks
     DepotService depotService;
 
     @Captor
     ArgumentCaptor<Depot> depotCaptor;
+
+    @Captor
+    ArgumentCaptor<DepositAccount> depositAccountCaptor;
 
     @Test
     void findAllDepotsTest() {
@@ -87,13 +103,42 @@ class DepotServiceTest {
     @Test
     void createTest() {
 
-        String email = "AlexanderStecknitz@Stecknitz.de";
+        String email = "admin";
+
+        User user = User.builder()
+                .email(email)
+                .depots(Collections.emptyList())
+                .build();
+
+        Depot depot = Depot.builder()
+                .user(user)
+                .build();
+
+        Depot depotWithId = Depot.builder()
+                .id(1)
+                .user(depot.getUser())
+                .build();
+
+        BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
+        BDDMockito.given(depotRepository.saveAndFlush(depot)).willReturn(depotWithId);
 
         depotService.create(email);
 
         Mockito.verify(depotRepository).saveAndFlush(depotCaptor.capture());
+        Mockito.verify(depositAccountRepository).saveAndFlush(depositAccountCaptor.capture());
 
         Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
+        Assertions.assertThat(depositAccountCaptor.getValue().getDepot().getId()).isEqualTo(depotWithId.getId());
+    }
+
+    @Test
+    void createTestUserNotFound() {
+        String email = "admin";
+
+        BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> depotService.create(email))
+                .isInstanceOf(MasterDataException.class);
     }
 
 }
