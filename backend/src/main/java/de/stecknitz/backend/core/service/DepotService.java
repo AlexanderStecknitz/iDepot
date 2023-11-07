@@ -1,14 +1,20 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
+import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
+import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.service.exception.ErrorConstants;
+import de.stecknitz.backend.core.service.exception.MasterDataException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +22,8 @@ import java.util.List;
 public class DepotService {
 
     private final DepotRepository depotRepository;
+    private final UserRepository userRepository;
+    private final DepositAccountRepository depositAccountRepository;
 
     @Transactional(readOnly = true)
     public List<Depot> findAllDepots() {
@@ -39,14 +47,20 @@ public class DepotService {
 
     @Transactional
     public void create(String email) {
-        User user = User.builder()
-                .email(email)
-                .build();
-
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new MasterDataException(ErrorConstants.USER_NOT_FOUND);
+        }
         Depot depot = Depot.builder()
-                .user(user)
+                .user(user.get())
                 .build();
 
-        depotRepository.saveAndFlush(depot);
+        Depot depotWithId = depotRepository.saveAndFlush(depot);
+
+        DepositAccount depositAccount = DepositAccount.builder()
+                .depot(depotWithId)
+                .build();
+
+        depositAccountRepository.saveAndFlush(depositAccount);
     }
 }

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +28,8 @@ public class DepotResource {
     @GetMapping
     public ResponseEntity<List<DepotDTO>> findAll() {
         List<Depot> foundDepots = depotService.findAllDepots();
-        if(foundDepots.isEmpty()) {
-           return ResponseEntity.notFound().build();
+        if (foundDepots.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
         List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepotDTO).toList();
         return ResponseEntity.ok(foundDepotsDto);
@@ -41,17 +40,17 @@ public class DepotResource {
             @PathVariable String email
     ) {
         List<Depot> foundDepots = depotService.findAllByEmail(email);
-        if(foundDepots.isEmpty()) {
+        if (foundDepots.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         List<DepotDTO> foundDepotsDto = foundDepots.stream().map(depotMapper::toDepotDTO).toList();
         return ResponseEntity.ok(foundDepotsDto);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> create(
-            Authentication authentication) {
-        depotService.create(authentication.getName());
+    @PostMapping(path = "/{email}")
+    public ResponseEntity<Void> create(@PathVariable String email) {
+        log.debug(email);
+        depotService.create(email);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

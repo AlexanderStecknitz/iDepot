@@ -41,9 +41,16 @@ entity "Role" as role {
     description: text
 }
 
-stock o.left.{ investment
-depot o.right.{ investment
-user ..{ depot
-role .left.{ user
+entity "Deposit Account" as deposit_account {
+    *id : number <<generiert>>
+    --
+    *depot_id : number <<FS>>
+}
+
+stock ||-left-o{ investment
+depot ||-right-|{ investment
+user ||--|{ depot
+role ||-left-o{ user
+deposit_account ||-right-|| depot
 
 @enduml
