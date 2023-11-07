@@ -3,7 +3,8 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.exception.MasterDataException;
+import de.stecknitz.backend.core.service.exception.UserAlreadyExistsException;
+import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ class UserServiceTest {
 
         given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
-        Assert.assertThrows(MasterDataException.class, () -> userService.findByEmail(email));
+        Assert.assertThrows(UserNotFoundException.class, () -> userService.findByEmail(email));
 
     }
 
@@ -59,7 +60,7 @@ class UserServiceTest {
 
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
-        Assert.assertThrows(MasterDataException.class, () -> userService.create(user));
+        Assert.assertThrows(UserAlreadyExistsException.class, () -> userService.create(user));
     }
 
 }

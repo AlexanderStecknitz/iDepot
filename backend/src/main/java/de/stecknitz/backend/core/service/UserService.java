@@ -3,8 +3,8 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.core.domain.Role;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.exception.ErrorConstants;
-import de.stecknitz.backend.core.service.exception.MasterDataException;
+import de.stecknitz.backend.core.service.exception.UserAlreadyExistsException;
+import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,14 +28,14 @@ public class UserService {
     @Transactional
     public void create(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
-        if(optionalUser.isPresent()) {
-            throw new MasterDataException(ErrorConstants.USER_ALREADY_EXISTS);
+        if (optionalUser.isPresent()) {
+            throw new UserAlreadyExistsException();
         }
         String salt = generateSalt();
         user.setSalt(salt);
         user.setPassword(passwordEncoder.encode(user.getPassword() + salt));
         user.setRole(Role.builder()
-                        .name("USER")
+                .name("USER")
                 .build());
         userRepository.save(user);
         depotService.createByUser(user);
@@ -44,8 +44,8 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findByEmail(final String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
-        if(optionalUser.isEmpty()) {
-            throw new MasterDataException(ErrorConstants.USER_NOT_FOUND);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException();
         }
         return optionalUser.get();
     }
@@ -55,6 +55,6 @@ public class UserService {
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
-     }
+    }
 
 }

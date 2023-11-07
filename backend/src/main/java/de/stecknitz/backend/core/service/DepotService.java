@@ -6,8 +6,7 @@ import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.exception.ErrorConstants;
-import de.stecknitz.backend.core.service.exception.MasterDataException;
+import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class DepotService {
     public void create(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
-            throw new MasterDataException(ErrorConstants.USER_NOT_FOUND);
+            throw new UserNotFoundException();
         }
         Depot depot = Depot.builder()
                 .user(user.get())

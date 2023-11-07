@@ -3,6 +3,7 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.StockRepository;
+import de.stecknitz.backend.core.service.exception.StockAlreadyExistsException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,9 +78,8 @@ class StockServiceTest {
 
         Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalStock);
 
-        Stock foundStock = stockService.create(givenStock);
-
-        Assertions.assertThat(foundStock).isNull();
+        Assertions.assertThatThrownBy(() -> stockService.create(givenStock))
+                .isInstanceOf(StockAlreadyExistsException.class);
     }
 
 }
