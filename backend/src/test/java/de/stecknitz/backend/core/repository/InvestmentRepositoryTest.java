@@ -5,6 +5,7 @@ import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,8 +14,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,13 +21,9 @@ import java.util.Optional;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
-@Testcontainers
 class InvestmentRepositoryTest {
 
-    @Container
-    static PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:latest")
-            .withUsername("postgres")
-            .withPassword("postgres");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
     InvestmentRepository investmentRepository;
@@ -46,6 +41,11 @@ class InvestmentRepositoryTest {
     @AfterAll
     static void afterAll() {
         postgres.close();
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
     }
 
     @Test

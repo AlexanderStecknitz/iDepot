@@ -4,6 +4,7 @@ import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,19 +13,13 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
-@Testcontainers
 public class StockRepositoryTest {
 
-    @Container
-    static PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:latest")
-            .withUsername("postgres")
-            .withPassword("postgres");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
     StockRepository stockRepository;
@@ -39,6 +34,11 @@ public class StockRepositoryTest {
     @AfterAll
     static void afterAll() {
         postgres.close();
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
     }
 
     @Test
@@ -58,9 +58,9 @@ public class StockRepositoryTest {
         String isin = TestUtil.APPLE_ISIN;
         Stock stock = stockRepository.findByIsin(isin);
 
-        Assertions.assertEquals(stock.getIsin(), isin);
-        Assertions.assertEquals(stock.getName(), TestUtil.APPLE_NAME);
-        Assertions.assertEquals(stock.getSymbol(), TestUtil.APPLE_SYMBOL);
+        Assertions.assertEquals(isin, stock.getIsin());
+        Assertions.assertEquals(TestUtil.APPLE_NAME, stock.getName());
+        Assertions.assertEquals(TestUtil.APPLE_SYMBOL, stock.getSymbol());
     }
 
 }
