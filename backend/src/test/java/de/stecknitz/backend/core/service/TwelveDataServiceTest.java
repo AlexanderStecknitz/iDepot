@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.StockRepository;
 import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClient;
@@ -35,14 +36,14 @@ class TwelveDataServiceTest {
     void getEndOfDayDataTest() {
         List<Stock> stocks = List.of(
                 Stock.builder()
-                        .isin("Test")
-                        .symbol("AAPL")
+                        .isin(TestUtil.APPLE_ISIN)
+                        .symbol(TestUtil.APPLE_SYMBOL)
                         .build()
         );
 
         EndOfDayDTO endOfDayDTO = EndOfDayDTO.builder()
-                .symbol("AAPL")
-                .close("172.21")
+                .symbol(TestUtil.APPLE_SYMBOL)
+                .close(TestUtil.END_OF_DAY_CLOSE)
                 .build();
 
         Mockito.when(stockRepository.findAll()).thenReturn(stocks);

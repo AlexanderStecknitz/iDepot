@@ -33,27 +33,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Testcontainers
 class AuthResourceTest {
 
+    @Container
+    static PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:latest")
+            .withUsername("postgres")
+            .withPassword("postgres");
     private final String ENDPOINT = "/auth";
-
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserService userService;
+    MockMvc mockMvc;
     @Autowired
     private WebApplicationContext context;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserService userService;
-
-    MockMvc mockMvc;
-
-    @Container
-    static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer<>();
+    @AfterAll
+    public static void afterAll() {
+        postgres.close();
+    }
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-        dynamicPropertyRegistry.add( "spring.datasource.url", postgresqlContainer::getJdbcUrl );
-        dynamicPropertyRegistry.add( "spring.datasource.username", postgresqlContainer::getUsername );
-        dynamicPropertyRegistry.add( "spring.datasource.password", postgresqlContainer::getPassword );
+        dynamicPropertyRegistry.add("spring.datasource.url", postgres::getJdbcUrl);
+        dynamicPropertyRegistry.add("spring.datasource.username", postgres::getUsername);
+        dynamicPropertyRegistry.add("spring.datasource.password", postgres::getPassword);
     }
 
     @BeforeEach
@@ -64,28 +66,23 @@ class AuthResourceTest {
                 .build();
     }
 
-    @AfterAll
-    public static void afterAll() {
-        postgresqlContainer.close();
-    }
-
     @Test
     void registerTest() throws Exception {
         RegisterUserDTO registerUserDTO = RegisterUserDTO.builder()
-                .email("alex@alex.de")
-                .firstname("alexander")
-                .lastname("stecknitz")
-                .password("admin")
+                .email(TestUtil.SECOND_USER_EMAIL)
+                .firstname(TestUtil.SECOND_USER_FIRST_NAME)
+                .lastname(TestUtil.SECOND_USER_LAST_NAME)
+                .password(TestUtil.SECOND_USER_PASSWORD)
                 .build();
 
         mockMvc.perform(post(ENDPOINT + "/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(TestUtil.convertObjectToJsonBytes(registerUserDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.convertObjectToJsonBytes(registerUserDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        User user = userRepository.findByEmail(registerUserDTO.getEmail()).orElse(null);
+        User user = userRepository.findByEmail(registerUserDTO.getEmail()).get();
         Assertions.assertThat(user.getEmail()).isEqualTo(registerUserDTO.getEmail());
         Assertions.assertThat(user.getFirstname()).isEqualTo(registerUserDTO.getFirstname());
         Assertions.assertThat(user.getLastname()).isEqualTo(registerUserDTO.getLastname());
@@ -95,7 +92,7 @@ class AuthResourceTest {
     @Test
     void loginTest() throws Exception {
         mockMvc.perform(post(ENDPOINT + "/login")
-                    .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin", "admin")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -103,7 +100,7 @@ class AuthResourceTest {
     @Test
     void logoutTest() throws Exception {
         mockMvc.perform(get(ENDPOINT + "/logout")
-                    .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin", "admin")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andExpect(status().isOk());
 
     }
@@ -111,7 +108,7 @@ class AuthResourceTest {
     @WithMockUser
     @Test
     void findUserTest() throws Exception {
-        final String email = "admin";
+        final String email = TestUtil.USER_EMAIL;
         mockMvc.perform(get(ENDPOINT + "/user/" + email))
                 .andDo(print())
                 .andExpect(status().isOk());

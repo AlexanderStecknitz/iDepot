@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
@@ -48,10 +49,10 @@ class DepotServiceTest {
 
         List<Depot> givenDepots = List.of(
                 Depot.builder()
-                        .id(1)
+                        .id(TestUtil.DEPOT_ID_0)
                         .build(),
                 Depot.builder()
-                        .id(2)
+                        .id(TestUtil.DEPOT_ID_1)
                         .build());
 
         Mockito.when(depotRepository.findAll()).thenReturn(givenDepots);
@@ -65,7 +66,7 @@ class DepotServiceTest {
     @Test
     void findAllByEmailTest() {
 
-        String email = "AlexanderStecknitz@Stecknitz.de";
+        String email = TestUtil.USER_EMAIL;
 
         List<Depot> depots = List.of(
                 Depot.builder()
@@ -86,7 +87,7 @@ class DepotServiceTest {
     @Test
     void createByUserTest() {
 
-        String email = "AlexanderStecknitz@Stecknitz.de";
+        String email = TestUtil.USER_EMAIL;
 
         User user = User.builder()
                 .email(email)

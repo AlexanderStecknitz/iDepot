@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( InvestmentResource.class )
+@WebMvcTest(InvestmentResource.class)
 class InvestmentResourceTest {
 
     private final String ENDPOINT = "/api/investment";
@@ -53,21 +53,21 @@ class InvestmentResourceTest {
     void findAllTest() throws Exception {
         List<Investment> investments = List.of(
                 Investment.builder()
-                        .investmentId(1)
+                        .investmentId(TestUtil.INVESTMENT_ID_0)
                         .stock(Stock.builder()
-                                .isin("Test1")
+                                .isin(TestUtil.APPLE_ISIN)
                                 .build())
                         .depot(Depot.builder()
-                                .id(1)
+                                .id(TestUtil.DEPOT_ID_0)
                                 .build())
                         .build()
         );
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin("ISIN1")
-                .depotId(1)
-                .amount(12)
-                .buyPrice(54.21f)
+                .isin(TestUtil.APPLE_ISIN)
+                .depotId(TestUtil.DEPOT_ID_0)
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
         given(investmentService.findAll()).willReturn(investments);
@@ -95,27 +95,33 @@ class InvestmentResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void findStocksInDepotTest() throws Exception {
-        final long depotId = 1;
+        final long depotId = TestUtil.DEPOT_ID_0;
 
         List<Investment> investments = List.of(
                 Investment.builder()
-                .investmentId(TestUtil.INVESTMENT_ID)
-                        .stock(TestUtil.STOCK_APPLE)
+                        .investmentId(TestUtil.INVESTMENT_ID_0)
+                        .stock(Stock.builder()
+                                .isin(TestUtil.APPLE_ISIN)
+                                .symbol(TestUtil.APPLE_SYMBOL)
+                                .name(TestUtil.APPLE_NAME)
+                                .wkn(TestUtil.APPLE_WKN)
+                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
+                                .build())
                         .depot(Depot.builder()
                                 .id(depotId)
                                 .build())
                         .amount(TestUtil.AMOUNT)
                         .buyPrice(TestUtil.BUY_PRICE)
-                .build()
+                        .build()
         );
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                        .depotId(depotId)
-                        .isin(TestUtil.STOCK_APPLE.getIsin())
-                        .amount(TestUtil.AMOUNT)
-                        .buyPrice(TestUtil.BUY_PRICE)
-                        .yield(investments.get(0).calculateYield())
-                        .build();
+                .depotId(depotId)
+                .isin(TestUtil.APPLE_ISIN)
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
+                .yield(investments.get(0).calculateYield())
+                .build();
 
         given(investmentService.findByDepotId(depotId)).willReturn(investments);
         given(investmentMapper.toInvestmentDTO(investments.get(0))).willReturn(investmentDTO);
@@ -130,7 +136,7 @@ class InvestmentResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void findButNoStockInDepotTest() throws Exception {
-        final long depotId = 1;
+        final long depotId = TestUtil.DEPOT_ID_0;
 
         List<Investment> investments = Collections.emptyList();
 
@@ -145,9 +151,17 @@ class InvestmentResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void findTransactionsInDepotTest() throws Exception {
-        final long depotId = TestUtil.DEPOT_ID;
-        Depot depot = TestUtil.DEPOT;
-        Stock stock = TestUtil.STOCK_APPLE;
+        final long depotId = TestUtil.DEPOT_ID_0;
+        Depot depot = Depot.builder()
+                .id(depotId)
+                .build();
+        Stock stock = Stock.builder()
+                .isin(TestUtil.APPLE_ISIN)
+                .symbol(TestUtil.APPLE_SYMBOL)
+                .name(TestUtil.APPLE_NAME)
+                .wkn(TestUtil.APPLE_WKN)
+                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
+                .build();
         TransactionDTO transactionDTO = TransactionDTO.builder()
                 .amount(TestUtil.AMOUNT)
                 .buyPrice(TestUtil.BUY_PRICE)
@@ -156,7 +170,7 @@ class InvestmentResourceTest {
         List<Investment> investments = List.of(
                 Investment.builder()
                         .depot(depot)
-                        .investmentId(TestUtil.INVESTMENT_ID)
+                        .investmentId(TestUtil.INVESTMENT_ID_0)
                         .stock(stock)
                         .buyPrice(TestUtil.BUY_PRICE)
                         .amount(TestUtil.AMOUNT)
@@ -176,9 +190,7 @@ class InvestmentResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void findTransactionsInDepotNotFoundTest() throws Exception {
-        final long depotId = TestUtil.DEPOT_ID;
-        Depot depot = TestUtil.DEPOT;
-        Stock stock = TestUtil.STOCK_APPLE;
+        final long depotId = TestUtil.DEPOT_ID_0;
 
         when(investmentService.findByDepotId(depotId)).thenReturn(Collections.emptyList());
 
@@ -191,31 +203,31 @@ class InvestmentResourceTest {
     @Test
     void createStockPositionTest() throws Exception {
         Investment investment = Investment.builder()
-                        .depot(Depot.builder()
-                                .id(1)
-                                .build())
-                        .investmentId(1)
-                        .stock(Stock.builder()
-                                .isin("Test")
-                                .build())
-                        .amount(12)
-                        .buyPrice(98.21f)
-                        .build();
+                .depot(Depot.builder()
+                        .id(TestUtil.DEPOT_ID_0)
+                        .build())
+                .investmentId(TestUtil.INVESTMENT_ID_0)
+                .stock(Stock.builder()
+                        .isin(TestUtil.APPLE_ISIN)
+                        .build())
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
+                .build();
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin("Test")
-                .depotId(1)
-                .amount(12)
-                .buyPrice(98.21f)
+                .isin(TestUtil.APPLE_ISIN)
+                .depotId(TestUtil.DEPOT_ID_0)
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
         given(investmentMapper.toInvestment(investmentDTO)).willReturn(investment);
         given(investmentService.create(investment)).willReturn(investment);
 
         mockMvc.perform(post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtil.convertObjectToJsonBytes(investmentDTO)))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.convertObjectToJsonBytes(investmentDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -226,21 +238,21 @@ class InvestmentResourceTest {
     void createButStockPositionAlreadyExistsTest() throws Exception {
         Investment investment = Investment.builder()
                 .depot(Depot.builder()
-                        .id(1)
+                        .id(TestUtil.DEPOT_ID_0)
                         .build())
-                .investmentId(1)
+                .investmentId(TestUtil.INVESTMENT_ID_0)
                 .stock(Stock.builder()
-                        .isin("Test")
+                        .isin(TestUtil.APPLE_ISIN)
                         .build())
-                .amount(12)
-                .buyPrice(98.21f)
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
         InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin("Test")
-                .depotId(1)
-                .amount(12)
-                .buyPrice(98.21f)
+                .isin(TestUtil.APPLE_ISIN)
+                .depotId(TestUtil.DEPOT_ID_0)
+                .amount(TestUtil.AMOUNT)
+                .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
         given(investmentMapper.toInvestment(investmentDTO)).willReturn(investment);

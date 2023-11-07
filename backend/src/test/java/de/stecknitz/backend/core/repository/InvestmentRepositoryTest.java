@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.repository;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
 import org.assertj.core.api.Assertions;
@@ -19,13 +20,15 @@ import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
-@AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource( properties = "spring.jpa.hibernate.ddl-auto=create-drop")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 @Testcontainers
 class InvestmentRepositoryTest {
 
     @Container
-    static PostgreSQLContainer testContainer = new PostgreSQLContainer<>( "postgres:15.2" );
+    static PostgreSQLContainer postgres = new PostgreSQLContainer<>("postgres:latest")
+            .withUsername("postgres")
+            .withPassword("postgres");
 
     @Autowired
     InvestmentRepository investmentRepository;
@@ -35,14 +38,14 @@ class InvestmentRepositoryTest {
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {
-        dynamicPropertyRegistry.add( "spring.datasource.url", testContainer::getJdbcUrl );
-        dynamicPropertyRegistry.add( "spring.datasource.username", testContainer::getUsername );
-        dynamicPropertyRegistry.add( "spring.datasource.password", testContainer::getPassword );
+        dynamicPropertyRegistry.add("spring.datasource.url", postgres::getJdbcUrl);
+        dynamicPropertyRegistry.add("spring.datasource.username", postgres::getUsername);
+        dynamicPropertyRegistry.add("spring.datasource.password", postgres::getPassword);
     }
 
     @AfterAll
     static void afterAll() {
-        testContainer.close();
+        postgres.close();
     }
 
     @Test
@@ -50,7 +53,7 @@ class InvestmentRepositoryTest {
         investmentRepository.deleteAllInBatch();
         depotRepository.deleteAllInBatch();
 
-        long givenDepotId = 1;
+        long givenDepotId = TestUtil.DEPOT_ID_0;
 
         Depot depot = Depot.builder()
                 .id(givenDepotId)
@@ -59,7 +62,7 @@ class InvestmentRepositoryTest {
         depotRepository.saveAndFlush(depot);
 
         Investment investment = Investment.builder()
-                .investmentId(1)
+                .investmentId(TestUtil.INVESTMENT_ID_0)
                 .depot(depot)
                 .build();
 

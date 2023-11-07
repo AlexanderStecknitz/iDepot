@@ -1,5 +1,6 @@
 package de.stecknitz.backend.core.service;
 
+import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.StockRepository;
 import org.assertj.core.api.Assertions;
@@ -26,12 +27,12 @@ class StockServiceTest {
     void findAllTest() {
         List<Stock> givenStocks = List.of(
                 Stock.builder()
-                        .isin("Test")
-                        .name("Test")
+                        .isin(TestUtil.APPLE_ISIN)
+                        .name(TestUtil.APPLE_NAME)
                         .build(),
                 Stock.builder()
-                        .isin("Test2")
-                        .name("Test2")
+                        .isin(TestUtil.MICROSOFT_ISIN)
+                        .name(TestUtil.MICROSOFT_NAME)
                         .build()
         );
 
@@ -46,8 +47,8 @@ class StockServiceTest {
     @Test
     void createTest() {
         Stock givenStock = Stock.builder()
-                .isin("Test")
-                .name("Test")
+                .isin(TestUtil.APPLE_ISIN)
+                .name(TestUtil.APPLE_NAME)
                 .build();
 
         Optional<Stock> optionalStock = Optional.empty();
@@ -63,8 +64,8 @@ class StockServiceTest {
     @Test
     void createWithShareAlreadyExistsTest() {
         Stock givenStock = Stock.builder()
-                .isin("Test")
-                .name("Test")
+                .isin(TestUtil.APPLE_ISIN)
+                .name(TestUtil.APPLE_NAME)
                 .build();
 
         Optional<Stock> optionalStock = Optional.of(

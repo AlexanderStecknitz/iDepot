@@ -21,12 +21,12 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest( StockResource.class )
+@WebMvcTest(StockResource.class)
 class StockResourceTest {
 
     private final static String ENDPOINT = "/api/stock";
@@ -46,22 +46,22 @@ class StockResourceTest {
 
         List<Stock> stocks = List.of(
                 Stock.builder()
-                        .isin("TEST1")
-                .build()
+                        .isin(TestUtil.APPLE_ISIN)
+                        .build()
         );
 
         StockDTO stockDTO = StockDTO.builder()
-                .isin("TEST1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build();
 
-        given( stockService.findAll() ).willReturn(stocks);
-        given( stockMapper.toStockDto(stocks.get(0)) ).willReturn(stockDTO);
+        given(stockService.findAll()).willReturn(stocks);
+        given(stockMapper.toStockDto(stocks.get(0))).willReturn(stockDTO);
 
         mockMvc.perform(get(ENDPOINT))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$.[0].isin").value("TEST1"))
+                .andExpect(jsonPath("$.[0].isin").value(TestUtil.APPLE_ISIN))
                 .andReturn();
 
     }
@@ -72,7 +72,7 @@ class StockResourceTest {
 
         List<Stock> stocks = Collections.emptyList();
 
-        given( stockService.findAll() ).willReturn(stocks);
+        given(stockService.findAll()).willReturn(stocks);
 
         mockMvc.perform(get(ENDPOINT))
                 .andDo(print())
@@ -84,22 +84,22 @@ class StockResourceTest {
     @Test
     void createTest() throws Exception {
         StockDTO stockDTO = StockDTO.builder()
-                .isin("TEST1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build();
 
         Stock stock = Stock.builder()
-                .isin("TEST1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build();
 
-        given( stockMapper.toStock(stockDTO) ).willReturn(stock);
-        given( stockService.create(stock) ).willReturn(stock);
+        given(stockMapper.toStock(stockDTO)).willReturn(stock);
+        given(stockService.create(stock)).willReturn(stock);
 
         mockMvc.perform(
-                post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(stockDTO))
-        )
+                        post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(TestUtil.convertObjectToJsonBytes(stockDTO))
+                )
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -109,15 +109,15 @@ class StockResourceTest {
     @Test
     void createButShareAlreadyExists() throws Exception {
         StockDTO stockDTO = StockDTO.builder()
-                .isin("TEST1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build();
 
         Stock stock = Stock.builder()
-                .isin("TEST1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build();
 
-        given( stockMapper.toStock(stockDTO) ).willReturn(stock);
-        given( stockService.create(stock) ).willReturn(null);
+        given(stockMapper.toStock(stockDTO)).willReturn(stock);
+        given(stockService.create(stock)).willReturn(null);
 
         mockMvc.perform(
                         post(ENDPOINT).with(SecurityMockMvcRequestPostProcessors.csrf())

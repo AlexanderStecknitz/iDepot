@@ -42,12 +42,12 @@ class InvestmentServiceTest {
     void findAllTest() {
         List<Investment> givenInvestments = List.of(
                 Investment.builder()
-                        .investmentId(1)
-                        .amount(1)
+                        .investmentId(TestUtil.INVESTMENT_ID_0)
+                        .amount(TestUtil.AMOUNT)
                         .build(),
                 Investment.builder()
-                        .investmentId(2)
-                        .amount(2)
+                        .investmentId(TestUtil.INVESTMENT_ID_1)
+                        .amount(TestUtil.AMOUNT)
                         .build()
         );
 
@@ -62,14 +62,20 @@ class InvestmentServiceTest {
     @Test
     void findByDepotIdTest() {
 
-        long givenDepotId = 1;
+        long givenDepotId = TestUtil.DEPOT_ID_0;
 
         List<Investment> givenInvestments = List.of(
                 Investment.builder()
                         .depot(Depot.builder()
                                 .id(givenDepotId)
                                 .build())
-                        .stock(TestUtil.STOCK_APPLE)
+                        .stock(Stock.builder()
+                                .isin(TestUtil.APPLE_ISIN)
+                                .wkn(TestUtil.APPLE_WKN)
+                                .name(TestUtil.APPLE_NAME)
+                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
+                                .symbol(TestUtil.APPLE_SYMBOL)
+                                .build())
                         .buyPrice(TestUtil.BUY_PRICE)
                         .amount(TestUtil.AMOUNT)
                         .build()
@@ -99,18 +105,18 @@ class InvestmentServiceTest {
     @Test
     void createTest() {
 
-        long givenDepotId = 1;
+        long givenDepotId = TestUtil.DEPOT_ID_0;
 
         Optional<Depot> givenDepot = Optional.of(Depot.builder()
                 .id(givenDepotId)
                 .build());
 
         Optional<Stock> givenStock = Optional.of(Stock.builder()
-                .isin("ISIN1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build());
 
         Investment givenInvestments = Investment.builder()
-                .investmentId(1)
+                .investmentId(TestUtil.INVESTMENT_ID_0)
                 .depot(givenDepot.get())
                 .stock(givenStock.get())
                 .build();
@@ -128,7 +134,7 @@ class InvestmentServiceTest {
     @Test
     void createTestWithNoDepot() {
 
-        long givenDepotId = 1;
+        long givenDepotId = TestUtil.DEPOT_ID_0;
 
         Optional<Depot> givenOptionalDepot = Optional.empty();
 
@@ -137,11 +143,11 @@ class InvestmentServiceTest {
                 .build());
 
         Optional<Stock> givenOptionalStock = Optional.of(Stock.builder()
-                .isin("ISIN1")
+                .isin(TestUtil.APPLE_ISIN)
                 .build());
 
         Investment givenInvestments = Investment.builder()
-                .investmentId(1)
+                .investmentId(TestUtil.INVESTMENT_ID_0)
                 .depot(givenDepot.get())
                 .stock(givenOptionalStock.get())
                 .build();
@@ -157,23 +163,23 @@ class InvestmentServiceTest {
     @Test
     void createTestWithNewStock() {
 
-        long givenDepotId = 1;
+        long givenDepotId = TestUtil.DEPOT_ID_0;
 
         Optional<Depot> givenDepot = Optional.of(Depot.builder()
                 .id(givenDepotId)
                 .build());
 
         Optional<Stock> givenStock = Optional.of(Stock.builder()
-                .isin("ISIN1")
-                .wkn(null)
-                .name(null)
-                .currentPrice(0.0f)
+                .isin(TestUtil.APPLE_ISIN)
+                .wkn(TestUtil.APPLE_WKN)
+                .name(TestUtil.APPLE_NAME)
+                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
                 .build());
 
         Optional<Stock> givenOptionalStock = Optional.empty();
 
         Investment givenInvestments = Investment.builder()
-                .investmentId(1)
+                .investmentId(TestUtil.INVESTMENT_ID_0)
                 .depot(givenDepot.get())
                 .stock(givenStock.get())
                 .build();
@@ -200,7 +206,7 @@ class InvestmentServiceTest {
 
     @Test
     void accumulateInvestmentValueTest() {
-        final long depotId = TestUtil.DEPOT_ID;
+        final long depotId = TestUtil.DEPOT_ID_0;
         List<Investment> investments = List.of(
                 Investment.builder()
                         .amount(TestUtil.AMOUNT)
@@ -212,7 +218,7 @@ class InvestmentServiceTest {
                 investments
         );
 
-       Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(optionalInvestments);
+        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(optionalInvestments);
 
         double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);
 

@@ -31,7 +31,7 @@ public class ChartResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void getCompositionPieChartTest() throws Exception {
-        final long depotId = TestUtil.DEPOT_ID;
+        final long depotId = TestUtil.DEPOT_ID_0;
         when(chartService.getCompositionPieChart(depotId)).thenReturn(Collections.emptyList());
         String ENDPOINT = "/api/chart/composition";
         mockMvc.perform(

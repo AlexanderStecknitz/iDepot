@@ -45,11 +45,8 @@ public class InvestmentService {
         investment.setDepot(optionalDepot.get());
         Optional<Stock> optionalStock = stockRepository.findById(investment.getStock().getIsin());
         if (optionalStock.isEmpty()) {
-            Stock stock = Stock.builder()
-                    .isin(investment.getStock().getIsin())
-                    .build();
-            stockRepository.saveAndFlush(stock);
-            investment.setStock(stock);
+            stockRepository.saveAndFlush(investment.getStock());
+            investment.setStock(investment.getStock());
         } else {
             investment.setStock(optionalStock.get());
         }
