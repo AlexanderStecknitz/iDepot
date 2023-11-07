@@ -6,6 +6,7 @@ import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.service.exception.MasterDataException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -102,7 +103,7 @@ class DepotServiceTest {
     @Test
     void createTest() {
 
-        String email = "AlexanderStecknitz@Stecknitz.de";
+        String email = "admin";
 
         User user = User.builder()
                 .email(email)
@@ -128,6 +129,16 @@ class DepotServiceTest {
 
         Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
         Assertions.assertThat(depositAccountCaptor.getValue().getDepot().getId()).isEqualTo(depotWithId.getId());
+    }
+
+    @Test
+    void createTestUserNotFound() {
+        String email = "admin";
+
+        BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> depotService.create(email))
+                .isInstanceOf(MasterDataException.class);
     }
 
 }
