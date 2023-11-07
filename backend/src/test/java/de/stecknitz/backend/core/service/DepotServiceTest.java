@@ -7,7 +7,7 @@ import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.exception.MasterDataException;
+import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -139,7 +139,7 @@ class DepotServiceTest {
         BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
         Assertions.assertThatThrownBy(() -> depotService.create(email))
-                .isInstanceOf(MasterDataException.class);
+                .isInstanceOf(UserNotFoundException.class);
     }
 
 }

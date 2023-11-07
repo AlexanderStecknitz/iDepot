@@ -7,6 +7,7 @@ import de.stecknitz.backend.core.domain.Stock;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.core.repository.StockRepository;
+import de.stecknitz.backend.core.service.exception.DepotNotFoundException;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -153,10 +154,9 @@ class InvestmentServiceTest {
                 .build();
 
         Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenOptionalDepot);
-
-        Investment foundInvestments = investmentService.create(givenInvestments);
-
-        Assertions.assertThat(foundInvestments).isNull();
+        
+        Assertions.assertThatThrownBy(() -> investmentService.create(givenInvestments))
+                .isInstanceOf(DepotNotFoundException.class);
 
     }
 
