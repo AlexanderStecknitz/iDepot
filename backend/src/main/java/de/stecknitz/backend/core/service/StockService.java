@@ -23,6 +23,11 @@ public class StockService {
         return stockRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Stock findById(final String isin) {
+        return stockRepository.findById(isin).orElse(null);
+    }
+
     @Transactional
     public Stock create(final Stock stock) {
         Optional<Stock> optionalShare = stockRepository.findById(stock.getIsin());
