@@ -46,6 +46,31 @@ class StockServiceTest {
     }
 
     @Test
+    void findByIdTest() {
+        Stock givenStock = Stock.builder()
+                .isin(TestUtil.APPLE_ISIN)
+                .name(TestUtil.APPLE_NAME)
+                .build();
+
+        Optional<Stock> optionalStock = Optional.of(givenStock);
+
+        Mockito.when(stockRepository.findById(givenStock.getIsin())).thenReturn(optionalStock);
+
+        Stock foundStock = stockService.findById(givenStock.getIsin());
+
+        Assertions.assertThat(foundStock).isEqualTo(givenStock);
+    }
+
+    @Test
+    void findByIdWithStockNotFoundTest() {
+        String isin = TestUtil.APPLE_ISIN;
+
+        Mockito.when(stockRepository.findById(isin)).thenReturn(Optional.empty());
+
+        Assertions.assertThat(stockService.findById(isin)).isNull();
+    }
+
+    @Test
     void createTest() {
         Stock givenStock = Stock.builder()
                 .isin(TestUtil.APPLE_ISIN)

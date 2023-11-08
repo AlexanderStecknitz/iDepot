@@ -79,6 +79,36 @@ class DepotServiceTest {
     }
 
     @Test
+    void findByIdTest() {
+
+        long id = TestUtil.DEPOT_ID_0;
+
+        Depot depot = Depot.builder()
+                .id(id)
+                .build();
+
+        Mockito.when(depotRepository.findById(id)).thenReturn(Optional.of(depot));
+
+        Depot foundDepot = depotService.findById(id);
+
+        Assertions.assertThat(foundDepot.getId()).isEqualTo(id);
+
+    }
+
+    @Test
+    void findByIdNotFoundTest() {
+
+        long id = TestUtil.DEPOT_ID_0;
+
+        Mockito.when(depotRepository.findById(id)).thenReturn(Optional.empty());
+
+        Depot foundDepot = depotService.findById(id);
+
+        Assertions.assertThat(foundDepot).isNull();
+
+    }
+
+    @Test
     void createByUserTest() {
 
         String email = TestUtil.USER_EMAIL;
