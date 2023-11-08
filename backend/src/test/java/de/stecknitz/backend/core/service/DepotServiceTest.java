@@ -5,6 +5,7 @@ import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -123,6 +124,19 @@ class DepotServiceTest {
 
         Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
 
+    }
+
+    @Test
+    void createButNoUserFoundTest() {
+
+        String email = "admin";
+
+        Optional<User> user = Optional.empty();
+
+        BDDMockito.given(userRepository.findByEmail(email)).willReturn(user);
+
+        Assertions.assertThatThrownBy(() -> depotService.create(email))
+                .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
