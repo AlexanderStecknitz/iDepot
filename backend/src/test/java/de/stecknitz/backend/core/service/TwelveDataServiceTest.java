@@ -2,7 +2,6 @@ package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.repository.StockRepository;
 import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClient;
 import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTO;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +23,7 @@ class TwelveDataServiceTest {
     TwelveDataClient twelveDataClient;
 
     @Mock
-    StockRepository stockRepository;
+    StockService stockService;
 
     @InjectMocks
     TwelveDataService twelveDataService;
@@ -46,12 +45,12 @@ class TwelveDataServiceTest {
                 .close(TestUtil.END_OF_DAY_CLOSE)
                 .build();
 
-        Mockito.when(stockRepository.findAll()).thenReturn(stocks);
+        Mockito.when(stockService.findAll()).thenReturn(stocks);
         Mockito.when(twelveDataClient.getEndOfDay(stocks.get(0).getSymbol())).thenReturn(endOfDayDTO);
 
         EndOfDayDTO result = twelveDataService.getEndOfDayData();
 
-        Mockito.verify(stockRepository, Mockito.times(1)).save(stockCaptor.capture());
+        Mockito.verify(stockService, Mockito.times(1)).create(stockCaptor.capture());
         Stock stock = stockCaptor.getValue();
 
         Assertions.assertEquals(stock.getCurrentPrice(), stocks.get(0).getCurrentPrice());

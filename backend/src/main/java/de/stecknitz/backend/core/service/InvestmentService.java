@@ -3,9 +3,7 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
-import de.stecknitz.backend.core.repository.StockRepository;
 import de.stecknitz.backend.core.service.exception.DepotNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +20,8 @@ import java.util.Optional;
 public class InvestmentService {
 
     private final InvestmentRepository investmentRepository;
-    private final DepotRepository depotRepository;
-    private final StockRepository stockRepository;
+    private final DepotService depotService;
+    private final StockService stockService;
 
     @Transactional(readOnly = true)
     public List<Investment> findAll() {
@@ -39,17 +37,17 @@ public class InvestmentService {
     @Transactional
     public Investment create(final Investment investment) {
         log.debug("InvestmentService={}", investment);
-        Optional<Depot> optionalDepot = depotRepository.findById(investment.getDepot().getId());
-        if (optionalDepot.isEmpty()) {
+        Depot depot = depotService.findById(investment.getDepot().getId());
+        if (depot == null) {
             throw new DepotNotFoundException();
         }
-        investment.setDepot(optionalDepot.get());
-        Optional<Stock> optionalStock = stockRepository.findById(investment.getStock().getIsin());
-        if (optionalStock.isEmpty()) {
-            stockRepository.saveAndFlush(investment.getStock());
+        investment.setDepot(depot);
+        Stock stock = stockService.findById(investment.getStock().getIsin());
+        if (stock == null) {
+            stockService.create(investment.getStock());
             investment.setStock(investment.getStock());
         } else {
-            investment.setStock(optionalStock.get());
+            investment.setStock(stock);
         }
         return investmentRepository.saveAndFlush(investment);
     }

@@ -4,11 +4,8 @@ import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.InvestmentRepository;
-import de.stecknitz.backend.core.repository.StockRepository;
 import de.stecknitz.backend.core.service.exception.DepotNotFoundException;
-import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,13 +25,10 @@ class InvestmentServiceTest {
     InvestmentRepository investmentRepository;
 
     @Mock
-    InvestmentMapper investmentMapper;
+    DepotService depotService;
 
     @Mock
-    DepotRepository depotRepository;
-
-    @Mock
-    StockRepository stockRepository;
+    StockService stockService;
 
     @InjectMocks
     InvestmentService investmentService;
@@ -108,23 +102,23 @@ class InvestmentServiceTest {
 
         long givenDepotId = TestUtil.DEPOT_ID_0;
 
-        Optional<Depot> givenDepot = Optional.of(Depot.builder()
+        Depot givenDepot = Depot.builder()
                 .id(givenDepotId)
-                .build());
+                .build();
 
-        Optional<Stock> givenStock = Optional.of(Stock.builder()
+        Stock givenStock = Stock.builder()
                 .isin(TestUtil.APPLE_ISIN)
-                .build());
+                .build();
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
-                .depot(givenDepot.get())
-                .stock(givenStock.get())
+                .depot(givenDepot)
+                .stock(givenStock)
                 .build();
 
-        Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenDepot);
+        Mockito.when(depotService.findById(givenDepotId)).thenReturn(givenDepot);
         Mockito.when(investmentRepository.saveAndFlush(givenInvestments)).thenReturn(givenInvestments);
-        Mockito.when(stockRepository.findById(givenInvestments.getStock().getIsin())).thenReturn(givenStock);
+        Mockito.when(stockService.findById(givenInvestments.getStock().getIsin())).thenReturn(givenStock);
 
         Investment foundInvestments = investmentService.create(givenInvestments);
 
@@ -137,24 +131,22 @@ class InvestmentServiceTest {
 
         long givenDepotId = TestUtil.DEPOT_ID_0;
 
-        Optional<Depot> givenOptionalDepot = Optional.empty();
-
-        Optional<Depot> givenDepot = Optional.of(Depot.builder()
+        Depot givenDepot = Depot.builder()
                 .id(givenDepotId)
-                .build());
+                .build();
 
-        Optional<Stock> givenOptionalStock = Optional.of(Stock.builder()
+        Stock givenOptionalStock = Stock.builder()
                 .isin(TestUtil.APPLE_ISIN)
-                .build());
+                .build();
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
-                .depot(givenDepot.get())
-                .stock(givenOptionalStock.get())
+                .depot(givenDepot)
+                .stock(givenOptionalStock)
                 .build();
 
-        Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenOptionalDepot);
-        
+        Mockito.when(depotService.findById(givenDepotId)).thenReturn(null);
+
         Assertions.assertThatThrownBy(() -> investmentService.create(givenInvestments))
                 .isInstanceOf(DepotNotFoundException.class);
 
@@ -165,41 +157,39 @@ class InvestmentServiceTest {
 
         long givenDepotId = TestUtil.DEPOT_ID_0;
 
-        Optional<Depot> givenDepot = Optional.of(Depot.builder()
+        Depot givenDepot = Depot.builder()
                 .id(givenDepotId)
-                .build());
+                .build();
 
-        Optional<Stock> givenStock = Optional.of(Stock.builder()
+        Stock givenStock = Stock.builder()
                 .isin(TestUtil.APPLE_ISIN)
                 .wkn(TestUtil.APPLE_WKN)
                 .name(TestUtil.APPLE_NAME)
                 .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                .build());
-
-        Optional<Stock> givenOptionalStock = Optional.empty();
+                .build();
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
-                .depot(givenDepot.get())
-                .stock(givenStock.get())
+                .depot(givenDepot)
+                .stock(givenStock)
                 .build();
 
         ArgumentCaptor<Stock> stockArgumentCaptor = ArgumentCaptor.forClass(Stock.class);
 
-        Mockito.when(depotRepository.findById(givenDepotId)).thenReturn(givenDepot);
+        Mockito.when(depotService.findById(givenDepotId)).thenReturn(givenDepot);
         Mockito.when(investmentRepository.saveAndFlush(givenInvestments)).thenReturn(givenInvestments);
-        Mockito.when(stockRepository.findById(givenInvestments.getStock().getIsin())).thenReturn(givenOptionalStock);
+        Mockito.when(stockService.findById(givenInvestments.getStock().getIsin())).thenReturn(null);
 
         Investment foundInvestments = investmentService.create(givenInvestments);
 
-        Mockito.verify(stockRepository, Mockito.times(1)).saveAndFlush(stockArgumentCaptor.capture());
+        Mockito.verify(stockService, Mockito.times(1)).create(stockArgumentCaptor.capture());
 
         Stock capturedStockArgument = stockArgumentCaptor.getValue();
 
-        Assertions.assertThat(capturedStockArgument.getIsin()).isEqualTo(givenStock.get().getIsin());
-        Assertions.assertThat(capturedStockArgument.getName()).isEqualTo(givenStock.get().getName());
-        Assertions.assertThat(capturedStockArgument.getWkn()).isEqualTo(givenStock.get().getWkn());
-        Assertions.assertThat(capturedStockArgument.getCurrentPrice()).isEqualTo(givenStock.get().getCurrentPrice());
+        Assertions.assertThat(capturedStockArgument.getIsin()).isEqualTo(givenStock.getIsin());
+        Assertions.assertThat(capturedStockArgument.getName()).isEqualTo(givenStock.getName());
+        Assertions.assertThat(capturedStockArgument.getWkn()).isEqualTo(givenStock.getWkn());
+        Assertions.assertThat(capturedStockArgument.getCurrentPrice()).isEqualTo(givenStock.getCurrentPrice());
         Assertions.assertThat(foundInvestments).isEqualTo(givenInvestments);
 
     }

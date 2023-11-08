@@ -1,9 +1,7 @@
 package de.stecknitz.backend.core.service;
 
-import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.exception.UserNotFoundException;
@@ -22,7 +20,7 @@ public class DepotService {
 
     private final DepotRepository depotRepository;
     private final UserRepository userRepository;
-    private final DepositAccountRepository depositAccountRepository;
+    private final DepositAccountService depositAccountService;
 
     @Transactional(readOnly = true)
     public List<Depot> findAllDepots() {
@@ -34,6 +32,11 @@ public class DepotService {
     @Transactional(readOnly = true)
     public List<Depot> findAllByEmail(final String email) {
         return depotRepository.findAllByUserEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public Depot findById(final long id) {
+        return depotRepository.findById(id).orElse(null);
     }
 
     @Transactional
@@ -56,10 +59,6 @@ public class DepotService {
 
         Depot depotWithId = depotRepository.saveAndFlush(depot);
 
-        DepositAccount depositAccount = DepositAccount.builder()
-                .depot(depotWithId)
-                .build();
-
-        depositAccountRepository.saveAndFlush(depositAccount);
+        depositAccountService.create(depotWithId);
     }
 }

@@ -3,7 +3,6 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Investment;
 import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.repository.InvestmentRepository;
 import de.stecknitz.backend.web.resources.dto.CompositionPieChartDTO;
 import de.stecknitz.backend.web.resources.dto.mapper.CompositionPieChartMapper;
 import org.assertj.core.api.Assertions;
@@ -14,14 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class ChartServiceTest {
-
-    @Mock
-    InvestmentRepository investmentRepository;
 
     @Mock
     CompositionPieChartMapper compositionPieChartMapper;
@@ -35,30 +31,28 @@ public class ChartServiceTest {
     @Test
     void getCompositionPieChartTest() {
         final long depotId = TestUtil.DEPOT_ID_0;
-        Optional<List<Investment>> optionalInvestments = Optional.of(
-                List.of(
-                        Investment.builder()
-                                .stock(Stock.builder()
-                                        .isin(TestUtil.APPLE_ISIN)
-                                        .wkn(TestUtil.APPLE_WKN)
-                                        .name(TestUtil.APPLE_NAME)
-                                        .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                                        .symbol(TestUtil.APPLE_SYMBOL)
-                                        .build())
-                                .buyPrice(TestUtil.BUY_PRICE)
-                                .amount(TestUtil.AMOUNT)
-                                .build()
-                )
+        List<Investment> investments = List.of(
+                Investment.builder()
+                        .stock(Stock.builder()
+                                .isin(TestUtil.APPLE_ISIN)
+                                .wkn(TestUtil.APPLE_WKN)
+                                .name(TestUtil.APPLE_NAME)
+                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
+                                .symbol(TestUtil.APPLE_SYMBOL)
+                                .build())
+                        .buyPrice(TestUtil.BUY_PRICE)
+                        .amount(TestUtil.AMOUNT)
+                        .build()
         );
 
-        Investment investment = optionalInvestments.get().get(0);
+        Investment investment = investments.get(0);
 
         CompositionPieChartDTO compositionPieChartDTO = CompositionPieChartDTO.builder()
                 .investmentName(TestUtil.APPLE_NAME)
                 .investmentValue(investment.getInvestmentValue())
                 .build();
 
-        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(optionalInvestments);
+        Mockito.when(investmentService.findByDepotId(depotId)).thenReturn(investments);
         Mockito.when(investmentService.accumulateInvestmentValue(depotId)).thenReturn(investment.getInvestmentValue());
         Mockito.when(compositionPieChartMapper.toCompositionPieChartDTO(investment,
                 investment.calculateInvestmentValue(investment.getInvestmentValue()))).thenReturn(compositionPieChartDTO);
@@ -72,7 +66,7 @@ public class ChartServiceTest {
     void getCompositionPieChartNotFoundTest() {
         final long depotId = TestUtil.DEPOT_ID_0;
 
-        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(Optional.empty());
+        Mockito.when(investmentService.findByDepotId(depotId)).thenReturn(Collections.emptyList());
 
         List<CompositionPieChartDTO> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
 

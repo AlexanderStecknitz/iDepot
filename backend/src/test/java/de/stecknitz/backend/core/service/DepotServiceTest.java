@@ -1,13 +1,10 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.DepositAccountRepository;
 import de.stecknitz.backend.core.repository.DepotRepository;
 import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,16 +30,13 @@ class DepotServiceTest {
     UserRepository userRepository;
 
     @Mock
-    DepositAccountRepository depositAccountRepository;
+    DepositAccountService depositAccountService;
 
     @InjectMocks
     DepotService depotService;
 
     @Captor
     ArgumentCaptor<Depot> depotCaptor;
-
-    @Captor
-    ArgumentCaptor<DepositAccount> depositAccountCaptor;
 
     @Test
     void findAllDepotsTest() {
@@ -106,13 +100,13 @@ class DepotServiceTest {
 
         String email = "admin";
 
-        User user = User.builder()
+        Optional<User> user = Optional.of(User.builder()
                 .email(email)
                 .depots(Collections.emptyList())
-                .build();
+                .build());
 
         Depot depot = Depot.builder()
-                .user(user)
+                .user(user.get())
                 .build();
 
         Depot depotWithId = Depot.builder()
@@ -120,26 +114,15 @@ class DepotServiceTest {
                 .user(depot.getUser())
                 .build();
 
-        BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
+        BDDMockito.given(userRepository.findByEmail(email)).willReturn(user);
         BDDMockito.given(depotRepository.saveAndFlush(depot)).willReturn(depotWithId);
 
         depotService.create(email);
 
-        Mockito.verify(depotRepository).saveAndFlush(depotCaptor.capture());
-        Mockito.verify(depositAccountRepository).saveAndFlush(depositAccountCaptor.capture());
+        Mockito.verify(depositAccountService).create(depotCaptor.capture());
 
         Assertions.assertThat(depotCaptor.getValue().getUser().getEmail()).isEqualTo(email);
-        Assertions.assertThat(depositAccountCaptor.getValue().getDepot().getId()).isEqualTo(depotWithId.getId());
-    }
-
-    @Test
-    void createTestUserNotFound() {
-        String email = "admin";
-
-        BDDMockito.given(userRepository.findByEmail(email)).willReturn(Optional.empty());
-
-        Assertions.assertThatThrownBy(() -> depotService.create(email))
-                .isInstanceOf(UserNotFoundException.class);
+        Assertions.assertThat(depotCaptor.getValue().getId()).isEqualTo(depotWithId.getId());
     }
 
 }
