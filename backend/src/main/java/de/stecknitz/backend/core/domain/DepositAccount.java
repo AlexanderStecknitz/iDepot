@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class DepositAccount {
 
     @Id
-    private int id;
+    private long id;
 
     @OneToOne
     private Depot depot;

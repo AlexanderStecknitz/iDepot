@@ -9,15 +9,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "deposit_account_transaction")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -35,7 +36,7 @@ public class DepositAccountTransaction {
     @Enumerated(EnumType.STRING)
     private DepositAccountTransactionType type;
 
-    @CreatedDate
+    @Column(name = "created_at", nullable = false)
     private Timestamp created_at;
 
 }

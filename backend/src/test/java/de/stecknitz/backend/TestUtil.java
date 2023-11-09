@@ -3,8 +3,14 @@ package de.stecknitz.backend;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import de.stecknitz.backend.core.domain.DepositAccountTransactionType;
+
+import java.time.Instant;
 
 public class TestUtil {
+
+
+    public static final Instant CURRENT_TIME = Instant.now();
 
     public static final String USER_EMAIL = "admin";
 
@@ -47,6 +53,12 @@ public class TestUtil {
     public static final String MICROSOFT_ISIN = "US5949181045";
 
     public static final String END_OF_DAY_CLOSE = "172.21";
+
+    public static final long DEPOSIT_ACCOUNT_ID_0 = 0L;
+
+    public static final long DEPOSIT_ACCOUNT_TRANSACTION_ID_O = 0L;
+
+    public static final DepositAccountTransactionType DEPOSIT_ACCOUNT_TRANSACTION_TYPE = DepositAccountTransactionType.DEPOSIT;
 
     public static byte[] convertObjectToJsonBytes(final Object object) throws Exception {
         final ObjectMapper objectMapper = new ObjectMapper();
