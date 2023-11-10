@@ -48,6 +48,7 @@ class DepositAccountTransactionResourceTest {
                         .id(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)
                         .depositAccount(givenDepositAccount)
                         .amount(TestUtil.AMOUNT)
+                        .type(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE)
                         .created_at(Timestamp.from(TestUtil.CURRENT_TIME))
                         .build()
         );
@@ -56,6 +57,7 @@ class DepositAccountTransactionResourceTest {
                 .id(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)
                 .amount(TestUtil.AMOUNT)
                 .created_at(TestUtil.CURRENT_TIME.toString())
+                .type(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE)
                 .build();
 
         Mockito.when(depositAccountTransactionService.findByDepositAccountId(givenDepositAccountId)).thenReturn(givenDepositAccountTransactionList);
@@ -64,6 +66,8 @@ class DepositAccountTransactionResourceTest {
         mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT + "/" + givenDepositAccountId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.*", Matchers.hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is((int) TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is((int) TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].amount", Matchers.is(TestUtil.AMOUNT)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].type", Matchers.is(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE.toString())));
     }
 }

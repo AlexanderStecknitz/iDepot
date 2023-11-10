@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources.dto;
 
+import de.stecknitz.backend.core.domain.DepositAccountTransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,8 @@ public class DepositAccountTransactionDTO {
     private long id;
 
     private long amount;
+
+    private DepositAccountTransactionType type;
 
     private String created_at;
 
