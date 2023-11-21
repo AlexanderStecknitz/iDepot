@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -112,9 +111,7 @@ class AuthResourceTest {
                 .password(TestUtil.USER_PASSWORD)
                 .depots(List.of(givenDepot))
                 .build();
-
-        Mockito.when(userService.findByEmail(TestUtil.USER_EMAIL)).thenReturn(givenUser);
-
+        
         mockMvc.perform(post(ENDPOINT + "/login")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andDo(print())
