@@ -18,6 +18,10 @@ public class TestUtil {
 
     public static final String USER_SALT = "salt";
 
+    public static final String USER_FIRST_NAME = "user";
+
+    public static final String USER_LAST_NAME = "user";
+
     public static final String SECOND_USER_EMAIL = "user2";
 
     public static final String SECOND_USER_PASSWORD = "user2";

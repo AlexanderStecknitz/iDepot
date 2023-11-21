@@ -10,6 +10,7 @@ import { InvestmentCompositionPieChartComponent } from './investment-composition
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'iDepot-investment',
@@ -32,10 +33,15 @@ export class InvestmentComponent {
   @Input()
   public depotId = 0;
 
+  depotIdFromAuthSerivce: number;
+
   constructor(
     private readonly investmentService: InvestmentService,
-    public readonly dialog: MatDialog
-  ) {}
+    public readonly dialog: MatDialog,
+    public readonly authService: AuthService
+  ) {
+    this.depotIdFromAuthSerivce = authService.getDepotId();
+  }
 
   create() {
     const dialogRef = this.dialog.open(InvestmentCreateDialogComponent, {

@@ -1,18 +1,22 @@
-import { Component, type OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: "iDepot-home",
+  selector: 'iDepot-home',
   standalone: true,
   imports: [CommonModule, HttpClientModule],
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"]
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  constructor(private readonly httpClient: HttpClient) {
-  }
+export class HomeComponent {
+  depotId: number;
 
-  ngOnInit(): void {
+  constructor(
+    private readonly httpClient: HttpClient,
+    private authService: AuthService
+  ) {
+    this.depotId = authService.getDepotId();
   }
 }

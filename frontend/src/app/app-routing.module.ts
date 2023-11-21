@@ -8,6 +8,7 @@ import { MainComponent } from './layout/main/main.component';
 import { InvestmentComponent } from './investment/investment.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { DividendsComponent } from './dividends/dividends.component';
+import { DepositAccountComponent } from './deposit-account/deposit-account.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: 'dividends',
         component: DividendsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'deposit-account',
+        component: DepositAccountComponent,
         canActivate: [AuthGuard],
       },
     ],

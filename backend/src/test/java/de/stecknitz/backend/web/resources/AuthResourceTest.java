@@ -1,6 +1,7 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
+import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.UserService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,6 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,7 +44,7 @@ class AuthResourceTest {
 
     @Autowired
     UserService userService;
-    
+
     MockMvc mockMvc;
 
     @Autowired
@@ -96,6 +100,21 @@ class AuthResourceTest {
 
     @Test
     void loginTest() throws Exception {
+
+        Depot givenDepot = Depot.builder()
+                .id(1L)
+                .build();
+
+        User givenUser = User.builder()
+                .email(TestUtil.USER_EMAIL)
+                .firstname(TestUtil.USER_FIRST_NAME)
+                .lastname(TestUtil.USER_LAST_NAME)
+                .password(TestUtil.USER_PASSWORD)
+                .depots(List.of(givenDepot))
+                .build();
+
+        Mockito.when(userService.findByEmail(TestUtil.USER_EMAIL)).thenReturn(givenUser);
+
         mockMvc.perform(post(ENDPOINT + "/login")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andDo(print())

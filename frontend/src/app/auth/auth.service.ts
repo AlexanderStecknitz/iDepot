@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Register } from './register/register.model';
 import { LoginResult } from './auth.model';
+import { DepotService } from '../share/depot.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,12 @@ import { LoginResult } from './auth.model';
 export class AuthService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
+  private depotId: number = this.depotService.getDepotId();
+
   constructor(
     private httpClient: HttpClient,
-    public router: Router
+    public router: Router,
+    private depotService: DepotService
   ) {}
 
   get isLoggedIn(): boolean {
@@ -43,6 +47,7 @@ export class AuthService {
         localStorage.setItem('access_token', res.token);
         localStorage.setItem('email', res.email);
         localStorage.setItem('depot', '0');
+        this.depotService.setDepotId(0);
         this.router.navigate(['main'], { queryParams: { email: res.email } });
       });
   }
@@ -56,5 +61,9 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('access_token');
+  }
+
+  getDepotId() {
+    return this.depotId;
   }
 }

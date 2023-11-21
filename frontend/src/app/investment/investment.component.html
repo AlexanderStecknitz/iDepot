@@ -1,10 +1,11 @@
 <div class="app-investment-container">
   <div class="app-item">
     <iDepot-investment-composition-pie-chart />
+    {{ depotIdFromAuthSerivce }}
   </div>
   <mat-divider />
   <div class="app-item investment-add-button">
-    <button mat-flat-button color="accent" (click)="create()">
+    <button (click)="create()" color="accent" mat-flat-button>
       <mat-icon>add</mat-icon>
       <span>Investment</span>
     </button>
