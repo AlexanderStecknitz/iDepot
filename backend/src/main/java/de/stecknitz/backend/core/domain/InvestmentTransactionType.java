@@ -1,6 +1,6 @@
 package de.stecknitz.backend.core.domain;
 
-public enum TransactionType {
+public enum InvestmentTransactionType {
     BUY,
     SELL
 }

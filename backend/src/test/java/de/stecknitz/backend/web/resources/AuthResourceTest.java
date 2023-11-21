@@ -1,6 +1,7 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
+import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.repository.UserRepository;
 import de.stecknitz.backend.core.service.UserService;
@@ -23,6 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,7 +43,7 @@ class AuthResourceTest {
 
     @Autowired
     UserService userService;
-    
+
     MockMvc mockMvc;
 
     @Autowired
@@ -96,6 +99,19 @@ class AuthResourceTest {
 
     @Test
     void loginTest() throws Exception {
+
+        Depot givenDepot = Depot.builder()
+                .id(1L)
+                .build();
+
+        User givenUser = User.builder()
+                .email(TestUtil.USER_EMAIL)
+                .firstname(TestUtil.USER_FIRST_NAME)
+                .lastname(TestUtil.USER_LAST_NAME)
+                .password(TestUtil.USER_PASSWORD)
+                .depots(List.of(givenDepot))
+                .build();
+        
         mockMvc.perform(post(ENDPOINT + "/login")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andDo(print())

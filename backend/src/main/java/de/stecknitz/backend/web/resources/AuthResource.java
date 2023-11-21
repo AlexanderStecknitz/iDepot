@@ -1,5 +1,6 @@
 package de.stecknitz.backend.web.resources;
 
+import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.User;
 import de.stecknitz.backend.core.service.UserService;
 import de.stecknitz.backend.web.resources.dto.LoginResultDTO;
@@ -57,12 +58,13 @@ public class AuthResource {
                 .subject(authentication.getName())
                 .build();
 
-        LoginResultDTO token = LoginResultDTO.builder()
+        LoginResultDTO loginResultDTO = LoginResultDTO.builder()
                 .token(jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue())
                 .email(authentication.getName())
+                .depotId(userService.findByEmail(authentication.getName()).getDepots().stream().map(Depot::getId).toList())
                 .build();
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(loginResultDTO);
     }
 
     @GetMapping(path = "/user/{email}")

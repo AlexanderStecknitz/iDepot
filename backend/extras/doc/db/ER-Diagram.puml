@@ -47,10 +47,19 @@ entity "Deposit Account" as deposit_account {
     *depot_id : number <<FS>>
 }
 
+entity "Deposit Account Transaction" as deposit_account_transaction {
+    *id : number <<generiert>>
+    --
+    *deposit_account_id : number <<FS>>
+    *amount : number
+    *type : text
+}
+
 stock ||-left-o{ investment
 depot ||-right-|{ investment
 user ||--|{ depot
 role ||-left-o{ user
 deposit_account ||-right-|| depot
+deposit_account_transaction }o-up-|| deposit_account
 
 @enduml

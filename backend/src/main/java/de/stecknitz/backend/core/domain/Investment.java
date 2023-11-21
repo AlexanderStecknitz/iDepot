@@ -48,7 +48,7 @@ public class Investment {
     private float buyPrice;
     @Column(name = "transaction_type")
     @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
+    private InvestmentTransactionType investmentTransactionType;
     @CreatedDate
     @Column(name = "created")
     private Instant created;

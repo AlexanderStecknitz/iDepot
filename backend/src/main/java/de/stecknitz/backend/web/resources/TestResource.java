@@ -22,5 +22,4 @@ public class TestResource {
         log.debug("get");
         return ResponseEntity.ok(twelveDataService.getEndOfDayData());
     }
-
 }
