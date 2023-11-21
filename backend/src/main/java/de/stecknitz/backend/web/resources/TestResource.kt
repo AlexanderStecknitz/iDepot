@@ -1,25 +1,31 @@
-package de.stecknitz.backend.web.resources;
+package de.stecknitz.backend.web.resources
 
-import de.stecknitz.backend.core.service.TwelveDataService;
-import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTO;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import de.stecknitz.backend.core.service.TwelveDataService
+import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTO
+import lombok.RequiredArgsConstructor
+import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/test")
-@Slf4j
 @RequiredArgsConstructor
-public class TestResource {
-
-    private final TwelveDataService twelveDataService;
+class TestResource(private val twelveDataService: TwelveDataService) {
 
     @GetMapping
-    public ResponseEntity<EndOfDayDTO> get() {
-        log.debug("get");
-        return ResponseEntity.ok(twelveDataService.getEndOfDayData());
+    fun get(): ResponseEntity<EndOfDayDTO> {
+        log.debug("get")
+        return ResponseEntity.ok(twelveDataService.getEndOfDayData())
+    }
+
+    @GetMapping(path = ["/test"])
+    fun getTest() {
+        log.debug("getTest")
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(TestResource::class.java)
     }
 }
