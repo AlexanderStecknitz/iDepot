@@ -3,6 +3,8 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     id 'java'
     id 'jacoco'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.20'
     alias libs.plugins.springBootPlugin
     alias libs.plugins.sonarqubePlugin
 }
@@ -25,11 +27,11 @@ dependencies {
     implementation libs.springBootStarterSecurity
     implementation libs.springDocOpenApiStarterWebmvcUi
     implementation libs.mapstruct
-    implementation libs.mapstruct
     implementation libs.nimbusds
     implementation libs.oauth2Jose
     implementation libs.oauth2Server
     implementation libs.liquibaseCore
+    implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.4.1'
 
     runtimeOnly(variantOf(libs.nettyResolverDnsNativeMacos, {
         classifier("osx-aarch_64")
