@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.sql.Timestamp;
 import java.util.List;
 
-@WebMvcTest(DepositAccountTransactionResource.class)
+@WebMvcTest(DepositAccountTransactionResourceKotlin.class)
 class DepositAccountTransactionResourceTest {
 
     private final String ENDPOINT = "/api/deposit-account-transactions";

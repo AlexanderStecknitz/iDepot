@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(ChartResource.class)
+@WebMvcTest(ChartResourceKotlin.class)
 public class ChartResourceTest {
 
     @Autowired

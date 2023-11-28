@@ -24,4 +24,9 @@ public class InvestmentDTO {
     private float buyPrice;
     private float yield;
     private String transactionType;
+
+    public void setYield(float yield) {
+        this.yield = yield;
+    }
+
 }
