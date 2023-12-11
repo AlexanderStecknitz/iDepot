@@ -2,9 +2,9 @@ package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.service.DepotService;
-import de.stecknitz.backend.web.resources.dto.DepotDTO;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.service.DepotServiceKotlin;
+import de.stecknitz.backend.web.resources.dto.DepotDTOKotlin;
 import de.stecknitz.backend.web.resources.dto.mapper.DepotMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ class DepotResourceTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private DepotService depotService;
+    private DepotServiceKotlin depotService;
 
     @MockBean
     private DepotMapper depotMapper;
@@ -51,10 +51,8 @@ class DepotResourceTest {
                         .build()
         );
 
-        List<DepotDTO> depotDTOS = List.of(
-                DepotDTO.builder()
-                        .id(TestUtil.DEPOT_ID_0)
-                        .build()
+        List<DepotDTOKotlin> depotDTOS = List.of(
+                new DepotDTOKotlin(TestUtil.DEPOT_ID_0)
         );
 
         given(depotService.findAllDepots()).willReturn(depots);
@@ -90,16 +88,12 @@ class DepotResourceTest {
 
         List<Depot> depots = List.of(
                 Depot.builder()
-                        .user(User.builder()
-                                .email(email)
-                                .build())
+                        .user(new UserKotlin(email, "", "", "", null, "", null))
                         .build()
         );
 
-        List<DepotDTO> depotDTOS = List.of(
-                DepotDTO.builder()
-                        .id(TestUtil.DEPOT_ID_0)
-                        .build()
+        List<DepotDTOKotlin> depotDTOS = List.of(
+                new DepotDTOKotlin(TestUtil.DEPOT_ID_0)
         );
 
         given(depotService.findAllByEmail(email)).willReturn(depots);

@@ -2,9 +2,9 @@ package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.DepotRepository;
-import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.repository.DepotRepositoryKotlin;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
 import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,16 +25,16 @@ import java.util.Optional;
 class DepotServiceTest {
 
     @Mock
-    DepotRepository depotRepository;
+    DepotRepositoryKotlin depotRepository;
 
     @Mock
-    UserRepository userRepository;
+    UserRepositoryKotlin userRepository;
 
     @Mock
-    DepositAccountService depositAccountService;
+    DepositAccountServiceKotlin depositAccountService;
 
     @InjectMocks
-    DepotService depotService;
+    DepotServiceKotlin depotService;
 
     @Captor
     ArgumentCaptor<Depot> depotCaptor;
@@ -65,9 +65,7 @@ class DepotServiceTest {
 
         List<Depot> depots = List.of(
                 Depot.builder()
-                        .user(User.builder()
-                                .email(email)
-                                .build())
+                        .user(new UserKotlin(email, "", "", "", null, "", null))
                         .build()
         );
 
@@ -114,9 +112,7 @@ class DepotServiceTest {
 
         String email = TestUtil.USER_EMAIL;
 
-        User user = User.builder()
-                .email(email)
-                .build();
+        UserKotlin user = new UserKotlin(email, "", "", "", null, "", null);
 
         depotService.createByUser(user);
 
@@ -131,7 +127,7 @@ class DepotServiceTest {
 
         String email = "admin";
 
-        Optional<User> user = Optional.empty();
+        Optional<UserKotlin> user = Optional.empty();
 
         BDDMockito.given(userRepository.findByEmail(email)).willReturn(user);
 
@@ -144,10 +140,7 @@ class DepotServiceTest {
 
         String email = "admin";
 
-        Optional<User> user = Optional.of(User.builder()
-                .email(email)
-                .depots(Collections.emptyList())
-                .build());
+        Optional<UserKotlin> user = Optional.of(new UserKotlin(email, "", "", "", null, "", Collections.emptyList()));
 
         Depot depot = Depot.builder()
                 .user(user.get())

@@ -1,7 +1,7 @@
 package de.stecknitz.backend.infrastructure.config;
 
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +17,7 @@ import java.util.Objects;
 public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final UserRepositoryKotlin userRepository;
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails,
@@ -27,7 +27,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
             throw new BadCredentialsException(this.messages
                     .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+        UserKotlin user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         String presentedPassword = authentication.getCredentials().toString();
         if (!this.passwordEncoder.matches(presentedPassword + Objects.requireNonNull(user).getSalt(), userDetails.getPassword())) {
             this.logger.debug("Failed to authenticate since password does not match stored value");

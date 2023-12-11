@@ -2,7 +2,7 @@ package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.repository.DepositAccountRepository;
+import de.stecknitz.backend.core.repository.DepositAccountRepositoryKotlin;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class DepositAccountServiceTest {
 
     @Mock
-    DepositAccountRepository depositAccountRepository;
+    DepositAccountRepositoryKotlin depositAccountRepository;
 
     @InjectMocks
-    DepositAccountService depositAccountService;
+    DepositAccountServiceKotlin depositAccountService;
 
     @Captor
     ArgumentCaptor<DepositAccount> depositAccountArgumentCaptor;

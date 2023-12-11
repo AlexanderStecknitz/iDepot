@@ -3,7 +3,7 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.DepositAccountTransaction;
-import de.stecknitz.backend.core.repository.DepositAccountTransactionRepository;
+import de.stecknitz.backend.core.repository.DepositAccountTransactionRepositoryKotlin;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,10 +19,10 @@ import java.util.Optional;
 class DepositAccountTransactionServiceTest {
 
     @Mock
-    DepositAccountTransactionRepository depositAccountTransactionRepository;
+    DepositAccountTransactionRepositoryKotlin depositAccountTransactionRepository;
 
     @InjectMocks
-    DepositAccountTransactionService depositAccountTransactionService;
+    DepositAccountTransactionServiceKotlin depositAccountTransactionService;
 
     @Test
     void findByDepositAccountIdTest() {

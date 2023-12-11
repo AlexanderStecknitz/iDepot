@@ -3,8 +3,8 @@ package de.stecknitz.backend.core.service;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.repository.InvestmentRepository;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.core.repository.InvestmentRepositoryKotlin;
 import de.stecknitz.backend.core.service.exception.DepotNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,22 +16,21 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class InvestmentServiceTest {
 
     @Mock
-    InvestmentRepository investmentRepository;
+    InvestmentRepositoryKotlin investmentRepository;
 
     @Mock
-    DepotService depotService;
+    DepotServiceKotlin depotService;
 
     @Mock
-    StockService stockService;
+    StockServiceKotlin stockService;
 
     @InjectMocks
-    InvestmentService investmentService;
+    InvestmentServiceKotlin investmentService;
 
     @Test
     void findAllTest() {
@@ -64,21 +63,18 @@ class InvestmentServiceTest {
                         .depot(Depot.builder()
                                 .id(givenDepotId)
                                 .build())
-                        .stock(Stock.builder()
-                                .isin(TestUtil.APPLE_ISIN)
-                                .wkn(TestUtil.APPLE_WKN)
-                                .name(TestUtil.APPLE_NAME)
-                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                                .symbol(TestUtil.APPLE_SYMBOL)
-                                .build())
+                        .stock(new StockKotlin(
+                                TestUtil.APPLE_ISIN,
+                                TestUtil.APPLE_SYMBOL,
+                                TestUtil.APPLE_WKN,
+                                TestUtil.APPLE_NAME,
+                                TestUtil.APPLE_CURRENT_PRICE))
                         .buyPrice(TestUtil.BUY_PRICE)
                         .amount(TestUtil.AMOUNT)
                         .build()
         );
 
-        Optional<List<Investment>> givenInvestmentDTOs = Optional.of(List.of(givenInvestments.get(0)));
-
-        Mockito.when(investmentRepository.findByDepotId(givenDepotId)).thenReturn(givenInvestmentDTOs);
+        Mockito.when(investmentRepository.findByDepotId(givenDepotId)).thenReturn(givenInvestments);
 
         List<Investment> foundInvestments = investmentService.findByDepotId(givenDepotId);
 
@@ -89,7 +85,7 @@ class InvestmentServiceTest {
     @Test
     void findByDepotIdWithNoInvestmentTest() {
 
-        Mockito.when(investmentRepository.findByDepotId(0)).thenReturn(Optional.empty());
+        Mockito.when(investmentRepository.findByDepotId(0)).thenReturn(null);
 
         List<Investment> result = investmentService.findByDepotId(0);
 
@@ -106,9 +102,7 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build();
 
-        Stock givenStock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockKotlin givenStock = new StockKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
@@ -135,9 +129,7 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build();
 
-        Stock givenOptionalStock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockKotlin givenOptionalStock = new StockKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
@@ -161,12 +153,7 @@ class InvestmentServiceTest {
                 .id(givenDepotId)
                 .build();
 
-        Stock givenStock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .wkn(TestUtil.APPLE_WKN)
-                .name(TestUtil.APPLE_NAME)
-                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                .build();
+        StockKotlin givenStock = new StockKotlin(TestUtil.APPLE_ISIN, "", TestUtil.APPLE_WKN, TestUtil.APPLE_NAME, TestUtil.APPLE_CURRENT_PRICE);
 
         Investment givenInvestments = Investment.builder()
                 .investmentId(TestUtil.INVESTMENT_ID_0)
@@ -174,7 +161,7 @@ class InvestmentServiceTest {
                 .stock(givenStock)
                 .build();
 
-        ArgumentCaptor<Stock> stockArgumentCaptor = ArgumentCaptor.forClass(Stock.class);
+        ArgumentCaptor<StockKotlin> stockArgumentCaptor = ArgumentCaptor.forClass(StockKotlin.class);
 
         Mockito.when(depotService.findById(givenDepotId)).thenReturn(givenDepot);
         Mockito.when(investmentRepository.saveAndFlush(givenInvestments)).thenReturn(givenInvestments);
@@ -184,7 +171,7 @@ class InvestmentServiceTest {
 
         Mockito.verify(stockService, Mockito.times(1)).create(stockArgumentCaptor.capture());
 
-        Stock capturedStockArgument = stockArgumentCaptor.getValue();
+        StockKotlin capturedStockArgument = stockArgumentCaptor.getValue();
 
         Assertions.assertThat(capturedStockArgument.getIsin()).isEqualTo(givenStock.getIsin());
         Assertions.assertThat(capturedStockArgument.getName()).isEqualTo(givenStock.getName());
@@ -204,11 +191,7 @@ class InvestmentServiceTest {
                         .build()
         );
 
-        Optional<List<Investment>> optionalInvestments = Optional.of(
-                investments
-        );
-
-        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(optionalInvestments);
+        Mockito.when(investmentRepository.findByDepotId(depotId)).thenReturn(investments);
 
         double accumulatedInvestmentValue = investmentService.accumulateInvestmentValue(depotId);
 

@@ -16,7 +16,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.List;
-import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -26,10 +25,10 @@ class InvestmentRepositoryTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
-    InvestmentRepository investmentRepository;
+    InvestmentRepositoryKotlin investmentRepository;
 
     @Autowired
-    DepotRepository depotRepository;
+    DepotRepositoryKotlin depotRepository;
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {
@@ -68,13 +67,11 @@ class InvestmentRepositoryTest {
 
         investmentRepository.saveAndFlush(investment);
 
-        Optional<List<Investment>> investments = investmentRepository.findByDepotId(givenDepotId);
+        List<Investment> investments = investmentRepository.findByDepotId(givenDepotId);
 
-        Assertions.assertThat(investments).isPresent();
+        Assertions.assertThat(investments).isNotNull();
 
-        List<Investment> resultInvestment = investments.get();
-
-        resultInvestment.forEach(result -> Assertions.assertThat(result.getDepot().getId()).isEqualTo(givenDepotId));
+        investments.forEach(result -> Assertions.assertThat(result.getDepot().getId()).isEqualTo(givenDepotId));
 
     }
 

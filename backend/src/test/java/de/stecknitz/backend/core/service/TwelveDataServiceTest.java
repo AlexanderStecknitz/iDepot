@@ -1,9 +1,9 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClient;
-import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTO;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClientKotlin;
+import de.stecknitz.backend.core.service.client.twelvedata.dto.EndOfDayDTOKotlin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,38 +20,36 @@ import java.util.List;
 class TwelveDataServiceTest {
 
     @Mock
-    TwelveDataClient twelveDataClient;
+    TwelveDataClientKotlin twelveDataClient;
 
     @Mock
-    StockService stockService;
+    StockServiceKotlin stockService;
 
     @InjectMocks
-    TwelveDataService twelveDataService;
+    TwelveDataServiceKotlin twelveDataService;
 
     @Captor
-    ArgumentCaptor<Stock> stockCaptor;
+    ArgumentCaptor<StockKotlin> stockCaptor;
 
     @Test
     void getEndOfDayDataTest() {
-        List<Stock> stocks = List.of(
-                Stock.builder()
-                        .isin(TestUtil.APPLE_ISIN)
-                        .symbol(TestUtil.APPLE_SYMBOL)
-                        .build()
+        List<StockKotlin> stocks = List.of(
+//                Stock.builder()
+//                        .isin(TestUtil.APPLE_ISIN)
+//                        .symbol(TestUtil.APPLE_SYMBOL)
+//                        .build()
+                new StockKotlin(TestUtil.APPLE_ISIN, TestUtil.APPLE_SYMBOL, "", "", 0f)
         );
 
-        EndOfDayDTO endOfDayDTO = EndOfDayDTO.builder()
-                .symbol(TestUtil.APPLE_SYMBOL)
-                .close(TestUtil.END_OF_DAY_CLOSE)
-                .build();
+        EndOfDayDTOKotlin endOfDayDTO = new EndOfDayDTOKotlin(TestUtil.APPLE_SYMBOL, "", "", "", "", TestUtil.END_OF_DAY_CLOSE);
 
         Mockito.when(stockService.findAll()).thenReturn(stocks);
         Mockito.when(twelveDataClient.getEndOfDay(stocks.get(0).getSymbol())).thenReturn(endOfDayDTO);
 
-        EndOfDayDTO result = twelveDataService.getEndOfDayData();
+        EndOfDayDTOKotlin result = twelveDataService.getEndOfDayData();
 
         Mockito.verify(stockService, Mockito.times(1)).create(stockCaptor.capture());
-        Stock stock = stockCaptor.getValue();
+        StockKotlin stock = stockCaptor.getValue();
 
         Assertions.assertEquals(stock.getCurrentPrice(), stocks.get(0).getCurrentPrice());
         Assertions.assertEquals(result, endOfDayDTO);

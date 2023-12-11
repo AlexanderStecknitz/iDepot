@@ -1,7 +1,7 @@
 package de.stecknitz.backend.core.repository;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.Stock;
+import de.stecknitz.backend.core.domain.StockKotlin;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +22,7 @@ public class StockRepositoryTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
-    StockRepository stockRepository;
+    StockRepositoryKotlin stockRepository;
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {
@@ -45,18 +45,12 @@ public class StockRepositoryTest {
     void findByIsinTest() {
         stockRepository.deleteAllInBatch();
 
-        Stock givenStock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .wkn(TestUtil.APPLE_WKN)
-                .name(TestUtil.APPLE_NAME)
-                .symbol(TestUtil.APPLE_SYMBOL)
-                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                .build();
+        StockKotlin givenStock = new StockKotlin(TestUtil.APPLE_ISIN, TestUtil.APPLE_SYMBOL, TestUtil.APPLE_WKN, TestUtil.APPLE_NAME, TestUtil.APPLE_CURRENT_PRICE);
 
         stockRepository.saveAndFlush(givenStock);
 
         String isin = TestUtil.APPLE_ISIN;
-        Stock stock = stockRepository.findByIsin(isin);
+        StockKotlin stock = stockRepository.findByIsin(isin);
 
         Assertions.assertEquals(isin, stock.getIsin());
         Assertions.assertEquals(TestUtil.APPLE_NAME, stock.getName());

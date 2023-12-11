@@ -1,7 +1,7 @@
 package de.stecknitz.backend.web.resources.dto.mapper;
 
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.web.resources.dto.DepotDTO;
+import de.stecknitz.backend.web.resources.dto.DepotDTOKotlin;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface DepotMapper {
 
-    DepotDTO toDepotDTO(Depot depot);
+    DepotDTOKotlin toDepotDTO(Depot depot);
 
 }

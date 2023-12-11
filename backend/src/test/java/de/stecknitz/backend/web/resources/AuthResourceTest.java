@@ -2,10 +2,10 @@ package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.UserRepository;
-import de.stecknitz.backend.core.service.UserService;
-import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
+import de.stecknitz.backend.core.service.UserServiceKotlin;
+import de.stecknitz.backend.web.resources.dto.RegisterUserDTOKotlin;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,10 +39,10 @@ class AuthResourceTest {
     private final String ENDPOINT = "/auth";
 
     @Autowired
-    UserRepository userRepository;
+    UserRepositoryKotlin userRepository;
 
     @Autowired
-    UserService userService;
+    UserServiceKotlin userService;
 
     MockMvc mockMvc;
 
@@ -76,12 +76,7 @@ class AuthResourceTest {
 
     @Test
     void registerTest() throws Exception {
-        RegisterUserDTO registerUserDTO = RegisterUserDTO.builder()
-                .email(TestUtil.SECOND_USER_EMAIL)
-                .firstname(TestUtil.SECOND_USER_FIRST_NAME)
-                .lastname(TestUtil.SECOND_USER_LAST_NAME)
-                .password(TestUtil.SECOND_USER_PASSWORD)
-                .build();
+        RegisterUserDTOKotlin registerUserDTO = new RegisterUserDTOKotlin(0, TestUtil.SECOND_USER_FIRST_NAME, TestUtil.SECOND_USER_LAST_NAME, TestUtil.SECOND_USER_EMAIL, TestUtil.SECOND_USER_PASSWORD);
 
         mockMvc.perform(post(ENDPOINT + "/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +85,7 @@ class AuthResourceTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        User user = userRepository.findByEmail(registerUserDTO.getEmail()).get();
+        UserKotlin user = userRepository.findByEmail(registerUserDTO.getEmail()).get();
         Assertions.assertThat(user.getEmail()).isEqualTo(registerUserDTO.getEmail());
         Assertions.assertThat(user.getFirstname()).isEqualTo(registerUserDTO.getFirstname());
         Assertions.assertThat(user.getLastname()).isEqualTo(registerUserDTO.getLastname());
@@ -104,14 +99,8 @@ class AuthResourceTest {
                 .id(1L)
                 .build();
 
-        User givenUser = User.builder()
-                .email(TestUtil.USER_EMAIL)
-                .firstname(TestUtil.USER_FIRST_NAME)
-                .lastname(TestUtil.USER_LAST_NAME)
-                .password(TestUtil.USER_PASSWORD)
-                .depots(List.of(givenDepot))
-                .build();
-        
+        UserKotlin givenUser = new UserKotlin(TestUtil.USER_EMAIL, TestUtil.USER_FIRST_NAME, TestUtil.USER_LAST_NAME, TestUtil.USER_PASSWORD, null, "", List.of(givenDepot));
+
         mockMvc.perform(post(ENDPOINT + "/login")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic(TestUtil.USER_EMAIL, TestUtil.USER_PASSWORD)))
                 .andDo(print())

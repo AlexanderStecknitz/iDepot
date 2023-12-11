@@ -4,7 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -29,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-@Configuration( proxyBeanMethods = false )
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -39,7 +39,7 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests(authorize ->
-                                    authorize.anyRequest().authenticated()
+                        authorize.anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()));
         return httpSecurity.build();
@@ -112,6 +112,7 @@ public class SecurityConfig {
         return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey())
                 .build();
     }
+
     @Bean
     JwtEncoder jwtEncoder(RSAKey rsaKey) {
         return new NimbusJwtEncoder(
@@ -120,7 +121,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(UserRepositoryKotlin userRepository) {
         return email ->
                 userRepository.findByEmail(email)
                         .map(user -> User.withUsername(user.getEmail())
@@ -131,7 +132,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepositoryKotlin userRepository) {
         CustomDaoAuthenticationProvider authenticationProvider = new CustomDaoAuthenticationProvider(passwordEncoder, userRepository);
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);

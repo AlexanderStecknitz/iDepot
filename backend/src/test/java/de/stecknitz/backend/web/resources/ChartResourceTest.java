@@ -1,7 +1,7 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.service.ChartService;
+import de.stecknitz.backend.core.service.ChartServiceKotlin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +26,7 @@ public class ChartResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    ChartService chartService;
+    ChartServiceKotlin chartService;
 
     @WithMockUser(username = "mock")
     @Test

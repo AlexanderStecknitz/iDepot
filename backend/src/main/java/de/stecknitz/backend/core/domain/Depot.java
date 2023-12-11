@@ -34,6 +34,6 @@ public class Depot {
 
     @ManyToOne
     @JoinColumn(name = "user_email")
-    private User user;
+    private UserKotlin user;
 
 }

@@ -3,10 +3,10 @@ package de.stecknitz.backend.web.resources;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Depot;
 import de.stecknitz.backend.core.domain.Investment;
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.service.InvestmentService;
-import de.stecknitz.backend.web.resources.dto.InvestmentDTO;
-import de.stecknitz.backend.web.resources.dto.TransactionDTO;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.core.service.InvestmentServiceKotlin;
+import de.stecknitz.backend.web.resources.dto.InvestmentDTOKotlin;
+import de.stecknitz.backend.web.resources.dto.TransactionDTOKotlin;
 import de.stecknitz.backend.web.resources.dto.mapper.InvestmentMapper;
 import de.stecknitz.backend.web.resources.dto.mapper.TransactionMapper;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +41,7 @@ class InvestmentResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    InvestmentService investmentService;
+    InvestmentServiceKotlin investmentService;
 
     @MockBean
     InvestmentMapper investmentMapper;
@@ -54,21 +55,29 @@ class InvestmentResourceTest {
         List<Investment> investments = List.of(
                 Investment.builder()
                         .investmentId(TestUtil.INVESTMENT_ID_0)
-                        .stock(Stock.builder()
-                                .isin(TestUtil.APPLE_ISIN)
-                                .build())
+                        .stock(new StockKotlin(
+                                TestUtil.APPLE_ISIN,
+                                "",
+                                "",
+                                "",
+                                0f
+                        ))
                         .depot(Depot.builder()
                                 .id(TestUtil.DEPOT_ID_0)
                                 .build())
                         .build()
         );
 
-        InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .depotId(TestUtil.DEPOT_ID_0)
-                .amount(TestUtil.AMOUNT)
-                .buyPrice(TestUtil.BUY_PRICE)
-                .build();
+        InvestmentDTOKotlin investmentDTO = new InvestmentDTOKotlin(
+                TestUtil.APPLE_ISIN,
+                "",
+                TestUtil.DEPOT_ID_0,
+                TestUtil.AMOUNT,
+                0f,
+                TestUtil.BUY_PRICE,
+                0f,
+                ""
+        );
 
         given(investmentService.findAll()).willReturn(investments);
         given(investmentMapper.toInvestmentDTO(investments.get(0))).willReturn(investmentDTO);
@@ -100,13 +109,7 @@ class InvestmentResourceTest {
         List<Investment> investments = List.of(
                 Investment.builder()
                         .investmentId(TestUtil.INVESTMENT_ID_0)
-                        .stock(Stock.builder()
-                                .isin(TestUtil.APPLE_ISIN)
-                                .symbol(TestUtil.APPLE_SYMBOL)
-                                .name(TestUtil.APPLE_NAME)
-                                .wkn(TestUtil.APPLE_WKN)
-                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                                .build())
+                        .stock(new StockKotlin(TestUtil.APPLE_ISIN, TestUtil.APPLE_SYMBOL, TestUtil.APPLE_WKN, TestUtil.APPLE_NAME, TestUtil.APPLE_CURRENT_PRICE))
                         .depot(Depot.builder()
                                 .id(depotId)
                                 .build())
@@ -115,13 +118,16 @@ class InvestmentResourceTest {
                         .build()
         );
 
-        InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .depotId(depotId)
-                .isin(TestUtil.APPLE_ISIN)
-                .amount(TestUtil.AMOUNT)
-                .buyPrice(TestUtil.BUY_PRICE)
-                .yield(investments.get(0).calculateYield())
-                .build();
+        InvestmentDTOKotlin investmentDTO = new InvestmentDTOKotlin(
+                TestUtil.APPLE_ISIN,
+                "",
+                depotId,
+                TestUtil.AMOUNT,
+                0f,
+                TestUtil.BUY_PRICE,
+                investments.get(0).calculateYield(),
+                ""
+        );
 
         given(investmentService.findByDepotId(depotId)).willReturn(investments);
         given(investmentMapper.toInvestmentDTO(investments.get(0))).willReturn(investmentDTO);
@@ -155,18 +161,10 @@ class InvestmentResourceTest {
         Depot depot = Depot.builder()
                 .id(depotId)
                 .build();
-        Stock stock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .symbol(TestUtil.APPLE_SYMBOL)
-                .name(TestUtil.APPLE_NAME)
-                .wkn(TestUtil.APPLE_WKN)
-                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                .build();
-        TransactionDTO transactionDTO = TransactionDTO.builder()
-                .amount(TestUtil.AMOUNT)
-                .buyPrice(TestUtil.BUY_PRICE)
-                .stockName(TestUtil.APPLE_NAME)
-                .build();
+        StockKotlin stock = new StockKotlin(TestUtil.APPLE_ISIN, TestUtil.APPLE_SYMBOL, TestUtil.APPLE_WKN, TestUtil.APPLE_NAME, TestUtil.APPLE_CURRENT_PRICE);
+
+        TransactionDTOKotlin transactionDTO = new TransactionDTOKotlin(Instant.now(), TestUtil.APPLE_NAME, TestUtil.BUY_PRICE, TestUtil.AMOUNT, 0.0, "");
+
         List<Investment> investments = List.of(
                 Investment.builder()
                         .depot(depot)
@@ -207,19 +205,27 @@ class InvestmentResourceTest {
                         .id(TestUtil.DEPOT_ID_0)
                         .build())
                 .investmentId(TestUtil.INVESTMENT_ID_0)
-                .stock(Stock.builder()
-                        .isin(TestUtil.APPLE_ISIN)
-                        .build())
+                .stock(new StockKotlin(
+                        TestUtil.APPLE_ISIN,
+                        "",
+                        "",
+                        "",
+                        0f
+                ))
                 .amount(TestUtil.AMOUNT)
                 .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
-        InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .depotId(TestUtil.DEPOT_ID_0)
-                .amount(TestUtil.AMOUNT)
-                .buyPrice(TestUtil.BUY_PRICE)
-                .build();
+        InvestmentDTOKotlin investmentDTO = new InvestmentDTOKotlin(
+                TestUtil.APPLE_ISIN,
+                "",
+                TestUtil.DEPOT_ID_0,
+                TestUtil.AMOUNT,
+                0f,
+                TestUtil.BUY_PRICE,
+                0f,
+                ""
+        );
 
         given(investmentMapper.toInvestment(investmentDTO)).willReturn(investment);
         given(investmentService.create(investment)).willReturn(investment);
@@ -241,19 +247,27 @@ class InvestmentResourceTest {
                         .id(TestUtil.DEPOT_ID_0)
                         .build())
                 .investmentId(TestUtil.INVESTMENT_ID_0)
-                .stock(Stock.builder()
-                        .isin(TestUtil.APPLE_ISIN)
-                        .build())
+                .stock(new StockKotlin(
+                        TestUtil.APPLE_ISIN,
+                        "",
+                        "",
+                        "",
+                        0f
+                ))
                 .amount(TestUtil.AMOUNT)
                 .buyPrice(TestUtil.BUY_PRICE)
                 .build();
 
-        InvestmentDTO investmentDTO = InvestmentDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .depotId(TestUtil.DEPOT_ID_0)
-                .amount(TestUtil.AMOUNT)
-                .buyPrice(TestUtil.BUY_PRICE)
-                .build();
+        InvestmentDTOKotlin investmentDTO = new InvestmentDTOKotlin(
+                TestUtil.APPLE_ISIN,
+                "",
+                TestUtil.DEPOT_ID_0,
+                TestUtil.AMOUNT,
+                0f,
+                TestUtil.BUY_PRICE,
+                0f,
+                ""
+        );
 
         given(investmentMapper.toInvestment(investmentDTO)).willReturn(investment);
         given(investmentService.create(investment)).willReturn(null);

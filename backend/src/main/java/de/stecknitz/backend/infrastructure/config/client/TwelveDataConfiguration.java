@@ -1,6 +1,6 @@
 package de.stecknitz.backend.infrastructure.config.client;
 
-import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClient;
+import de.stecknitz.backend.core.service.client.twelvedata.TwelveDataClientKotlin;
 import de.stecknitz.backend.infrastructure.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,8 +17,8 @@ public class TwelveDataConfiguration {
     private final ApplicationProperties applicationProperties;
 
     @Bean
-    public TwelveDataClient twelveDataClient(@Qualifier(BEAN_TWELVE_DATA_WEB_CLIENT) final WebClient webClient) {
-        return new TwelveDataClient(webClient, applicationProperties);
+    public TwelveDataClientKotlin twelveDataClient(@Qualifier(BEAN_TWELVE_DATA_WEB_CLIENT) final WebClient webClient) {
+        return new TwelveDataClientKotlin(webClient, applicationProperties);
     }
 
     @Bean(BEAN_TWELVE_DATA_WEB_CLIENT)

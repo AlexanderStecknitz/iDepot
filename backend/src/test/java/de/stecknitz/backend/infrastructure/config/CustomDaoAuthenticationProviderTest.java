@@ -1,8 +1,8 @@
 package de.stecknitz.backend.infrastructure.config;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +25,7 @@ class CustomDaoAuthenticationProviderTest {
     PasswordEncoder passwordEncoder;
 
     @Mock
-    UserRepository userRepository;
+    UserRepositoryKotlin userRepository;
 
     @InjectMocks
     CustomDaoAuthenticationProvider customDaoAuthenticationProvider;
@@ -59,11 +59,7 @@ class CustomDaoAuthenticationProviderTest {
                 .password(TestUtil.USER_PASSWORD)
                 .build();
 
-        User user = User.builder()
-                .email(TestUtil.USER_EMAIL)
-                .password(TestUtil.USER_PASSWORD)
-                .salt(TestUtil.USER_SALT)
-                .build();
+        UserKotlin user = new UserKotlin(TestUtil.USER_EMAIL, "", "", TestUtil.USER_PASSWORD, null, TestUtil.USER_SALT, null);
 
         when(userRepository.findByEmail(userDetails.getUsername())).thenReturn(Optional.ofNullable(user));
 

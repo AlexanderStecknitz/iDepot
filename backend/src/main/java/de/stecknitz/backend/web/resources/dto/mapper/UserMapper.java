@@ -1,17 +1,17 @@
 package de.stecknitz.backend.web.resources.dto.mapper;
 
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.web.resources.dto.RegisterUserDTO;
-import de.stecknitz.backend.web.resources.dto.UserDTO;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.web.resources.dto.RegisterUserDTOKotlin;
+import de.stecknitz.backend.web.resources.dto.UserDTOKotlin;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
-    User toUser(final RegisterUserDTO registerUserDTO);
+    UserKotlin toUser(final RegisterUserDTOKotlin registerUserDTO);
 
-    UserDTO toUserDTO(final User user);
+    UserDTOKotlin toUserDTO(final UserKotlin user);
 
 
 }

@@ -1,9 +1,9 @@
 package de.stecknitz.backend.web.resources;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.core.service.StockService;
-import de.stecknitz.backend.web.resources.dto.StockDTO;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.core.service.StockServiceKotlin;
+import de.stecknitz.backend.web.resources.dto.StockDTOKotlin;
 import de.stecknitz.backend.web.resources.dto.mapper.StockMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ class StockResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    StockService stockService;
+    StockServiceKotlin stockService;
 
     @MockBean
     StockMapper stockMapper;
@@ -44,15 +44,11 @@ class StockResourceTest {
     @Test
     void findAllTest() throws Exception {
 
-        List<Stock> stocks = List.of(
-                Stock.builder()
-                        .isin(TestUtil.APPLE_ISIN)
-                        .build()
+        List<StockKotlin> stocks = List.of(
+                new StockKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f)
         );
 
-        StockDTO stockDTO = StockDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockDTOKotlin stockDTO = new StockDTOKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
         given(stockService.findAll()).willReturn(stocks);
         given(stockMapper.toStockDto(stocks.get(0))).willReturn(stockDTO);
@@ -70,7 +66,7 @@ class StockResourceTest {
     @Test
     void findAllButNoSharesTest() throws Exception {
 
-        List<Stock> stocks = Collections.emptyList();
+        List<StockKotlin> stocks = Collections.emptyList();
 
         given(stockService.findAll()).willReturn(stocks);
 
@@ -83,13 +79,9 @@ class StockResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createTest() throws Exception {
-        StockDTO stockDTO = StockDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockDTOKotlin stockDTO = new StockDTOKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
-        Stock stock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockKotlin stock = new StockKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
         given(stockMapper.toStock(stockDTO)).willReturn(stock);
         given(stockService.create(stock)).willReturn(stock);
@@ -108,13 +100,9 @@ class StockResourceTest {
     @WithMockUser(username = "mock")
     @Test
     void createButShareAlreadyExists() throws Exception {
-        StockDTO stockDTO = StockDTO.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockDTOKotlin stockDTO = new StockDTOKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
-        Stock stock = Stock.builder()
-                .isin(TestUtil.APPLE_ISIN)
-                .build();
+        StockKotlin stock = new StockKotlin(TestUtil.APPLE_ISIN, "", "", "", 0f);
 
         given(stockMapper.toStock(stockDTO)).willReturn(stock);
         given(stockService.create(stock)).willReturn(null);

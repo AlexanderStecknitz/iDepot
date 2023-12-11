@@ -28,10 +28,10 @@ public class DepositAccountTransactionRepositoryTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
 
     @Autowired
-    DepositAccountTransactionRepository depositAccountTransactionRepository;
+    DepositAccountTransactionRepositoryKotlin depositAccountTransactionRepository;
 
     @Autowired
-    DepositAccountRepository depositAccountRepository;
+    DepositAccountRepositoryKotlin depositAccountRepository;
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry dynamicPropertyRegistry) {

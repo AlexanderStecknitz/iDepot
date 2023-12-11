@@ -1,8 +1,8 @@
 package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
-import de.stecknitz.backend.core.domain.User;
-import de.stecknitz.backend.core.repository.UserRepository;
+import de.stecknitz.backend.core.domain.UserKotlin;
+import de.stecknitz.backend.core.repository.UserRepositoryKotlin;
 import de.stecknitz.backend.core.service.exception.UserAlreadyExistsException;
 import de.stecknitz.backend.core.service.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -21,22 +22,26 @@ import static org.mockito.BDDMockito.given;
 class UserServiceTest {
 
     @Mock
-    UserRepository userRepository;
+    UserRepositoryKotlin userRepository;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
+
+    @Mock
+    DepotServiceKotlin depotServiceKotlin;
 
     @InjectMocks
-    UserService userService;
+    UserServiceKotlin userService;
 
     @Test
     void findByEmailTest() {
         final String email = TestUtil.USER_EMAIL;
 
-        User user = User.builder()
-                .email(email)
-                .build();
+        UserKotlin user = new UserKotlin(email, "", "", "", null, "", null);
 
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
-        User foundUser = userService.findByEmail(email);
+        UserKotlin foundUser = userService.findByEmail(email);
 
         Assertions.assertThat(foundUser.getEmail()).isEqualTo(email);
 
@@ -54,9 +59,7 @@ class UserServiceTest {
 
     @Test
     void createWithUserAlreadyExistsTest() {
-        User user = User.builder()
-                .email(TestUtil.USER_EMAIL)
-                .build();
+        UserKotlin user = new UserKotlin(TestUtil.USER_EMAIL, "", "", "", null, "", null);
 
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 

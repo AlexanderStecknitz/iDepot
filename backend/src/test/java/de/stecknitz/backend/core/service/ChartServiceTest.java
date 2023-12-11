@@ -2,8 +2,8 @@ package de.stecknitz.backend.core.service;
 
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.Investment;
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.web.resources.dto.CompositionPieChartDTO;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.web.resources.dto.CompositionPieChartDTOKotlin;
 import de.stecknitz.backend.web.resources.dto.mapper.CompositionPieChartMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,23 +23,22 @@ public class ChartServiceTest {
     CompositionPieChartMapper compositionPieChartMapper;
 
     @Mock
-    InvestmentService investmentService;
+    InvestmentServiceKotlin investmentService;
 
     @InjectMocks
-    ChartService chartService;
+    ChartServiceKotlin chartService;
 
     @Test
     void getCompositionPieChartTest() {
         final long depotId = TestUtil.DEPOT_ID_0;
         List<Investment> investments = List.of(
                 Investment.builder()
-                        .stock(Stock.builder()
-                                .isin(TestUtil.APPLE_ISIN)
-                                .wkn(TestUtil.APPLE_WKN)
-                                .name(TestUtil.APPLE_NAME)
-                                .currentPrice(TestUtil.APPLE_CURRENT_PRICE)
-                                .symbol(TestUtil.APPLE_SYMBOL)
-                                .build())
+                        .stock(new StockKotlin(
+                                TestUtil.APPLE_ISIN,
+                                TestUtil.APPLE_SYMBOL,
+                                TestUtil.APPLE_WKN,
+                                TestUtil.APPLE_NAME,
+                                TestUtil.APPLE_CURRENT_PRICE))
                         .buyPrice(TestUtil.BUY_PRICE)
                         .amount(TestUtil.AMOUNT)
                         .build()
@@ -47,17 +46,14 @@ public class ChartServiceTest {
 
         Investment investment = investments.get(0);
 
-        CompositionPieChartDTO compositionPieChartDTO = CompositionPieChartDTO.builder()
-                .investmentName(TestUtil.APPLE_NAME)
-                .investmentValue(investment.getInvestmentValue())
-                .build();
+        CompositionPieChartDTOKotlin compositionPieChartDTO = new CompositionPieChartDTOKotlin(TestUtil.APPLE_NAME, investment.getInvestmentValue());
 
         Mockito.when(investmentService.findByDepotId(depotId)).thenReturn(investments);
         Mockito.when(investmentService.accumulateInvestmentValue(depotId)).thenReturn(investment.getInvestmentValue());
         Mockito.when(compositionPieChartMapper.toCompositionPieChartDTO(investment,
                 investment.calculateInvestmentValue(investment.getInvestmentValue()))).thenReturn(compositionPieChartDTO);
 
-        List<CompositionPieChartDTO> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
+        List<CompositionPieChartDTOKotlin> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
 
         Assertions.assertThat(compositionPieChartDTOS.get(0)).isEqualTo(compositionPieChartDTO);
     }
@@ -68,7 +64,7 @@ public class ChartServiceTest {
 
         Mockito.when(investmentService.findByDepotId(depotId)).thenReturn(Collections.emptyList());
 
-        List<CompositionPieChartDTO> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
+        List<CompositionPieChartDTOKotlin> compositionPieChartDTOS = chartService.getCompositionPieChart(depotId);
 
         Assertions.assertThat(compositionPieChartDTOS).isEmpty();
 

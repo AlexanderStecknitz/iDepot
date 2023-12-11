@@ -3,8 +3,8 @@ package de.stecknitz.backend.web.resources;
 import de.stecknitz.backend.TestUtil;
 import de.stecknitz.backend.core.domain.DepositAccount;
 import de.stecknitz.backend.core.domain.DepositAccountTransaction;
-import de.stecknitz.backend.core.service.DepositAccountTransactionService;
-import de.stecknitz.backend.web.resources.dto.DepositAccountTransactionDTO;
+import de.stecknitz.backend.core.service.DepositAccountTransactionServiceKotlin;
+import de.stecknitz.backend.web.resources.dto.DepositAccountTransactionDTOKotlin;
 import de.stecknitz.backend.web.resources.dto.mapper.DepositAccountTransactionMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class DepositAccountTransactionResourceTest {
     MockMvc mockMvc;
 
     @MockBean
-    DepositAccountTransactionService depositAccountTransactionService;
+    DepositAccountTransactionServiceKotlin depositAccountTransactionService;
 
     @MockBean
     DepositAccountTransactionMapper depositAccountTransactionMapper;
@@ -53,12 +53,13 @@ class DepositAccountTransactionResourceTest {
                         .build()
         );
 
-        DepositAccountTransactionDTO givenDepositAccountTransactionDTO = DepositAccountTransactionDTO.builder()
-                .id(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)
-                .amount(TestUtil.AMOUNT)
-                .created_at(TestUtil.CURRENT_TIME.toString())
-                .type(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE)
-                .build();
+        DepositAccountTransactionDTOKotlin givenDepositAccountTransactionDTO = new DepositAccountTransactionDTOKotlin(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O, TestUtil.AMOUNT, TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE, TestUtil.CURRENT_TIME.toString());
+//                DepositAccountTransactionDTO.builder()
+//                .id(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_ID_O)
+//                .amount(TestUtil.AMOUNT)
+//                .created_at(TestUtil.CURRENT_TIME.toString())
+//                .type(TestUtil.DEPOSIT_ACCOUNT_TRANSACTION_TYPE)
+//                .build();
 
         Mockito.when(depositAccountTransactionService.findByDepositAccountId(givenDepositAccountId)).thenReturn(givenDepositAccountTransactionList);
         Mockito.when(depositAccountTransactionMapper.toDepositAccountTransactionDTO(givenDepositAccountTransactionList.get(0))).thenReturn(givenDepositAccountTransactionDTO);

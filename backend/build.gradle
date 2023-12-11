@@ -3,8 +3,10 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     id 'java'
     id 'jacoco'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
-    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.21'
+    id 'org.jetbrains.kotlin.plugin.lombok' version '1.9.21'
+    id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.21'
     alias libs.plugins.springBootPlugin
     alias libs.plugins.sonarqubePlugin
 }
@@ -32,6 +34,9 @@ dependencies {
     implementation libs.oauth2Server
     implementation libs.liquibaseCore
     implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
+
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.21'
 
     runtimeOnly(variantOf(libs.nettyResolverDnsNativeMacos, {
         classifier("osx-aarch_64")

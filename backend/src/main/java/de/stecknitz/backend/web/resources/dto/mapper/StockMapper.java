@@ -1,15 +1,15 @@
 package de.stecknitz.backend.web.resources.dto.mapper;
 
-import de.stecknitz.backend.core.domain.Stock;
-import de.stecknitz.backend.web.resources.dto.StockDTO;
+import de.stecknitz.backend.core.domain.StockKotlin;
+import de.stecknitz.backend.web.resources.dto.StockDTOKotlin;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface StockMapper {
 
-    StockDTO toStockDto(Stock stock);
+    StockDTOKotlin toStockDto(StockKotlin stock);
 
-    Stock toStock(StockDTO stockDTO);
+    StockKotlin toStock(StockDTOKotlin stockDTO);
 
 }
